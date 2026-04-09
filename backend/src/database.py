@@ -145,6 +145,9 @@ def load_oas_skills(db: Session):
         return
 
     try:
+        # Delete existing OAS skills to avoid duplicates
+        db.execute(text("DELETE FROM oas_skills"))
+
         with open(oas_file, "r") as f:
             skills_data = json.load(f)
 

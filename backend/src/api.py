@@ -89,14 +89,31 @@ def get_badge(badge_id: int, db: Session = Depends(get_db)):
 def get_oas_skills(
     section_id: Optional[int] = None,
     category: Optional[str] = None,
+    level: Optional[int] = None,
     db: Session = Depends(get_db),
 ):
+    """
+    Get OAS skills, optionally filtered by section, category, or level.
+    Level filter returns skills where any level matches the specified level number.
+    """
     query = db.query(OASSkill)
     if section_id:
         query = query.filter(OASSkill.section_id == section_id)
     if category:
         query = query.filter(OASSkill.category == category)
-    return query.all()
+
+    skills = query.all()
+
+    if level:
+        # Filter skills that have the specified level
+        filtered_skills = []
+        for skill in skills:
+            levels = skill.levels if isinstance(skill.levels, list) else []
+            if any(l.get("level_number") == level for l in levels):
+                filtered_skills.append(skill)
+        return filtered_skills
+
+    return skills
 
 
 @app.get("/locations")

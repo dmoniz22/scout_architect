@@ -10,6 +10,7 @@ export default function TermPlanner() {
   const [sections, setSections] = useState([]);
   const [locations, setLocations] = useState([]);
   const [skills, setSkills] = useState([]);
+  const [selectedLevel, setSelectedLevel] = useState(null);
   
   const [form, setForm] = useState({
     name: '',
@@ -47,7 +48,6 @@ export default function TermPlanner() {
     e.preventDefault();
     setSaving(true);
     try {
-      // Calculate total weeks from dates
       const start = new Date(form.start_date);
       const end = new Date(form.end_date);
       const total_weeks = Math.ceil((end - start) / (7 * 24 * 60 * 60 * 1000));
@@ -63,6 +63,7 @@ export default function TermPlanner() {
         notes: form.notes || null,
         focus_badges: [],
         focus_skills: form.focus_skills || [],
+        target_level: selectedLevel || null,
       };
       const res = await createTermPlan(data);
       navigate(`/my-plans?view=${res.data.id}`);
@@ -73,6 +74,19 @@ export default function TermPlanner() {
       setSaving(false);
     }
   };
+
+  const filteredSkills = selectedLevel
+    ? skills.filter(skill => {
+        const levels = skill.levels || [];
+        return levels.some(l => l.level_number === selectedLevel);
+      })
+    : skills;
+
+  const groupedSkills = filteredSkills.reduce((acc, skill) => {
+    if (!acc[skill.category]) acc[skill.category] = [];
+    acc[skill.category].push(skill);
+    return acc;
+  }, {});
 
   if (loading) {
     return (
@@ -87,7 +101,6 @@ export default function TermPlanner() {
       <h2 className="text-2xl font-bold text-slate-800 mb-6">Create New Term Plan</h2>
       
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Basic Info */}
         <div className="card space-y-4">
           <h3 className="font-semibold text-slate-700">Basic Information</h3>
           
@@ -134,7 +147,6 @@ export default function TermPlanner() {
           </div>
         </div>
 
-        {/* Dates */}
         <div className="card space-y-4">
           <h3 className="font-semibold text-slate-700">Term Dates</h3>
           
@@ -163,7 +175,6 @@ export default function TermPlanner() {
           </div>
         </div>
 
-        {/* Theme & Skills */}
         <div className="card space-y-4">
           <h3 className="font-semibold text-slate-700">Additional Options</h3>
           
@@ -179,25 +190,82 @@ export default function TermPlanner() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Focus OAS Skills</label>
-            <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto border rounded-lg p-2">
-              {skills.map((skill) => (
-                <label key={skill.id} className="flex items-center gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={form.focus_skills.includes(skill.id)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setForm({ ...form, focus_skills: [...form.focus_skills, skill.id] });
-                      } else {
-                        setForm({ ...form, focus_skills: form.focus_skills.filter((id) => id !== skill.id) });
-                      }
-                    }}
-                    className="rounded"
-                  />
-                  {skill.skill_name}
-                </label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">
+              Target OAS Level {selectedLevel && `(showing ${Object.values(groupedSkills).flat().length} skills)`}
+            </label>
+            <select
+              className="input-field"
+              value={selectedLevel || ''}
+              onChange={(e) => setForm({ ...form, focus_skills: [] })}
+            >
+              <option value="">All Levels (1-9)</option>
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(level => (
+                <option key={level} value={level}>Level {level}</option>
               ))}
+            </select>
+            <input
+              type="range"
+              min="1"
+              max="9"
+              value={selectedLevel || 1}
+              onChange={(e) => {
+                setSelectedLevel(parseInt(e.target.value));
+                setForm({ ...form, focus_skills: [] });
+              }}
+              className="w-full mt-2"
+            />
+            <div className="flex justify-between text-xs text-slate-500 mt-1">
+              <span>Beginner</span>
+              <span>Advanced</span>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">
+              Focus OAS Skills {selectedLevel && `(Level ${selectedLevel})`}
+            </label>
+            <div className="max-h-60 overflow-y-auto border rounded-lg p-2 space-y-3">
+              {Object.entries(groupedSkills).map(([category, categorySkills]) => (
+                <div key={category}>
+                  <h4 className="text-xs font-semibold text-slate-500 uppercase mb-1">{category}</h4>
+                  <div className="grid grid-cols-2 gap-1">
+                    {categorySkills.map((skill) => {
+                      const levelInfo = selectedLevel 
+                        ? skill.levels?.find(l => l.level_number === selectedLevel)
+                        : null;
+                      return (
+                        <label key={skill.id} className="flex items-start gap-2 text-sm p-1 hover:bg-slate-50 rounded">
+                          <input
+                            type="checkbox"
+                            checked={form.focus_skills.includes(skill.id)}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setForm({ ...form, focus_skills: [...form.focus_skills, skill.id] });
+                              } else {
+                                setForm({ ...form, focus_skills: form.focus_skills.filter((id) => id !== skill.id) });
+                              }
+                            }}
+                            className="rounded mt-0.5"
+                          />
+                          <span>
+                            <span className="font-medium">{skill.skill_name}</span>
+                            {levelInfo && (
+                              <span className="text-slate-500 text-xs ml-1">
+                                (L{selectedLevel}: {levelInfo.requirements?.length || 0} requirements)
+                              </span>
+                            )}
+                          </span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+              {Object.keys(groupedSkills).length === 0 && (
+                <p className="text-sm text-slate-500 text-center py-4">
+                  {selectedLevel ? `No skills found for Level ${selectedLevel}` : 'Select a level to filter skills'}
+                </p>
+              )}
             </div>
           </div>
 
@@ -212,7 +280,6 @@ export default function TermPlanner() {
           </div>
         </div>
 
-        {/* Submit */}
         <button
           type="submit"
           disabled={saving}
