@@ -48,8 +48,8 @@ services:
     restart: unless-stopped
     networks:
       - scout_network
-    expose:
-      - "80"
+    ports:
+      - "3000:80"
 
 volumes:
   db_data:
