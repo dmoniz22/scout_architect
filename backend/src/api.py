@@ -1480,6 +1480,9 @@ def download_term_plan_pdf(plan_id: int, db: Session = Depends(get_db)):
         )
     )
     styles.add(ParagraphStyle(name="DocNormal", fontSize=11, spaceAfter=6))
+    styles.add(
+        ParagraphStyle(name="DocBullet", fontSize=11, leftIndent=20, spaceAfter=3)
+    )
     styles.add(ParagraphStyle(name="Small", fontSize=9, textColor=colors.grey))
 
     story = []
