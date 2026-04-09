@@ -610,7 +610,6 @@ def call_ollama(prompt: str, model: str = "gemma3:12b") -> str:
     """Call Ollama API to generate content"""
     import requests
 
-    # Get base URL from environment, strip any /api/* suffix
     base_url = os.getenv("OLLAMA_API_URL", "http://host.docker.internal:11434")
     base_url = base_url.replace("/api/generate", "").replace("/api/chat", "")
 
@@ -630,8 +629,58 @@ def call_ollama(prompt: str, model: str = "gemma3:12b") -> str:
         return None
 
 
+def call_openrouter(
+    prompt: str, model: str = "openrouter/auto", api_key: str = None
+) -> str:
+    """Call OpenRouter API to generate content"""
+    import requests
+
+    if not api_key:
+        print("OpenRouter API key not provided")
+        return None
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+
+    # Strip openrouter/ prefix if present for API call
+    model_name = model.replace("openrouter/", "")
+
+    payload = {
+        "model": model_name,
+        "messages": [{"role": "user", "content": prompt}],
+        "max_tokens": 2048,
+    }
+
+    try:
+        response = requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers=headers,
+            json=payload,
+            timeout=120,
+        )
+        if response.ok:
+            data = response.json()
+            return data.get("choices", [{}])[0].get("message", {}).get("content", "")
+        else:
+            print(f"OpenRouter error: {response.status_code} - {response.text}")
+            return None
+    except Exception as e:
+        print(f"OpenRouter connection error: {e}")
+        return None
+
+
 def generate_with_llm(
-    section_name, week_number, duration, theme, location_name, skills=None
+    section_name,
+    week_number,
+    duration,
+    theme,
+    location_name,
+    skills=None,
+    model_provider: str = "local",
+    model: str = "gemma3:12b",
+    openrouter_api_key: str = None,
 ) -> dict:
     """Generate meeting content using LLM"""
     # Age ranges for different sections
@@ -700,7 +749,11 @@ Format the output as a detailed meeting plan with:
 5. Safety Notes
 6. Location-specific considerations for {location_name}"""
 
-    result = call_ollama(prompt)
+    # Call the appropriate LLM provider
+    if model_provider == "openrouter":
+        result = call_openrouter(prompt, model, openrouter_api_key)
+    else:
+        result = call_ollama(prompt, model)
 
     if result:
         # Extract title from the generated content - look for "Title:" or "##" heading
@@ -977,8 +1030,9 @@ def generate_meeting_content(
 def generate_single_meeting(
     meeting_id: int,
     use_llm: bool = False,
+    model_provider: str = "local",
     model: str = "gemma3:12b",
-    ollama_url: str = "http://host.docker.internal:11434",
+    openrouter_api_key: str = None,
     db: Session = Depends(get_db),
 ):
     """Generate meeting plan - template or LLM based"""
@@ -1019,6 +1073,9 @@ def generate_single_meeting(
             term_plan.theme,
             location_name,
             skill_names,
+            model_provider,
+            model,
+            openrouter_api_key,
         )
         if not content:
             # Fall back to template if LLM fails
@@ -1057,7 +1114,9 @@ def generate_single_meeting(
 def generate_all_meetings(
     plan_id: int,
     use_llm: bool = False,
+    model_provider: str = "local",
     model: str = "gemma3:12b",
+    openrouter_api_key: str = None,
     db: Session = Depends(get_db),
 ):
     """Generate all meetings for a term plan. Set use_llm=true to use LLM for generation."""
@@ -1110,7 +1169,15 @@ def generate_all_meetings(
         # Use LLM if requested
         if use_llm:
             content = generate_with_llm(
-                section.name, week, 90, term_plan.theme, location_name
+                section.name,
+                week,
+                90,
+                term_plan.theme,
+                location_name,
+                None,
+                model_provider,
+                model,
+                openrouter_api_key,
             )
             if not content:
                 # Fall back to template if LLM fails
