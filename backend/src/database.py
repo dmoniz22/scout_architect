@@ -169,7 +169,7 @@ def load_oas_skills(db: Session):
             db.execute(
                 text("""
                 INSERT INTO oas_skills (section_id, category, skill_name, levels)
-                VALUES (:section_id, :category, :skill_name, :levels::jsonb)
+                VALUES (:section_id, :category, :skill_name, CAST(:levels AS jsonb))
             """),
                 {
                     "section_id": section_id,
