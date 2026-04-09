@@ -1,0 +1,96 @@
+[
+  {
+    "skill_name": "Aquatic",
+    "category": "Aquatic Skills",
+    "levels": [
+      {
+        "level_number": 4,
+        "requirements": [
+          {
+            "requirement_number": "4.2",
+            "description": "I can free dive with snorkel and mask to"
+          },
+          {
+            "requirement_number": "4.2",
+            "description": "I can free dive with snorkel and mask to"
+          }
+        ]
+      },
+      {
+        "level_number": 9,
+        "requirements": [
+          {
+            "requirement_number": "9.4",
+            "description": "I have completed one of the following dives: • A “deep dive” to more than 80 feet/"
+          },
+          {
+            "requirement_number": "9.4",
+            "description": "I have completed one of the following dives: • A “deep dive” to more than 80 feet/"
+          }
+        ]
+      }
+    ],
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Paddling",
+    "category": "Paddling Skills",
+    "levels": [
+      {
+        "level_number": 5,
+        "requirements": [
+          {
+            "requirement_number": "5.9",
+            "description": "I have made a personal survival kit"
+          }
+        ]
+      },
+      {
+        "level_number": 7,
+        "requirements": [
+          {
+            "requirement_number": "7.11",
+            "description": "I have taught at least one paddling skill, one safety element and one knowledge item to paddlers working on Stage 4 or Stage"
+          }
+        ]
+      }
+    ],
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Trail",
+    "category": "Trail Skills",
+    "levels": [
+      {
+        "level_number": 2,
+        "requirements": [
+          {
+            "requirement_number": "2.3",
+            "description": "TRAIL SKILLS Requirements (cont’d)"
+          }
+        ]
+      }
+    ],
+    "prerequisites": []
+  },
+  {
+    "skill_name": "Vertical",
+    "category": "Vertical Skills",
+    "levels": [
+      {
+        "level_number": 8,
+        "requirements": [
+          {
+            "requirement_number": "8.2",
+            "description": "I have seconded on a multi-pitch rock climb of grade"
+          },
+          {
+            "requirement_number": "8.2",
+            "description": "I have seconded on a multi-pitch rock climb of grade"
+          }
+        ]
+      }
+    ],
+    "prerequisites": []
+  }
+]

@@ -1,0 +1,1023 @@
+[
+  {
+    "skill_name": "Aquatic",
+    "category": "Aquatic Skills",
+    "description": null,
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "6",
+            "description": "6.1 I have completed at least Emergency First Aid,"
+          },
+          {
+            "requirement_number": "1",
+            "description": "OUTDOOR ADVENTURE SKILLS"
+          }
+        ],
+        "notes": "General requirements"
+      }
+    ],
+    "prerequisites": [
+      "ments",
+      "ments (cont’d)1",
+      "ments2",
+      "ments 3",
+      "d.AQUATIC SKILLS",
+      "ments",
+      "ments (cont’d)4",
+      "ments",
+      "ments",
+      "ment.",
+      "ment in accordance with their level of dive certification.",
+      "ment with an outside organization, such as a dive club, dive shop, etc.",
+      "ment with a non-Scouts organization, such as a dive club, dive shop, etc.AQUATIC SKILLS",
+      "ments",
+      "ment with an outside organization, such as a dive club, dive shop, etc.",
+      "ments",
+      "ment under direct adult qualified",
+      "ments"
+    ]
+  },
+  {
+    "skill_name": "Camping",
+    "category": "Camping Skills",
+    "description": null,
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "7",
+            "description": "1 I can plan and lead a two-night backcountry camp."
+          }
+        ],
+        "notes": "General requirements"
+      }
+    ],
+    "prerequisites": [
+      "d for a standing camp.",
+      "d transportation for camp.",
+      "d",
+      "d at camp.",
+      "d for the",
+      "ments",
+      "ments (cont’d)",
+      "ments",
+      "d servings for",
+      "ments",
+      "ments",
+      "ments (cont’d)2",
+      "ments",
+      "d).",
+      "ments",
+      "ments (cont’d)3",
+      "ments",
+      "ments",
+      "ments (cont’d)4",
+      "ments",
+      "d.",
+      "ments for Stages 1-4.",
+      "ments",
+      "ments",
+      "ments  (cont’d)",
+      "ments",
+      "d for a standing camp.Scouts can prepare a list of personal and group gear for a standing",
+      "d tools, portable shelters (tarps and",
+      "ments",
+      "ments",
+      "ments (cont’d)6",
+      "d by planning",
+      "d transportation for camp. Scouts can demonstrate a capability to seek information from and",
+      "ments for",
+      "ments",
+      "d safety measures to reduce the risks.",
+      "ments",
+      "ments (cont’d)",
+      "ment to plan a camp.",
+      "ments",
+      "special skills",
+      "d",
+      "d at camp.Scouts can recognize the signs of upcoming weather and adapt",
+      "changing the venue for the event or changing the",
+      "ments (cont’d)8",
+      "d for the",
+      "ments"
+    ]
+  },
+  {
+    "skill_name": "Emergency",
+    "category": "Emergency Skills",
+    "description": null,
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "7",
+            "description": ".2 I respond to emergency situations and follow best"
+          },
+          {
+            "requirement_number": "7",
+            "description": ".3 I have prepared and maintain a 72-hour home"
+          },
+          {
+            "requirement_number": "7",
+            "description": ".4 I have ﬁlled out Scouts Canada’s Outdoor Activity"
+          },
+          {
+            "requirement_number": "7",
+            "description": ".5 I have acted as a ﬁrst aider on at least four"
+          },
+          {
+            "requirement_number": "7",
+            "description": ".6 I have acted as an emergency preparedness and"
+          },
+          {
+            "requirement_number": "7",
+            "description": ".8 I have met with a member of a community-based"
+          },
+          {
+            "requirement_number": "7",
+            "description": ".9 I have participated in a wilderness search and"
+          },
+          {
+            "requirement_number": "7",
+            "description": "10 I know what specialized equipment is required in"
+          },
+          {
+            "requirement_number": "911",
+            "description": "operator."
+          }
+        ],
+        "notes": "General requirements"
+      }
+    ],
+    "prerequisites": [
+      "d in",
+      "d to",
+      "ments",
+      "d for calling",
+      "ments",
+      "ments (cont’d)",
+      "ments",
+      "ments",
+      "ments (cont’d)",
+      "ments",
+      "ments",
+      "ments",
+      "ments (cont’d)",
+      "ments",
+      "ments",
+      "ments (cont’d)4",
+      "ments",
+      "ments (cont’d)",
+      "ments",
+      "ments",
+      "d in",
+      "ments (cont’d)",
+      "ment.",
+      "ments",
+      "d to",
+      "ments",
+      "ments",
+      "different means of transport.",
+      "ments, landing site safety",
+      "ments.",
+      "ments (cont’d)",
+      "ment.",
+      "ments",
+      "ments",
+      "ments (cont’d)",
+      "d by Provincial Emergency Management Acts."
+    ]
+  },
+  {
+    "skill_name": "Paddling",
+    "category": "Paddling Skills",
+    "description": null,
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "10",
+            "description": "seconds."
+          },
+          {
+            "requirement_number": "4",
+            "description": "4.1 I can demonstrate the HELP and huddle positions while"
+          },
+          {
+            "requirement_number": "5",
+            "description": "5.1 I have participated in at least two two-day paddling trips."
+          },
+          {
+            "requirement_number": "6",
+            "description": "6.1 I can load my canoe with personal and group gear for a"
+          },
+          {
+            "requirement_number": "7",
+            "description": "7.1 I can efﬁciently and safely carry my canoe and my gear"
+          },
+          {
+            "requirement_number": "8",
+            "description": "8.1 I can plan and carry out a backcountry canoe trip with"
+          },
+          {
+            "requirement_number": "9",
+            "description": "9.1 I have completed instructor-level certiﬁcation in at least"
+          },
+          {
+            "requirement_number": "2",
+            "description": "to learn basic safety rules for being near the water."
+          },
+          {
+            "requirement_number": "100",
+            "description": "kilometres in distance. The trip included four"
+          },
+          {
+            "requirement_number": "80",
+            "description": "hours preferred) with a certiﬁed accreditation"
+          }
+        ],
+        "notes": "General requirements"
+      }
+    ],
+    "prerequisites": [
+      "me to have in my",
+      "ments).",
+      "d on a four-day trip.",
+      "ments for canoe trippers",
+      "ments for",
+      "ments.9.5 I have successfully completed a swift water rescue course.",
+      "ments",
+      "ments (cont’d)",
+      "me to have in my canoe or kayak.Scouts can identify the ﬁve essential pieces of safety equipment and",
+      "ments",
+      "ments",
+      "ments (cont’d)2",
+      "ments",
+      "d).3PADDLING SKILLS",
+      "ments (cont’d)",
+      "ments",
+      "ments",
+      "ments",
+      "d.",
+      "ments for",
+      "ments (cont’d)",
+      "d.",
+      "ments",
+      "ments",
+      "ment.",
+      "ments (cont’d)5",
+      "ment.",
+      "ments",
+      "d on a four-day trip.Scouts can create a gear list for the personal and group gear required",
+      "ments",
+      "two hours or more to reach",
+      "ments",
+      "ments (cont’d)6",
+      "ments",
+      "ments for canoe trippers",
+      "d to be taught all at one outing.7PADDLING SKILLS",
+      "ments",
+      "ment.",
+      "ment.",
+      "ments",
+      "d permissions have been attained",
+      "ments (cont’d)",
+      "ment.",
+      "ments",
+      "ment 7 Stage 8.",
+      "ments (cont’d)",
+      "ment.",
+      "ments",
+      "ments for guided trips (primarily SOR",
+      "ments.Plan should be in written form and shared with the Patrol.",
+      "ments",
+      "ments (cont’d)9"
+    ]
+  },
+  {
+    "skill_name": "Sailing skills",
+    "category": "Sailing skills Skills",
+    "description": null,
+    "levels": [
+      {
+        "level_number": 5,
+        "requirements": [
+          {
+            "requirement_number": "5.9",
+            "description": "I can describe the basic Transport Canada navigational"
+          },
+          {
+            "requirement_number": "5.10",
+            "description": "I can explain the rules established to avoid collision. A Stage 5 Scout must be able to understand explain the following"
+          },
+          {
+            "requirement_number": "5.11",
+            "description": "I can inspect a rigged sailboat and identify faulty"
+          },
+          {
+            "requirement_number": "5.12",
+            "description": "I can launch a boat from the dock or from the shore. Scouts should have the knowledge and demonstrate how to launch"
+          },
+          {
+            "requirement_number": "5.13",
+            "description": "I can trade places with my sailing crew while on the water in winds less than 9 knots.Scouts should be able to demonstrate exchanging places on the water when sailing in light wind conditions so that two youth on board can"
+          },
+          {
+            "requirement_number": "5.14",
+            "description": "I have demonstrated steering a sailboat heading upwind, or bearing off and going downwind,"
+          },
+          {
+            "requirement_number": "5.15",
+            "description": "I can demonstrate a self-rescue with my sailboat. A Scout in command of a sailboat must be able to right a capsized"
+          },
+          {
+            "requirement_number": "5.16",
+            "description": "I have demonstrated proper Man Over Board (MOB)"
+          },
+          {
+            "requirement_number": "5.17",
+            "description": "I have demonstrated making a sail raft and can"
+          },
+          {
+            "requirement_number": "5.18",
+            "description": "I can work as part of a team to sail in a straight line"
+          },
+          {
+            "requirement_number": "5.19",
+            "description": "I can effectively steer the sailboat while sailing flat,identify wind direction while sailing, make the boat turn and head up or bear off within one boat length of the mark.A Scout, in command of the sailboat, must be able to read the wind in order to turn the boat upwind or downwind, and set the sails properly while underway."
+          },
+          {
+            "requirement_number": "5.20",
+            "description": "I have demonstrated how to trim the sail while sailing at all points of sail, including adjusting the sails for wind shifts, and adjusting the sails for puffs or lulls.Scouts, in command of the sailboat, must be able to read the wind at all points of sail in order to trim the sail to gain the best performance in changing wind conditions."
+          },
+          {
+            "requirement_number": "5.21",
+            "description": "I can manoeuvre the sailboat properly while givingthe proper commands to my crew.Scouts, in command of the sailboat, must be able to issue the proper commands in the correct sequence to safely tack/gybe correctly, set a new course and to stop the boat to the leeward of the coach boat."
+          },
+          {
+            "requirement_number": "5.22",
+            "description": "I can safely dock or beach a sailboat. Scouts, in command of the boat, should be able to:"
+          },
+          {
+            "requirement_number": "5.23",
+            "description": "I can lift the boat from the water to dry storage, de-rig the boat, and store the sails and foils correctly in the boat storage.Scouts should be able to safely remove the sailboat from the water for proper storage."
+          },
+          {
+            "requirement_number": "5.24",
+            "description": "I have participated in one daysail of at least sixhours’ duration which includes sailing to and landing at a beach, making and eating a meal, and  returning safely.Scouts and crew should tie their daypacks under the forward deck, then sail the boat to the lunch spot."
+          },
+          {
+            "requirement_number": "5.25",
+            "description": "I have taken part in at least five daysails of six hourseach, or ten daysails of three hours each, on safe, familiar waters.In addition to the daysails completed for the previous four stages, Scouts must demonstrate all of the sailing skills expected of a Skipper to ensure the safety of the boat and crew, while sailing in familiar water and winds up to 12 knots."
+          },
+          {
+            "requirement_number": "5.26",
+            "description": "I have helped a Stage 2 or Stage 3 sailor explain thebasic safety rules for being near water.Scouts should be familiar with and capable of sharing their sailing knowledge.SAILING SKILLS"
+          },
+          {
+            "requirement_number": "6.1",
+            "description": "I can identify signs of moderate levels"
+          },
+          {
+            "requirement_number": "6.2",
+            "description": "I understand and have taken the appropriate actionsto maintain hydration.Scouts should know why they should keep their body hydrated."
+          },
+          {
+            "requirement_number": "6.3",
+            "description": "I understand, and can explain, air dynamics ona sail.Scouts should be able to:"
+          },
+          {
+            "requirement_number": "6.4",
+            "description": "I can evaluate local sailing hazards. A Scout must be able to identify surrounding hazards and evaluate"
+          },
+          {
+            "requirement_number": "6.5",
+            "description": "I have, and can demonstrate, a full understanding ofthe local racing rules.Scouts should be able to understand and describe the intent of the local racing rules declared annually.SAILING SKILLS"
+          },
+          {
+            "requirement_number": "6.6",
+            "description": "I can clearly communicate with my crew to"
+          },
+          {
+            "requirement_number": "6.7",
+            "description": "I have demonstrated proper steering techniquesincluding smooth mark rounding, sailing by the lee and match sheeting to the turn.Scouts learning to sail faster should be able to perform these tasks on demand, executing a gybing exercise that includes six gybes in  one-minute intervals."
+          },
+          {
+            "requirement_number": "6.8",
+            "description": "I can properly trim the sail of the sailboat and the crew should identify the point and speed nodes for the helm upwind.Scouts should be able to:"
+          },
+          {
+            "requirement_number": "6.9",
+            "description": "I can manoeuvre the sailboat. Scouts should be able to:•"
+          },
+          {
+            "requirement_number": "6.10",
+            "description": "I have participated in a local club race. Scouts should have the opportunity to test their knowledge to sail"
+          },
+          {
+            "requirement_number": "6.11",
+            "description": "I have participated in a sailing rescue as both the"
+          },
+          {
+            "requirement_number": "6.12",
+            "description": "I can sail a single / double-handed boat to CANSail3 skills standards.Scouts must be competent to sail single-handed sailboat (e.g., Laser Radial) or a double-handed sailboat (e.g., 470, Club 420, Flying Junior, Mistral 4.04, Skiff)."
+          },
+          {
+            "requirement_number": "6.13",
+            "description": "I have participated in at least six daysail outings. In addition to the daysails completed for the previous five stages, Scouts must demonstrate all of the sailing skills expected of a Skipper to ensure the safety of the boat and crew, while sailing in familiar water and winds up to 15 knots."
+          },
+          {
+            "requirement_number": "6.14",
+            "description": "I have maintained a logbook of my training. Scouts should maintain an International Sailing Logbook, available from Sail Canada, recording the date, location, and personal reflection of recreational, training, and competitive sailing experiences."
+          },
+          {
+            "requirement_number": "6.15",
+            "description": "I have assisted the sail coach in delivering one safetyelement, one knowledge item and one on-the-water skill to sailors working on Stage 2, 3 or 4.Scouts should be familiar with, and capable of, sharing their sailing knowledge with younger Scouts."
+          },
+          {
+            "requirement_number": "7.1",
+            "description": "I can recognize and treat severe hyperthermia"
+          },
+          {
+            "requirement_number": "7.2",
+            "description": "I can evaluate geographical and tidal effects of a"
+          },
+          {
+            "requirement_number": "7.3",
+            "description": "I can describe common seamanship knowledge. Scouts should be able to:"
+          },
+          {
+            "requirement_number": "7.4",
+            "description": "I can describe common racing strategies. Scouts should be able to:•"
+          },
+          {
+            "requirement_number": "7.5",
+            "description": "I can describe the mechanics of air flow over the sail. Scouts should be able to:"
+          },
+          {
+            "requirement_number": "7.6",
+            "description": "I can describe how to tune a boat. Scouts should be able to:•"
+          },
+          {
+            "requirement_number": "7.7",
+            "description": "I know and can describe the intent of the current"
+          },
+          {
+            "requirement_number": "7.8",
+            "description": "I have demonstrated an understanding ofsail rigging.Scouts should be able to:"
+          },
+          {
+            "requirement_number": "7.9",
+            "description": "I have demonstrated the skills to balance the"
+          },
+          {
+            "requirement_number": "7.10",
+            "description": "I can demonstrate Intermediate sailing skills. Scouts should be able to:"
+          },
+          {
+            "requirement_number": "7.11",
+            "description": "I have demonstrated the skills to steer the sailboat"
+          },
+          {
+            "requirement_number": "7.12",
+            "description": "I have demonstrated the skills to trim the sails"
+          },
+          {
+            "requirement_number": "7.13",
+            "description": "I have successfully shown how to manoeuvre"
+          },
+          {
+            "requirement_number": "7.14",
+            "description": "I have demonstrated down-speed opportunities. Scouts should be able to:"
+          },
+          {
+            "requirement_number": "7.15",
+            "description": "I have demonstrated tactical manoeuvres"
+          },
+          {
+            "requirement_number": "7.16",
+            "description": "I have participated in a one- to two-day"
+          },
+          {
+            "requirement_number": "7.17",
+            "description": "I can sail a single / double-handed boat toCANSail 4 standards.Scouts must be competent to sail single-handed sailboat (e.g., Laser Radial) or a double-handed sailboat (e.g., 470, Club 420, Flying  Junior, Skiff)."
+          },
+          {
+            "requirement_number": "7.18",
+            "description": "I have participated in at least seven daysail outings. In addition to the daysails completed for the previous six stages, Scouts"
+          },
+          {
+            "requirement_number": "8.1",
+            "description": "I know the Collision Regulations and proper etiquette"
+          },
+          {
+            "requirement_number": "8.2",
+            "description": "I know how to properly prepare my boat forsafe travel.A Scout must be able to travel safely between sailing venues."
+          },
+          {
+            "requirement_number": "8.3",
+            "description": "I can evaluate geographical and tidal effects of a newsailing venue.Scouts should be able to:"
+          },
+          {
+            "requirement_number": "8.4",
+            "description": "I know and can describe the current racing rules.SAILING SKILLS"
+          },
+          {
+            "requirement_number": "8.5",
+            "description": "I have demonstrated how to tune a boat. Scouts should be able to:"
+          },
+          {
+            "requirement_number": "8.6",
+            "description": "I have demonstrated optimal body position at all"
+          },
+          {
+            "requirement_number": "8.7",
+            "description": "I have demonstrated tacking/gybe manoeuvres. Scouts must be able to:"
+          },
+          {
+            "requirement_number": "8.8",
+            "description": "I have demonstrated the skills to fly a spinnaker/kite"
+          },
+          {
+            "requirement_number": "8.9",
+            "description": "I can demonstrate the skill to gybe while flying a"
+          },
+          {
+            "requirement_number": "8.10",
+            "description": "I can demonstrate tactics while racing. Scouts should able to:•"
+          },
+          {
+            "requirement_number": "8.11",
+            "description": "I have demonstrated racing strategies. Scouts should be able to:•"
+          },
+          {
+            "requirement_number": "8.12",
+            "description": "I can sail a single-handed boat to"
+          },
+          {
+            "requirement_number": "8.13",
+            "description": "I have participated in at least eight daysail outings. In addition to the daysails completed for the previous seven stages,"
+          },
+          {
+            "requirement_number": "8.14",
+            "description": "I have participated in a regional training camp and aregional regatta.I have participated in a regional training camp to hone the skills needed to SAIL to WIN and participated in a regional regatta coached by a certified CANSail 5–6 Advanced Sail Coach."
+          },
+          {
+            "requirement_number": "8.15",
+            "description": "I have successfully completed the equivalentrequirements for a CANSail 1–2 Fundamental  Sailing Instructor course, from Sail Canada or its member provincial association, or internationally recognized equivalent.A Scout at the advanced sailing level should have the skills to teach sailing to younger and/or less-experienced Scouts must have completed the equivalent standards of a CANSail 1–2 Fundamental Sailing Instructor course or internationally recognized equivalent.SAILING SKILLS"
+          },
+          {
+            "requirement_number": "9.1",
+            "description": "I have prepared the vehicle and/or trailer with the"
+          },
+          {
+            "requirement_number": "9.2",
+            "description": "I have used precautionary driving skills while"
+          },
+          {
+            "requirement_number": "9.3",
+            "description": "I have developed strategic and tactical plans prior toa race, based on wind, geography, tides and currents.A Scout, at the advanced sailing level, planning for a sailing expedition or a racing event should assess the sailing event area strategically and make tactical plans to determine if there are any unique geographic features affecting local laminar wind flow, tidal activity, and flooding/ebbing tidal currents at the time of the event."
+          },
+          {
+            "requirement_number": "9.4",
+            "description": "I can describe the implications of the I, P, Z and blackflags used in racing with full understanding of their intent in accordance with the current CANSail / World Sailing Racing Rules.SAILING SKILLS"
+          },
+          {
+            "requirement_number": "9.5",
+            "description": "I have the knowledge to effectively evaluate"
+          },
+          {
+            "requirement_number": "9.6",
+            "description": "I have a full understanding of air flow over the sails,and can explain the implications of changing laminar flow on sail trim.A Scout, at the advanced sailing level, must have a full understanding of air flow over the sails, and can explain the implications of changing laminar flow on sail trim."
+          },
+          {
+            "requirement_number": "9.7",
+            "description": "I can demonstrate at least six steering skills. •tactical r ounding of the mark while racing"
+          },
+          {
+            "requirement_number": "9.8",
+            "description": "I have successfully demonstrated at least two tacticalsailing manoeuvres.•"
+          },
+          {
+            "requirement_number": "9.9",
+            "description": "I have demonstrated at least four optimal bodypositions while sailing on a double-handed boat.•"
+          },
+          {
+            "requirement_number": "9.10",
+            "description": "I have demonstrated at least four skills to steer thesailboat while underway on the water.•"
+          },
+          {
+            "requirement_number": "9.11",
+            "description": "I have successfully shown at least three manoeuvres"
+          },
+          {
+            "requirement_number": "9.12",
+            "description": "I have prepared for competition. Scouts should have:"
+          },
+          {
+            "requirement_number": "9.13",
+            "description": "I have participated in a provincial regatta where all"
+          },
+          {
+            "requirement_number": "9.14",
+            "description": "I have successfully completed the equivalentrequirements for an Intermediate CANSail 3–4 Sailing Instructor course from Sail Canada or its provincial association, or internationally recognized equivalent.A Scout, at the advanced sailing level, should have the skills to teach Scout Sailing Stage 5, 6, 7 and 8. Scouts must have completed the equivalent standards of a CANSail 3–4 Intermediate Sailing Instructor course or internationally recognized equivalent."
+          },
+          {
+            "requirement_number": "9.15",
+            "description": "I can sail a double-handed boat to CANSail 5 skillsstandards including CANSail 5 chute skill sets.Scouts must be competent to sail a double-handed sailboat (e.g. 470, Club 420, Flying Junior, Mistral 4.04, 49er) with spinnaker or kite.SAILING SKILLS"
+          },
+          {
+            "requirement_number": "ISAF",
+            "description": "racing rules 1–7.Scouts working toward advanced sailing skills should have a full understanding of the current local sailing and ISAF racing rules 1–7 published nationally."
+          }
+        ],
+        "notes": null
+      }
+    ],
+    "prerequisites": [
+      "me to have in my sailboat.",
+      "to be on the",
+      "ments for a CANSail 1–2 Fundamental  Sailing Instructor course, from Sail Canada or its  member provincial association, or internationally recognized equivalent.",
+      "ments for an Intermediate CANSail 3–4 Sailing Instructor course from Sail Canada or its provincial association, or an internationally recognized equivalent.",
+      "ments",
+      "ments (cont’d)1",
+      "ments",
+      "ments",
+      "ments (cont’d)2",
+      "me to have in my sailboat.Scouts should be able to identify the five essential pieces of safety equipment and have a rudimentary idea of how to use them.",
+      "ments",
+      "ments",
+      "ments (cont’d)3",
+      "d to find and put on a properly-sized PFD.",
+      "that all persons in a boat must wear a properly fitted PFD.",
+      "ments",
+      "ments",
+      "ments",
+      "ments (cont’d)4",
+      "ments",
+      "to be on the",
+      "d by the Transport Canada and demonstrate their proper use.",
+      "ments",
+      "ments",
+      "ments",
+      "ments",
+      "ments (cont’d)5",
+      "ments",
+      "ments",
+      "ments (cont’d)",
+      "ments",
+      "ments",
+      "ments",
+      "ments (cont’d)7",
+      "ments",
+      "ments",
+      "ments",
+      "ments (cont’d)8",
+      "ments",
+      "ments",
+      "ments (cont’d)9"
+    ]
+  },
+  {
+    "skill_name": "Scoutcraft",
+    "category": "Scoutcraft Skills",
+    "description": null,
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "10",
+            "description": "geocache locations."
+          },
+          {
+            "requirement_number": "7",
+            "description": ".2 I have taught ﬁve knots to younger Scouts."
+          },
+          {
+            "requirement_number": "7",
+            "description": ".3 I have made a vagabond (tin-can) stove and"
+          },
+          {
+            "requirement_number": "7",
+            "description": ".4 I can construct a 2:1, 3:1 and 4:1 rope pulley syst em"
+          },
+          {
+            "requirement_number": "7",
+            "description": ".5 I have made newspaper ﬁre logs and bricks,"
+          },
+          {
+            "requirement_number": "7",
+            "description": ".6 I can identify the poisonous living organisms,"
+          },
+          {
+            "requirement_number": "7",
+            "description": ".7 I have made and used a solar snow-melt reﬂector"
+          },
+          {
+            "requirement_number": "7",
+            "description": ".9 I have led a Scout group and participated in"
+          },
+          {
+            "requirement_number": "7",
+            "description": "10 I can make a marine rescue Mayday radio call using"
+          },
+          {
+            "requirement_number": "7",
+            "description": "11 I have constructed and used an improvised solar"
+          }
+        ],
+        "notes": "General requirements"
+      }
+    ],
+    "prerequisites": [
+      "d procedures and voice script.",
+      "ments",
+      "ments (cont’d)  1",
+      "ments",
+      "ments (cont’d)2",
+      "d.",
+      "ments",
+      "ments (cont’d)3",
+      "d.",
+      "ments",
+      "fuel or manipulation",
+      "ments (cont’d)",
+      "ments",
+      "ments (cont’d)5",
+      "ments",
+      "ments",
+      "d.",
+      "ments",
+      "d procedures and voice script.Scouts can demonstrate this knowledge and refer to and use the",
+      "ments",
+      "ments,",
+      "ments",
+      "ments (cont’d)8",
+      "ments",
+      "ments (cont’d)9"
+    ]
+  },
+  {
+    "skill_name": "Trail (2)",
+    "category": "Trail (2) Skills",
+    "description": null,
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "1",
+            "description": "TRAIL  SKILLS"
+          },
+          {
+            "requirement_number": "4",
+            "description": "TRAIL  SKILLS"
+          },
+          {
+            "requirement_number": "9",
+            "description": "9.1 I know what equipment is required for various"
+          }
+        ],
+        "notes": "General requirements"
+      }
+    ],
+    "prerequisites": [
+      "d compass bearings.",
+      "d.5",
+      "d for",
+      "d for an activity.",
+      "d for various"
+    ]
+  },
+  {
+    "skill_name": "Trail",
+    "category": "Trail Skills",
+    "description": null,
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "1",
+            "description": "TRAIL  SKILLS"
+          },
+          {
+            "requirement_number": "4",
+            "description": "TRAIL  SKILLS"
+          },
+          {
+            "requirement_number": "9",
+            "description": "9.1 I know what equipment is required for various"
+          },
+          {
+            "requirement_number": "1",
+            "description": "TRAIL  SKILLS"
+          },
+          {
+            "requirement_number": "1",
+            "description": "TRAIL  SKILLS"
+          },
+          {
+            "requirement_number": "4",
+            "description": "TRAIL  SKILLS"
+          },
+          {
+            "requirement_number": "5",
+            "description": "TRAIL  SKILLS"
+          }
+        ],
+        "notes": "General requirements"
+      }
+    ],
+    "prerequisites": [
+      "d compass bearings.",
+      "d.5",
+      "d for",
+      "d for an activity.",
+      "d for various",
+      "ments",
+      "ments",
+      "ments (cont’d)",
+      "ments",
+      "ments",
+      "ments",
+      "ments",
+      "ments (cont’d)",
+      "ments",
+      "ments",
+      "ments",
+      "ments (cont’d)",
+      "ments",
+      "d compass bearings.Scouts can demonstrate how to plot a hike route and use a",
+      "ments",
+      "d depending on weather forecasts.",
+      "d for a safe",
+      "ments",
+      "ments.",
+      "d.Scouts can describe and demonstrate safe practices for steep trails",
+      "d safety gear (such as hiking poles).5",
+      "ments (cont’d)",
+      "ments",
+      "ments",
+      "ments",
+      "d for",
+      "ments (cont’d)6",
+      "ments",
+      "ments",
+      "ments",
+      "ments (cont’d)7",
+      "d for an activity. Scouts can participate in planning the transportation options such",
+      "ments",
+      "d forms",
+      "ments (cont’d)8",
+      "d for various",
+      "ments",
+      "ments (cont’d)9"
+    ]
+  },
+  {
+    "skill_name": "Vertical",
+    "category": "Vertical Skills",
+    "description": null,
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "2",
+            "description": "multi-pitch, 3. top-rope, 4. lead climbing"
+          },
+          {
+            "requirement_number": "5",
+            "description": "seconding climbing methods."
+          },
+          {
+            "requirement_number": "30",
+            "description": "degree incline, either on an ice climb,"
+          },
+          {
+            "requirement_number": "1",
+            "description": "rock climb grade 5.7 or above"
+          },
+          {
+            "requirement_number": "2",
+            "description": "ice climb grade WI3 or above"
+          },
+          {
+            "requirement_number": "3",
+            "description": "mountain alpine climb grade III or above"
+          },
+          {
+            "requirement_number": "4",
+            "description": "caving that requires climbing ropes"
+          },
+          {
+            "requirement_number": "5",
+            "description": "OUTDOOR ADVENTURE SKILLS"
+          },
+          {
+            "requirement_number": "5",
+            "description": "OUTDOOR ADVENTURE SKILLS"
+          },
+          {
+            "requirement_number": "6",
+            "description": "OUTDOOR ADVENTURE SKILLS"
+          }
+        ],
+        "notes": "General requirements"
+      }
+    ],
+    "prerequisites": [
+      "climbing ropes",
+      "ments",
+      "ments",
+      "ments",
+      "ments (cont’d)3",
+      "d, including what speciﬁc words to say for the belayer and",
+      "ments",
+      "d.",
+      "ments (cont’d)4",
+      "ments",
+      "d.",
+      "d during the rappel, but a",
+      "ments",
+      "ments",
+      "permits.",
+      "ments",
+      "d to use a hand drill rather than",
+      "cleaning.",
+      "ments",
+      "ments (cont’d)",
+      "d.",
+      "ments.",
+      "d to protect themselves during and accent",
+      "ments",
+      "ments 6",
+      "ments (cont’d)",
+      "ment.",
+      "ments",
+      "ments",
+      "climbing ropes and harnessScouts can complete a lead climb under the direct supervision of a",
+      "ments"
+    ]
+  },
+  {
+    "skill_name": "Winter",
+    "category": "Winter Skills",
+    "description": null,
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "3",
+            "description": "km hike in winter conditions."
+          }
+        ],
+        "notes": "General requirements"
+      }
+    ],
+    "prerequisites": [
+      "ments for",
+      "ments for",
+      "ments for previous stages).",
+      "ments for",
+      "more energy than in other",
+      "ments",
+      "ments",
+      "ments (cont’d)1",
+      "ments",
+      "ments  (cont’d)2",
+      "ments",
+      "ments for",
+      "ments",
+      "ments (cont’d)3",
+      "ments",
+      "ments",
+      "ments",
+      "ments (cont’d)4",
+      "ment is that",
+      "ment.",
+      "ments",
+      "ments",
+      "ments for previous stages).Scouts can spend two consecutive nights at a winter camp. At this",
+      "d",
+      "ments (cont’d)5",
+      "ments",
+      "ments",
+      "ments for",
+      "ments (cont’d)6",
+      "ments",
+      "ments",
+      "d to ensure the safety and comfort of",
+      "ments"
+    ]
+  }
+]

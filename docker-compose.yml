@@ -1,0 +1,60 @@
+services:
+  db:
+    image: ankane/pgvector:v0.5.1
+    container_name: scout_architect_db
+    environment:
+      POSTGRES_USER: scout
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-safe_scouting_2026}
+      POSTGRES_DB: scout_architect
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U scout"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - scout_network
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: scout_architect_api
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://scout:${DB_PASSWORD:-safe_scouting_2026}@db:5432/scout_architect
+      - OLLAMA_API_URL=${OLLAMA_API_URL:-http://host.docker.internal:11434/api/generate}
+      - DEFAULT_LOCATION=${DEFAULT_LOCATION:-Chilliwack,BC,Canada}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/data:/app/data
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - scout_network
+    expose:
+      - "8000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: scout_architect_frontend
+    restart: unless-stopped
+    networks:
+      - scout_network
+    expose:
+      - "80"
+
+volumes:
+  db_data:
+
+networks:
+  scout_network:
+    name: scout_architect_scout_network
+    driver: bridge

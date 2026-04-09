@@ -1,0 +1,26 @@
+                        st.markdown("**Status:** Generated")
+                        # Download PDF link
+                        pdf_url = f"{API_URL}/meetings/{meeting['id']}/pdf"
+                        st.markdown(f"🔗 [Download Meeting PDF]({pdf_url})", unsafe_allow_html=True)
+                    else:
+                        st.markdown("**Status:** Not Generated")
+                        if st.button(f"Generate Now", key=f"gen_{meeting['id']}"):
+                            with st.spinner("Generating..."):
+                                result = api_post(f"/meetings/{meeting['id']}/generate", {})
+                                if result:
+                                    st.success("Generated!")
+                                    st.rerun()
+                    
+                    # Full term plan download
+                    term_pdf_url = f"{API_URL}/term-plans/{plan['id']}/pdf"
+                    st.markdown(f"📋 [Download Full Term Plan PDF]({term_pdf_url})", unsafe_allow_html=True)
+            
+            if st.button("Close View"):
+                st.session_state.pop('view_plan_id', None)
+
+def settings_page():
+    st.header("Settings")
+    st.info("Application settings coming soon!")
+
+if __name__ == "__main__":
+    main()

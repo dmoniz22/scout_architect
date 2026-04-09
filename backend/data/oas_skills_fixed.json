@@ -1,0 +1,4077 @@
+[
+  {
+    "skill_name": "Aquatic",
+    "category": "Aquatic Skills",
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "1.1",
+            "description": "I know when to use a PFD (Personal Floatation Device)."
+          },
+          {
+            "requirement_number": "1.2",
+            "description": "I can float for five seconds and glide for five metres on my front and back without assistance."
+          },
+          {
+            "requirement_number": "1.3",
+            "description": "I can put my face in the water and blow bubbles."
+          },
+          {
+            "requirement_number": "1.4",
+            "description": "I understand the importance of the buddy system, and how it works for swimming and water activities."
+          },
+          {
+            "requirement_number": "1.5",
+            "description": "I know how to stay safe while playing around water."
+          },
+          {
+            "requirement_number": "1.6",
+            "description": "I can get an object off the bottom in chest-deep water."
+          },
+          {
+            "requirement_number": "1.7",
+            "description": "I know three different animals that live in the ocean. Competencies."
+          }
+        ]
+      },
+      {
+        "level_number": 2,
+        "requirements": [
+          {
+            "requirement_number": "2.1",
+            "description": "I can swim with my head in the water."
+          },
+          {
+            "requirement_number": "2.2",
+            "description": "I can swim 10 metres (any stroke) without assistance."
+          },
+          {
+            "requirement_number": "2.3",
+            "description": "I know how to put on a PFD by myself."
+          },
+          {
+            "requirement_number": "2.4",
+            "description": "I know how snorkel gear works."
+          },
+          {
+            "requirement_number": "2.5",
+            "description": "I have snorkeled in a pool or open water (such as a lake)."
+          }
+        ]
+      },
+      {
+        "level_number": 3,
+        "requirements": [
+          {
+            "requirement_number": "3.1",
+            "description": "I can explain common water safety risks and how to avoid them."
+          },
+          {
+            "requirement_number": "3.2",
+            "description": "I can use a snorkel and adjust my mask to fit comfortably."
+          },
+          {
+            "requirement_number": "3.3",
+            "description": "I know how to remove a cramp in my leg with a buddy’s help."
+          },
+          {
+            "requirement_number": "3.4",
+            "description": "I can put on a PFD while in the water and use the HELP and huddle positions."
+          },
+          {
+            "requirement_number": "3.5",
+            "description": "I can swim 25 metres in a pool (using any stroke)."
+          },
+          {
+            "requirement_number": "3.6",
+            "description": "I can recognize the signs of a panicked snorkeler or diver and know how to call for help."
+          }
+        ]
+      },
+      {
+        "level_number": 4,
+        "requirements": [
+          {
+            "requirement_number": "4.1",
+            "description": "I have achieved Aquaquest Stage 6, YMCA Swimmer Level, Red Cross Swim Kids Stage 5, or I can demonstrate equivalent skills."
+          },
+          {
+            "requirement_number": "4.2",
+            "description": "I can free dive with snorkel and mask to 1.5 metres and fetch an item from the bottom, and clear my snorkel upon surfacing—without lifting my head out of the water."
+          },
+          {
+            "requirement_number": "4.3",
+            "description": "I can explain the hazards of shallow water blackout."
+          },
+          {
+            "requirement_number": "4.4",
+            "description": "I know what gear is necessary for a water-based snorkel adventure, including protective clothing, masks and sunscreen."
+          },
+          {
+            "requirement_number": "4.5",
+            "description": "I know how to select a safe place to snorkel."
+          },
+          {
+            "requirement_number": "4.6",
+            "description": "I have snorkeled in open water and observed at least one marine creature."
+          },
+          {
+            "requirement_number": "4.7",
+            "description": "I know why ear equalization is necessary when snorkelling or diving at depth. Competencies Competencies5."
+          }
+        ]
+      },
+      {
+        "level_number": 5,
+        "requirements": [
+          {
+            "requirement_number": "5.1",
+            "description": "I have tried an introductory Scuba experience in a pool (Bubblemaker/SEAL Team/Discover Scuba Diving)."
+          },
+          {
+            "requirement_number": "5.2",
+            "description": "I can identify five species in my local aquatic environment (either on the surface or underwater), including hazardous species."
+          },
+          {
+            "requirement_number": "5.3",
+            "description": "I can achieve the “Swim to Survive” standard."
+          }
+        ]
+      },
+      {
+        "level_number": 6,
+        "requirements": [
+          {
+            "requirement_number": "6.1",
+            "description": "I have completed at least Emergency First Aid, or an equivalent course."
+          },
+          {
+            "requirement_number": "6.2",
+            "description": "I have completed the Open Water Diver Certification."
+          },
+          {
+            "requirement_number": "6.3",
+            "description": "I have gone for two additional dives after the Open Water Diver Certification dive."
+          },
+          {
+            "requirement_number": "6.4",
+            "description": "I have talked with a younger Section about my diving experience."
+          },
+          {
+            "requirement_number": "6.5",
+            "description": "I have assisted with Scouts (who are at Stage 3 or 4) learning to snorkel in open water."
+          }
+        ]
+      },
+      {
+        "level_number": 7,
+        "requirements": [
+          {
+            "requirement_number": "7.1",
+            "description": "I have logged at least five open water dives and assisted in the planning."
+          },
+          {
+            "requirement_number": "7.2",
+            "description": "I can navigate with a compass underwater and understand the specific challenges of underwater navigation (currents, lack of landmarks, etc.)."
+          },
+          {
+            "requirement_number": "7.3",
+            "description": "I have participated in a marine environmental service project, cleaning up a body of water."
+          },
+          {
+            "requirement_number": "7.4",
+            "description": "I have two of the following experiences: • I can shoot an underwater photo or video and understand the impacts of water on light. • I have either found or placed an underwater geocache. • I have used a dry suit (in cooler waters). • I have performed basic repairs on my gear (replacing a mouthpiece with a spare etc.). • I have taken part in a non-penetration wreck dive or any other specialty dive course. • I have helped a younger Scout at Stage 4 or 5 learn how to...(Scout’s choice)."
+          }
+        ]
+      },
+      {
+        "level_number": 8,
+        "requirements": [
+          {
+            "requirement_number": "8.1",
+            "description": "I have completed an Advanced Open Water Certification."
+          },
+          {
+            "requirement_number": "8.2",
+            "description": "I have led a less experienced buddy on a dive through a site that is new to the buddy."
+          },
+          {
+            "requirement_number": "8.3",
+            "description": "I have drawn a rough map of a dive site."
+          },
+          {
+            "requirement_number": "8.4",
+            "description": "I have assisted Scouts with their dives at Stage 5 or 6. 9 Floatation Device)."
+          }
+        ]
+      },
+      {
+        "level_number": 9,
+        "requirements": [
+          {
+            "requirement_number": "9.1",
+            "description": "I have organized a dive trip for a Rover Crew. Scouts will be involved in securing rental equipment, checking for restrictions on the dive site and ensuring the dive site’s suitability for the skill stage of all involved."
+          },
+          {
+            "requirement_number": "9.2",
+            "description": "I have completed a Rescue Diver Certification course, or have learned and mastered the curriculum to demonstrate the equivalent skills."
+          },
+          {
+            "requirement_number": "9.3",
+            "description": "I have assisted Scouts at Stage 6 or 7 with learning dive navigation or other advanced dive skills."
+          },
+          {
+            "requirement_number": "9.4",
+            "description": "I have completed one of the following dives: • A “deep dive” to more than 80 feet/24.36m • An altitude dive • A dive on nitrox • A DPV dive • A search-and-recovery dive8."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "skill_name": "Camping",
+    "category": "Camping Skills",
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "1.1",
+            "description": "I can collect small sticks for a campﬁre."
+          },
+          {
+            "requirement_number": "1.2",
+            "description": "I can follow directions while at camp."
+          },
+          {
+            "requirement_number": "1.3",
+            "description": "I can help pack a bag for camp."
+          },
+          {
+            "requirement_number": "1.4",
+            "description": "I can keep my camping gear neat and tidy."
+          },
+          {
+            "requirement_number": "1.5",
+            "description": "I can care for my basic personal gear on an overnight camp."
+          },
+          {
+            "requirement_number": "1.6",
+            "description": "I can explain the use of the buddy system at camp."
+          },
+          {
+            "requirement_number": "1.7",
+            "description": "I can describe the different emergency services in the camp area and how to call them."
+          },
+          {
+            "requirement_number": "1.8",
+            "description": "I can set out my sleeping area for good night’s sleep at camp."
+          },
+          {
+            "requirement_number": "1.9",
+            "description": "I have spent one night at camp. following directions at camp."
+          }
+        ]
+      },
+      {
+        "level_number": 2,
+        "requirements": [
+          {
+            "requirement_number": "2.10",
+            "description": "I can help pitch a tent at camp."
+          },
+          {
+            "requirement_number": "2.11",
+            "description": "I behave safely around ﬁres at camp."
+          },
+          {
+            "requirement_number": "2.12",
+            "description": "I can identify and explain the elements of the ﬁre triangle."
+          },
+          {
+            "requirement_number": "2.13",
+            "description": "I have spent two nights in a tent at camp.2."
+          },
+          {
+            "requirement_number": "2.2",
+            "description": "I can list what personal gear to bring on an overnight camp."
+          },
+          {
+            "requirement_number": "2.3",
+            "description": "I can look after all my personal gear while at camp."
+          },
+          {
+            "requirement_number": "2.4",
+            "description": "I can explain what clothing to bring on an overnight camp."
+          },
+          {
+            "requirement_number": "2.5",
+            "description": "I can explain how to use Canada’s Food Guide at camp and help to plan a nutritious meal."
+          },
+          {
+            "requirement_number": "2.6",
+            "description": "I can describe safe food handling and hygiene at camp."
+          },
+          {
+            "requirement_number": "2.7",
+            "description": "I can help prepare food for cooking at camp and be safe while cooking at camp."
+          },
+          {
+            "requirement_number": "2.8",
+            "description": "I can get help if someone is hurt while at camp."
+          },
+          {
+            "requirement_number": "2.9",
+            "description": "I can identify the main parts of a tent."
+          }
+        ]
+      },
+      {
+        "level_number": 3,
+        "requirements": [
+          {
+            "requirement_number": "3.1",
+            "description": "I can help others learn about camping."
+          },
+          {
+            "requirement_number": "3.10",
+            "description": "I can describe how weather can affect our camp."
+          },
+          {
+            "requirement_number": "3.11",
+            "description": "I can discuss the seven principles of Leave No Trace."
+          },
+          {
+            "requirement_number": "3.12",
+            "description": "I can show how to pitch a tent (with help from others)."
+          },
+          {
+            "requirement_number": "3.13",
+            "description": "I can make a hot drink on a campﬁre at camp."
+          },
+          {
+            "requirement_number": "3.14",
+            "description": "I can clean up a ﬁre area after camp."
+          },
+          {
+            "requirement_number": "3.15",
+            "description": "I have spent seven nights at camp. Competencies3."
+          },
+          {
+            "requirement_number": "3.2",
+            "description": "I can audit my personal gear for camp."
+          },
+          {
+            "requirement_number": "3.3",
+            "description": "I can pack a bag for camp."
+          },
+          {
+            "requirement_number": "3.4",
+            "description": "I can help plan a basic balanced meal for camp."
+          },
+          {
+            "requirement_number": "3.5",
+            "description": "I can demonstrate how to store food at camp."
+          },
+          {
+            "requirement_number": "3.6",
+            "description": "I can assist in cooking a meal at camp."
+          },
+          {
+            "requirement_number": "3.7",
+            "description": "I can be safe while cooking at camp."
+          },
+          {
+            "requirement_number": "3.8",
+            "description": "I can demonstrate ﬁrst aid treatment for a minor cut or scratch at camp, and explain how to prevent infection and describe the signs of infections."
+          },
+          {
+            "requirement_number": "3.9",
+            "description": "I can get a weather forecast for a camp."
+          }
+        ]
+      },
+      {
+        "level_number": 4,
+        "requirements": [
+          {
+            "requirement_number": "4.1",
+            "description": "I can demonstrate shared teamwork while at camp."
+          },
+          {
+            "requirement_number": "4.10",
+            "description": "I can assist pitching tent with my team at camp."
+          },
+          {
+            "requirement_number": "4.11",
+            "description": "I can demonstrate safe practices around ﬁres and cooking equipment to minimize the risk of burns, scalds and other injuries."
+          },
+          {
+            "requirement_number": "4.12",
+            "description": "I have spent 12 nights at camp."
+          },
+          {
+            "requirement_number": "4.2",
+            "description": "I can list the personal gear for a standing camp."
+          },
+          {
+            "requirement_number": "4.3",
+            "description": "I can show how to use group gear safely at camp."
+          },
+          {
+            "requirement_number": "4.4",
+            "description": "I can show proper use, care and maintenance of group gear during and in between camps."
+          },
+          {
+            "requirement_number": "4.5",
+            "description": "I can use basic camp tools safely."
+          },
+          {
+            "requirement_number": "4.6",
+            "description": "I can store and cook food safely at camp."
+          },
+          {
+            "requirement_number": "4.7",
+            "description": "I can demonstrate how to treat cuts and minor burns, and prevent infection at camp."
+          },
+          {
+            "requirement_number": "4.8",
+            "description": "I can explain and demonstrate the seven principles of Leave No Trace while at camp."
+          },
+          {
+            "requirement_number": "4.9",
+            "description": "I can ﬁnd the best place to pitch a tent at camp and explain my reasoning."
+          }
+        ]
+      },
+      {
+        "level_number": 5,
+        "requirements": [
+          {
+            "requirement_number": "5.1",
+            "description": "I have assisted in the organization of two camps for my team or others."
+          },
+          {
+            "requirement_number": "5.10",
+            "description": "I can describe the weather forecast and record the weather for the duration of camp."
+          },
+          {
+            "requirement_number": "5.11",
+            "description": "I can demonstrate the appropriate measures for minimizing and dealing with food waste, solid waste and human waste, in keeping with Leave No Trace principles."
+          },
+          {
+            "requirement_number": "5.12",
+            "description": "I can pitch a variety of tents and shelters."
+          },
+          {
+            "requirement_number": "5.13",
+            "description": "I can demonstrate measures to secure tents for inclement weather."
+          },
+          {
+            "requirement_number": "5.14",
+            "description": "I can select a suitable location for a standing or lightweight camp."
+          },
+          {
+            "requirement_number": "5.15",
+            "description": "I can show the best layout for a campsite and explain my reasoning."
+          },
+          {
+            "requirement_number": "5.16",
+            "description": "I can light, maintain and use a ﬁre to cook a balanced meal at camp."
+          },
+          {
+            "requirement_number": "5.17",
+            "description": "I have spent 18 nights at camp."
+          },
+          {
+            "requirement_number": "5.2",
+            "description": "I can assist in planning a camp program of activities."
+          },
+          {
+            "requirement_number": "5.3",
+            "description": "I can show the personal gear needed for an overnight lightweight camp."
+          },
+          {
+            "requirement_number": "5.4",
+            "description": "I can explain how the type of camp affects the choice of equipment needed."
+          },
+          {
+            "requirement_number": "5.5",
+            "description": "I can use, maintain and store tools safely at camp."
+          },
+          {
+            "requirement_number": "5.6",
+            "description": "I can teach another Scout what to pack for a camp."
+          },
+          {
+            "requirement_number": "5.7",
+            "description": "I can plan a balanced menu for camp with a team."
+          },
+          {
+            "requirement_number": "5.8",
+            "description": "I can demonstrate how to use different cooking methods (with different fuel types) at camp."
+          },
+          {
+            "requirement_number": "5.9",
+            "description": "I can prepare for and help prevent heat-, cold- and sun-related injuries at camp."
+          }
+        ]
+      },
+      {
+        "level_number": 6,
+        "requirements": [
+          {
+            "requirement_number": "6.1",
+            "description": "I can teach with my team at camp."
+          },
+          {
+            "requirement_number": "6.10",
+            "description": "I can teach another youth to prepare a meal to be cooked on a ﬁre or improvised stove."
+          },
+          {
+            "requirement_number": "6.11",
+            "description": "I can demonstrate treatment of heat-, cold- and sun-related injuries at camp."
+          },
+          {
+            "requirement_number": "6.12",
+            "description": "I demonstrate responsibility for myself at camp."
+          },
+          {
+            "requirement_number": "6.13",
+            "description": "I can recognize weather signs and prepare for their impact on camp activities."
+          },
+          {
+            "requirement_number": "6.14",
+            "description": "I can travel while following the seven principles of Leave No Trace."
+          },
+          {
+            "requirement_number": "6.15",
+            "description": "I can describe how to choose the best tent for a speciﬁc camp."
+          },
+          {
+            "requirement_number": "6.16",
+            "description": "I can teach how to pitch a tent at camp."
+          },
+          {
+            "requirement_number": "6.17",
+            "description": "I can help organize campsite setup and takedown."
+          },
+          {
+            "requirement_number": "6.18",
+            "description": "I can help research proposed camping areas and locate services."
+          },
+          {
+            "requirement_number": "6.19",
+            "description": "I have spent 24 nights at camp in three different season, including a week-long camp, while completing this stage."
+          },
+          {
+            "requirement_number": "6.2",
+            "description": "I can plan and lead a weekend camp."
+          },
+          {
+            "requirement_number": "6.20",
+            "description": "I have spent two consecutive nights lightweight camping while completing this stage. 7 . 1 I can plan and lead a two-night backcountry camp."
+          },
+          {
+            "requirement_number": "6.3",
+            "description": "I can plan a program of activities for camp."
+          },
+          {
+            "requirement_number": "6.4",
+            "description": "I can assist with the organization of transportation to camp."
+          },
+          {
+            "requirement_number": "6.5",
+            "description": "I can explain group emergency equipment for a camp."
+          },
+          {
+            "requirement_number": "6.6",
+            "description": "I can demonstrate to others how to care for, store and maintain group gear for camp."
+          },
+          {
+            "requirement_number": "6.7",
+            "description": "I can prepare a list of personal and group gear required for a standing camp."
+          },
+          {
+            "requirement_number": "6.8",
+            "description": "I can help plan a menu and purchase food for a weekend camp."
+          },
+          {
+            "requirement_number": "6.9",
+            "description": "I can demonstrate to others how to use a variety of cooking stoves at camp and explain to others when each type is most effective."
+          }
+        ]
+      },
+      {
+        "level_number": 7,
+        "requirements": [
+          {
+            "requirement_number": "7.10",
+            "description": "I can take responsibility for myself and my team while at camp."
+          },
+          {
+            "requirement_number": "7.11",
+            "description": "I can demonstrate how to plan for and adapt to changing weather patterns at camp."
+          },
+          {
+            "requirement_number": "7.12",
+            "description": "I can teach the seven principles of Leave No Trace as they apply to a camp."
+          },
+          {
+            "requirement_number": "7.13",
+            "description": "I can teach another youth tent selection by camp type."
+          },
+          {
+            "requirement_number": "7.14",
+            "description": "I can organize campsite setup and takedown."
+          },
+          {
+            "requirement_number": "7.15",
+            "description": "I have spent 30 nights at camp in all four seasons, including two nights without a Scouter while completing this stage."
+          },
+          {
+            "requirement_number": "7.2",
+            "description": "I can plan activities for at least two different types of camps."
+          },
+          {
+            "requirement_number": "7.3",
+            "description": "I can organize required transportation for camp."
+          },
+          {
+            "requirement_number": "7.4",
+            "description": "I can help plan and lead a backcountry camp of a minimum of two consecutive nights."
+          },
+          {
+            "requirement_number": "7.5",
+            "description": "I can audit group emergency equipment for camp."
+          },
+          {
+            "requirement_number": "7.6",
+            "description": "I can teach another youth how to care for, store and maintain group gear needed for camps."
+          },
+          {
+            "requirement_number": "7.7",
+            "description": "I can create personal and group gear lists for lightweight camping excursions."
+          },
+          {
+            "requirement_number": "7.8",
+            "description": "I can teach the use of various stoves and their effective use to another youth at camp."
+          },
+          {
+            "requirement_number": "7.9",
+            "description": "I can help prepare and describe an emergency plan for expected risks and hazards at camp."
+          }
+        ]
+      },
+      {
+        "level_number": 8,
+        "requirements": [
+          {
+            "requirement_number": "8.1",
+            "description": "I have mentored someone else who was responsible for planning and leading a camp."
+          },
+          {
+            "requirement_number": "8.2",
+            "description": "I can source, compare and organize transportation options for local and foreign locations."
+          },
+          {
+            "requirement_number": "8.3",
+            "description": "I can describe an expedition plan and how the needs of participants have been met in its development."
+          },
+          {
+            "requirement_number": "8.4",
+            "description": "I can prepare for a specialized expedition."
+          },
+          {
+            "requirement_number": "8.5",
+            "description": "I can make recommendations to improve group equipment for various camp types."
+          },
+          {
+            "requirement_number": "8.6",
+            "description": "I can determine if specialized training is required for camp activities."
+          },
+          {
+            "requirement_number": "8.7",
+            "description": "I can use knowledge of weather patterns to change activities as required at camp."
+          },
+          {
+            "requirement_number": "8.8",
+            "description": "I have spent 36 nights on various types of camps."
+          }
+        ]
+      },
+      {
+        "level_number": 9,
+        "requirements": [
+          {
+            "requirement_number": "9.1",
+            "description": "I can source amenities and local places of interest for various camp types."
+          },
+          {
+            "requirement_number": "9.2",
+            "description": "I can budget, prepare and manage every aspect of a camping expedition."
+          },
+          {
+            "requirement_number": "9.3",
+            "description": "I have acted as the outing leader on at least two camping expeditions."
+          },
+          {
+            "requirement_number": "9.4",
+            "description": "I can plan and execute camping expeditions in all types of locations and regions, including internationally."
+          },
+          {
+            "requirement_number": "9.5",
+            "description": "I am able to source local training required for the speciﬁc camp or activity."
+          },
+          {
+            "requirement_number": "9.6",
+            "description": "I have spent 42 nights on various types of camps. Competencies a campﬁre."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "skill_name": "Emergency",
+    "category": "Emergency Skills",
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "1.1",
+            "description": "I have made my own personal ﬁrst aid kit."
+          },
+          {
+            "requirement_number": "1.10",
+            "description": "I use the “buddy system” when outdoors."
+          },
+          {
+            "requirement_number": "1.11",
+            "description": "I can signal for help if needed when outdoors."
+          },
+          {
+            "requirement_number": "1.12",
+            "description": "I always tell an adult where I am going."
+          },
+          {
+            "requirement_number": "1.13",
+            "description": "I carry a whistle and visible signal covering when I go out in the bush."
+          },
+          {
+            "requirement_number": "1.14",
+            "description": "I know to “hug a tree” if lost, or to stay in one place if there are no trees."
+          },
+          {
+            "requirement_number": "1.15",
+            "description": "I know how to be safe around a campﬁre."
+          },
+          {
+            "requirement_number": "1.16",
+            "description": "I know how to behave around wildlife. personal ﬁrst aid kit, and I know how and when to use it."
+          },
+          {
+            "requirement_number": "1.2",
+            "description": "I can demonstrate the basic approach to ﬁrst aid."
+          },
+          {
+            "requirement_number": "1.3",
+            "description": "I can treat minor cuts or scrapes."
+          },
+          {
+            "requirement_number": "1.4",
+            "description": "I can be responsible for my own health."
+          },
+          {
+            "requirement_number": "1.5",
+            "description": "I can be responsible for my own safety."
+          },
+          {
+            "requirement_number": "1.6",
+            "description": "I know my address and location in an emergency."
+          },
+          {
+            "requirement_number": "1.7",
+            "description": "I know not to play with matches and lighters."
+          },
+          {
+            "requirement_number": "1.8",
+            "description": "I know how to spot things in my home that are not safe."
+          },
+          {
+            "requirement_number": "1.9",
+            "description": "I know the different emergency services that are available, and how and when to call them and what to say."
+          }
+        ]
+      },
+      {
+        "level_number": 2,
+        "requirements": [
+          {
+            "requirement_number": "2.10",
+            "description": "I can direct a responder to a location where help is needed."
+          },
+          {
+            "requirement_number": "2.11",
+            "description": "I know the hazards of water sources in my local area."
+          },
+          {
+            "requirement_number": "2.12",
+            "description": "I wear my helmet when using my bicycle, skateboard or scooter."
+          },
+          {
+            "requirement_number": "2.13",
+            "description": "I can dress myself appropriately for the weather."
+          },
+          {
+            "requirement_number": "2.14",
+            "description": "I know some of the wild animals in my area and how to be safe around them."
+          },
+          {
+            "requirement_number": "2.15",
+            "description": "I can ﬁnd a safe place in bad weather. 2EMERGENCY AID SKILLS."
+          },
+          {
+            "requirement_number": "2.2",
+            "description": "I can keep myself safe in emergency situations."
+          },
+          {
+            "requirement_number": "2.3",
+            "description": "I can care for someone who has a minor burn."
+          },
+          {
+            "requirement_number": "2.4",
+            "description": "I have made a home escape plan with my family."
+          },
+          {
+            "requirement_number": "2.5",
+            "description": "I know where the list of emergency telephone numbers is located in my home and I know how to call them."
+          },
+          {
+            "requirement_number": "2.6",
+            "description": "I know how to stop, drop and roll if my clothes are on ﬁre."
+          },
+          {
+            "requirement_number": "2.7",
+            "description": "I can recognize a warning label on a product and know to leave the product alone."
+          },
+          {
+            "requirement_number": "2.8",
+            "description": "I can check for dangers at an emergency situation."
+          },
+          {
+            "requirement_number": "2.9",
+            "description": "I always follow directions from a Scouter."
+          }
+        ]
+      },
+      {
+        "level_number": 3,
+        "requirements": [
+          {
+            "requirement_number": "3.1",
+            "description": "I can perform ﬁrst aid for large wounds."
+          },
+          {
+            "requirement_number": "3.10",
+            "description": "I have made a list of emergency numbers (such as police, ﬁre, ambulance and poison control) and posted it by a telephone in my home."
+          },
+          {
+            "requirement_number": "3.11",
+            "description": "I know how to help create an escape plan for a building or activity location in case of ﬁre."
+          },
+          {
+            "requirement_number": "3.12",
+            "description": "I know the “Rules of the Road” for safe bicycling."
+          },
+          {
+            "requirement_number": "3.13",
+            "description": "I can identify some of the hazardous plants in my area, and those I may encounter when travelling in Canada."
+          },
+          {
+            "requirement_number": "3.14",
+            "description": "I know some of the international distress signals and when to use them."
+          },
+          {
+            "requirement_number": "3.15",
+            "description": "I can treat bee stings and reactions to some local plants (such as stinging nettle). 3EMERGENCY AID SKILLS airway) position."
+          },
+          {
+            "requirement_number": "3.2",
+            "description": "I can perform ﬁrst aid for nosebleeds."
+          },
+          {
+            "requirement_number": "3.3",
+            "description": "I can perform ﬁrst aid for someone who is choking."
+          },
+          {
+            "requirement_number": "3.4",
+            "description": "I know the signs and symptoms of shock and how to treat shock."
+          },
+          {
+            "requirement_number": "3.5",
+            "description": "I can comfort someone who is ill or injured."
+          },
+          {
+            "requirement_number": "3.6",
+            "description": "I can show how to lock, unlock and secure all windows, doors and other entryways into my home."
+          },
+          {
+            "requirement_number": "3.7",
+            "description": "I know the dangers of playing on or near train tracks, trestles, crossings and train yards."
+          },
+          {
+            "requirement_number": "3.8",
+            "description": "I know the dangers of touching power lines with a stick or ladder; climbing on electrical power poles, towers and substations; and poking electrical outlets."
+          },
+          {
+            "requirement_number": "3.9",
+            "description": "I know the dangers of playing around storm sewers, construction sites, garbage dumps or dumpsters, ice-covered water or water areas, dams, vacant buildings, farm machinery, quarries, old wells and unfriendly animals."
+          }
+        ]
+      },
+      {
+        "level_number": 4,
+        "requirements": [
+          {
+            "requirement_number": "4.10",
+            "description": "I can care for my feet while outdoors."
+          },
+          {
+            "requirement_number": "4.11",
+            "description": "I can explain how to prevent and treat heat and cold injuries."
+          },
+          {
+            "requirement_number": "4.12",
+            "description": "I know how to treat and report (if appropriate) insect and animal bites. 4EMERGENCY AID SKILLS First Aid and CPR (Level A) course from a recognized provider."
+          },
+          {
+            "requirement_number": "4.2",
+            "description": "I can provide care for someone who is poisoned."
+          },
+          {
+            "requirement_number": "4.3",
+            "description": "I know the ﬁrst aid treatment for dirt in an eye."
+          },
+          {
+            "requirement_number": "4.4",
+            "description": "I know what goes into a home ﬁrst aid kit."
+          },
+          {
+            "requirement_number": "4.5",
+            "description": "I can help reduce the risk of ﬁre and burns in the home."
+          },
+          {
+            "requirement_number": "4.6",
+            "description": "I can show how to test and care for a smoke alarm."
+          },
+          {
+            "requirement_number": "4.7",
+            "description": "I can manage a home emergency situation."
+          },
+          {
+            "requirement_number": "4.8",
+            "description": "I know where my local community emergency shelter is located or how to ﬁnd out where a community emergency shelter is located if one is needed."
+          },
+          {
+            "requirement_number": "4.9",
+            "description": "I know what is in our group ﬁrst aid kit and know how to use the kit."
+          }
+        ]
+      },
+      {
+        "level_number": 5,
+        "requirements": [
+          {
+            "requirement_number": "5.2",
+            "description": "I can correctly record everything that has happened at the scene of the accident."
+          },
+          {
+            "requirement_number": "5.3",
+            "description": "I know the rules and why they are important for a home pool, community pool or a body of water used for swimming."
+          },
+          {
+            "requirement_number": "5.4",
+            "description": "I can demonstrate how to safely use and care for a barbecue."
+          },
+          {
+            "requirement_number": "5.5",
+            "description": "I have assisted in providing training to others in aspects of emergency aid."
+          },
+          {
+            "requirement_number": "5.6",
+            "description": "I know how to deal with an incident, injury or illness in a remote outdoor location and how to summon help."
+          },
+          {
+            "requirement_number": "5.7",
+            "description": "I know how and when to use ﬂares, mirrors, horns and other long-distance signalling devices."
+          },
+          {
+            "requirement_number": "5.8",
+            "description": "I know how to build a stretcher from improvised materials."
+          },
+          {
+            "requirement_number": "5.9",
+            "description": "I can use a compass or a GPS device to ﬁnd direction and travel to a desired location. 5EMERGENCY AID SKILLS a Standard First Aid with CPR (Level C) course or a Marine Basic First Aid with CPR (Level C) from a recognized provider."
+          }
+        ]
+      },
+      {
+        "level_number": 6,
+        "requirements": [
+          {
+            "requirement_number": "6.1",
+            "description": "I have participated in and successfully completed a Standard First Aid with CPR (Level C) course or a Marine Basic First Aid with CPR (Level C), from a recognized provider.Recognized providers include: • the Canadian Red Cross Society • St. John Ambulance • the Lifesaving Society • the Heart and Stroke Foundation of Canada • Canadian Ski Patrol."
+          },
+          {
+            "requirement_number": "6.2",
+            "description": "I have acted as an emergency response/ preparedness resource on at least one Scouting activity."
+          },
+          {
+            "requirement_number": "6.3",
+            "description": "I can explain the different classes of ﬁres and how to use different types of ﬁre extinguishers."
+          },
+          {
+            "requirement_number": "6.4",
+            "description": "I have met with a member of a community-based emergency response team and discussed his or her role and responsibilities in my community (e.g. search and rescue, police, ﬁre, ambulance or coast guard)."
+          },
+          {
+            "requirement_number": "6.5",
+            "description": "I can identify common poisonous plants in my area and know how to treat exposure and symptoms."
+          },
+          {
+            "requirement_number": "6.6",
+            "description": "I have acted as a member of a ﬁrst aid team on at least one outdoor activity.Scouts can be a designated ﬁrst aid provider on a Scout outing for a minimum of four days. This service does not have to be at one outing.EMERGENCY AID SKILLS Requirements."
+          }
+        ]
+      },
+      {
+        "level_number": 7,
+        "requirements": [
+          {
+            "requirement_number": "7.1",
+            "description": "I have successfully completed an outdoor curriculum ﬁrst aid course.Scouts can attend one of the following: • Advanced Wilderness & Remote First Aid course (Canadian Red Cross) • Wilderness First Aid Level III course (St. John Ambulance) • Wilderness First Responder — from commercial vendor • or equivalent certiﬁcation level from a recognized provider."
+          },
+          {
+            "requirement_number": "7.10",
+            "description": "I know what specialized equipment is required in my ﬁeld ﬁrst aid kit based upon my activities, skill level and certiﬁcation, and I know how to use and care for the equipment."
+          },
+          {
+            "requirement_number": "7.2",
+            "description": "I respond to emergency situations and follow best practices for ﬁrst aid, as per whatever ﬁrst aid certiﬁcation I hold.Scouts can maintain their ﬁrst aid skill and certiﬁcation competence by: • attending a renewal course • participating in ﬁrst aid scenarios • being a ﬁrst aider at events • reviewing course manuals."
+          },
+          {
+            "requirement_number": "7.3",
+            "description": "I have prepared and maintain a 72-hour home emergency kit.Scouts should create this emergency kit with their families."
+          },
+          {
+            "requirement_number": "7.4",
+            "description": "I have ﬁlled out Scouts Canada’s Outdoor Activity application for at least three Scout group events.Scouts are to ensure they consider participants, including Scouters, are: • in the Right Place, • at the Right Time,• with the Right People • and with the Right Equipment."
+          },
+          {
+            "requirement_number": "7.5",
+            "description": "I have acted as a ﬁrst aider on at least four occasions during single-day group outings or two standard weekend camps.Scouts duties include preparing the ﬁrst aid kit, treating any injuries and properly following-up on any incidents.EMERGENCY AID SKILLS management support for at least one weekend standing camp or two Area events.Scouts in this role are to be under the direct supervision of an adult Scouter."
+          },
+          {
+            "requirement_number": "7.7",
+            "description": "I can use can use a variety of communication devices effectively in an emergency situation. I have participated in a session on correct use of radio communications and protocols (ARES).Scouts know how to use a variety of emergency communication devices, such as: • satellite phone, • Spot device, • InReach device, • Personal Locator Beacon, • VHF/UHF/CB radio, • marine radio, • Emergency Position Indicator Radio Beacon (EPIRB)."
+          },
+          {
+            "requirement_number": "7.8",
+            "description": "I have met with a member of a community-based search and rescue emergency response team and discussed his or her role and responsibilities in my community.Scouts have arranged for this response team member to meet with a Scout Group."
+          },
+          {
+            "requirement_number": "7.9",
+            "description": "I have participated in a wilderness search and rescue operation (training or real).Scouts can spend at the minimum of one days’ time in a SAR operation."
+          }
+        ]
+      },
+      {
+        "level_number": 8,
+        "requirements": [
+          {
+            "requirement_number": "8.10",
+            "description": "I know what equipment needs to be in a ﬁrst aid kit for an activity of at least one weekend in length in the wilderness."
+          },
+          {
+            "requirement_number": "8.11",
+            "description": "I have been the responsible ﬁrst aider for an outdoor expedition of at least three nights."
+          },
+          {
+            "requirement_number": "8.12",
+            "description": "I can purify water in a safe manner."
+          },
+          {
+            "requirement_number": "8.13",
+            "description": "I have built an emergency shelter in the wilderness with minimal equipment, and I have slept in it overnight."
+          },
+          {
+            "requirement_number": "8.14",
+            "description": "I can lead a team at least 100m over wilderness terrain in transporting a patient with an injury who cannot walk by his or her own power."
+          },
+          {
+            "requirement_number": "8.15",
+            "description": "I know the limitations in a wilderness setting when calling for medical evacuation transport."
+          },
+          {
+            "requirement_number": "8.16",
+            "description": "I know what preparations should be made when calling a medical helicopter."
+          },
+          {
+            "requirement_number": "8.17",
+            "description": "I can describe and demonstrate proper use of ﬁre extinguishers (or other tools or methods for extinguishing ﬁres).EMERGENCY AID SKILLS Competencies 8 training in the area of my personal interest within emergency aid."
+          },
+          {
+            "requirement_number": "8.2",
+            "description": "I have successfully completed a non-ﬁrst aid certiﬁcation course in an area of my personal interest within emergency aid."
+          },
+          {
+            "requirement_number": "8.3",
+            "description": "As part of taking a non-ﬁrst aid certiﬁcation course, I can improve my risk management skills."
+          },
+          {
+            "requirement_number": "8.4",
+            "description": "I can safely perform basic emergency repairs on an automobile, such as changing a ﬂat tire or jump-starting a car."
+          },
+          {
+            "requirement_number": "8.5",
+            "description": "I can start and maintain a consumer emergency generator."
+          },
+          {
+            "requirement_number": "8.6",
+            "description": "I have taught a group of people the importance of, and what should be in, a 72-hour home preparedness kit."
+          },
+          {
+            "requirement_number": "8.7",
+            "description": "I know and can describe the steps required to triage in a mass casualty incident (MCI)."
+          },
+          {
+            "requirement_number": "8.8",
+            "description": "I have met with a member of underwater community-based emergency response search team and discussed his or her role and responsibilities in my community."
+          },
+          {
+            "requirement_number": "8.9",
+            "description": "I can create a trip plan with detailed risk management strategies for an activity with my group."
+          }
+        ]
+      },
+      {
+        "level_number": 9,
+        "requirements": [
+          {
+            "requirement_number": "9.10",
+            "description": "I have participated in a multi-casualty emergency exercise."
+          },
+          {
+            "requirement_number": "9.11",
+            "description": "I know the health risks, and possible ways to mitigate the risks, when travelling to a part of the world I have not before visited.EMERGENCY AID SKILLS Competencies 9 • a list of emergency numbers • gloves of my size • an emergency blanket • 5–10 adhesive bandages (e.g. Band-Aids™) • pencil and paper."
+          },
+          {
+            "requirement_number": "9.2",
+            "description": "I have used my instructor qualiﬁcation to teach Scouts or another community group the course’s curriculum as permitted by my instructor certiﬁcate."
+          },
+          {
+            "requirement_number": "9.3",
+            "description": "I can provide immediate treatment and deal with complicated emergency situations."
+          },
+          {
+            "requirement_number": "9.4",
+            "description": "I have completed a minimum of 75 hours of volunteer ﬁrst aid service in addition to those hours already used to complete an earlier stage."
+          },
+          {
+            "requirement_number": "9.5",
+            "description": "I have participated in the preparation and implementation of an Emergency Response Plan for an Area event lasting ﬁve days or involving at least 400 participants."
+          },
+          {
+            "requirement_number": "9.6",
+            "description": "I have provided mentorship to a Stage 7 or Stage 8 Scout."
+          },
+          {
+            "requirement_number": "9.7",
+            "description": "I have met with a member of community-based emergency air search response team and discussed his or her role and responsibilities in my community."
+          },
+          {
+            "requirement_number": "9.8",
+            "description": "I can assemble, display and describe winter and summer survival kits, and explain how to use them."
+          },
+          {
+            "requirement_number": "9.9",
+            "description": "I can explain to another group (for example, Wood Badge participants) what to do if you become lost in the wilderness."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "skill_name": "Paddling",
+    "category": "Paddling Skills",
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "1.1",
+            "description": "I can jump into chest-deep water with my Personal Flotation Device (PFD) on."
+          },
+          {
+            "requirement_number": "1.10",
+            "description": "I know how to contact the emergency services."
+          },
+          {
+            "requirement_number": "1.11",
+            "description": "I can get in and out of my watercraft safely."
+          },
+          {
+            "requirement_number": "1.12",
+            "description": "I have taken part in a short paddling adventure of at least one hour."
+          },
+          {
+            "requirement_number": "1.2",
+            "description": "I can blow bubbles in the water for 10 seconds."
+          },
+          {
+            "requirement_number": "1.3",
+            "description": "I can explain what a PFD is for."
+          },
+          {
+            "requirement_number": "1.4",
+            "description": "I can put on my PFD and know how it should ﬁt."
+          },
+          {
+            "requirement_number": "1.5",
+            "description": "I can show where the bow and stern are in a canoe or kayak."
+          },
+          {
+            "requirement_number": "1.6",
+            "description": "I can demonstrate the correct way to hold my paddle."
+          },
+          {
+            "requirement_number": "1.7",
+            "description": "I have demonstrated how to behave safely in my canoe or kayak."
+          },
+          {
+            "requirement_number": "1.8",
+            "description": "I can explain why I should care for my PFD."
+          },
+          {
+            "requirement_number": "1.9",
+            "description": "I can explain the risks of cold water."
+          }
+        ]
+      },
+      {
+        "level_number": 2,
+        "requirements": [
+          {
+            "requirement_number": "2.1",
+            "description": "I can swim 25 metres with my PFD on."
+          },
+          {
+            "requirement_number": "2.10",
+            "description": "I am familiar with common whistle signals and when they would be used."
+          },
+          {
+            "requirement_number": "2.11",
+            "description": "I have used a throw bag."
+          },
+          {
+            "requirement_number": "2.12",
+            "description": "I can identify the parts of my watercraft and my paddle."
+          },
+          {
+            "requirement_number": "2.13",
+            "description": "I am familiar with the signs and symptoms of mild hypothermia."
+          },
+          {
+            "requirement_number": "2.14",
+            "description": "I have taken part in an at least two paddling activities. 2."
+          },
+          {
+            "requirement_number": "2.2",
+            "description": "I can explain the difference between a PFD and a life jacket."
+          },
+          {
+            "requirement_number": "2.3",
+            "description": "Before I launch my watercraft, I can show where I am allowed to go canoeing or kayaking."
+          },
+          {
+            "requirement_number": "2.4",
+            "description": "I can explain why I should not drink the water from the lake or river I am paddling on until it has been ﬁltered or treated."
+          },
+          {
+            "requirement_number": "2.5",
+            "description": "I can identify the equipment Transport Canada requires me to have in my canoe or kayak."
+          },
+          {
+            "requirement_number": "2.6",
+            "description": "I can explain the safety rules for being near water."
+          },
+          {
+            "requirement_number": "2.7",
+            "description": "I can list the appropriate action I should take if I capsize in a canoe or kayak."
+          },
+          {
+            "requirement_number": "2.8",
+            "description": "I have explained some of the ways that paddling a canoe or kayak can have a negative impact on the environment where I am paddling."
+          },
+          {
+            "requirement_number": "2.9",
+            "description": "I can get help if I see somebody in difﬁculty on the water."
+          }
+        ]
+      },
+      {
+        "level_number": 3,
+        "requirements": [
+          {
+            "requirement_number": "3.1",
+            "description": "I can swim 100 metres with my PFD on using any stroke."
+          },
+          {
+            "requirement_number": "3.10",
+            "description": "I have helped a Stage 1 paddler learn to put on his or her PFD."
+          },
+          {
+            "requirement_number": "3.11",
+            "description": "I have taken part in two paddling activities.3."
+          },
+          {
+            "requirement_number": "3.2",
+            "description": "I know how to choose a paddle that is the correct size."
+          },
+          {
+            "requirement_number": "3.3",
+            "description": "With help from my team or my Scouter, I can paddle my canoe or kayak forward a short way."
+          },
+          {
+            "requirement_number": "3.4",
+            "description": "I have capsized a canoe while sitting in it."
+          },
+          {
+            "requirement_number": "3.5",
+            "description": "I can get back into my canoe or kayak with help from someone in another watercraft if my watercraft capsizes."
+          },
+          {
+            "requirement_number": "3.6",
+            "description": "I know how and where to get the latest weather forecast for the area where I will be paddling."
+          },
+          {
+            "requirement_number": "3.7",
+            "description": "I know what the risks are for paddling in different weather conditions."
+          },
+          {
+            "requirement_number": "3.8",
+            "description": "I can make a recognized distress signal."
+          },
+          {
+            "requirement_number": "3.9",
+            "description": "I can throw a throw bag."
+          }
+        ]
+      },
+      {
+        "level_number": 4,
+        "requirements": [
+          {
+            "requirement_number": "4.1",
+            "description": "I can demonstrate the HELP and huddle positions while in the water wearing a PFD."
+          },
+          {
+            "requirement_number": "4.10",
+            "description": "I can demonstrate basic canoe strokes (forward, reverse, draw, pry, stop, j, sweep)."
+          },
+          {
+            "requirement_number": "4.11",
+            "description": "I can explain why my watercraft needs a painter and can attach one so that it is secure and readily available when I need it."
+          },
+          {
+            "requirement_number": "4.12",
+            "description": "I can describe water and weather conditions that make paddling unsafe and can explain what to do if I encounter them while I am on the water."
+          },
+          {
+            "requirement_number": "4.13",
+            "description": "I can explain why canoes and kayaks are important to Canadian aboriginal people and the history of Canada."
+          },
+          {
+            "requirement_number": "4.14",
+            "description": "I can identify three methods for helping someone in the water to reach safety, and have demonstrated how to use them."
+          },
+          {
+            "requirement_number": "4.15",
+            "description": "I can throw a throw bag so that someone in the water can reach it."
+          },
+          {
+            "requirement_number": "4.16",
+            "description": "I have taken part in and logged at least four paddling activities."
+          },
+          {
+            "requirement_number": "4.17",
+            "description": "I can explain what a ﬂoat plan is."
+          },
+          {
+            "requirement_number": "4.18",
+            "description": "I have participated in at least one paddling activity of at least eight hours’ duration that includes making and eating a meal."
+          },
+          {
+            "requirement_number": "4.2",
+            "description": "I can explain what clothing should be worn while canoe tripping."
+          },
+          {
+            "requirement_number": "4.3",
+            "description": "I can assist in launching and landing a canoe or kayak."
+          },
+          {
+            "requirement_number": "4.4",
+            "description": "I can trade places with my paddling partner while on the water."
+          },
+          {
+            "requirement_number": "4.5",
+            "description": "I have helped a Stage 2 paddler to explain the basic safety rules for being near water."
+          },
+          {
+            "requirement_number": "4.6",
+            "description": "I can explain the seven principles of Leave No Trace."
+          },
+          {
+            "requirement_number": "4.7",
+            "description": "I have taken part in a canoe or kayak raft-up and can explain its uses."
+          },
+          {
+            "requirement_number": "4.8",
+            "description": "By myself or with a paddling partner, I can paddle a canoe or kayak in a straight line going forward for at least 50 metres."
+          },
+          {
+            "requirement_number": "4.9",
+            "description": "I can make my canoe or kayak turn in the direction I want it to turn."
+          }
+        ]
+      },
+      {
+        "level_number": 5,
+        "requirements": [
+          {
+            "requirement_number": "5.1",
+            "description": "I have participated in at least two two-day paddling trips."
+          },
+          {
+            "requirement_number": "5.10",
+            "description": "I can explain Scouts Canada’s guidelines for paddle sports."
+          },
+          {
+            "requirement_number": "5.11",
+            "description": "I can assist Stage 3 paddlers to get back into their swamped watercraft."
+          },
+          {
+            "requirement_number": "5.12",
+            "description": "I can help paddlers at Stage 1 identify the parts of their paddle and their canoe or kayak."
+          },
+          {
+            "requirement_number": "5.13",
+            "description": "I have completed and logged at least six days of backcountry paddling."
+          },
+          {
+            "requirement_number": "5.14",
+            "description": "I have attained at least the Paddle Canada Canoe Basic Skills level of paddling certiﬁcation."
+          },
+          {
+            "requirement_number": "5.2",
+            "description": "I have helped prepare an emergency plan and a ﬂoat plan with a more experienced paddler for a two-day paddling trip."
+          },
+          {
+            "requirement_number": "5.3",
+            "description": "I have participated in creating a menu for an overnight trip."
+          },
+          {
+            "requirement_number": "5.4",
+            "description": "I can recognize the symptoms of weather-related injuries and know how to treat them."
+          },
+          {
+            "requirement_number": "5.5",
+            "description": "I can demonstrate a self-rescue with my canoe or kayak."
+          },
+          {
+            "requirement_number": "5.6",
+            "description": "I can demonstrate how to pack my personal gear so that it will stay dry."
+          },
+          {
+            "requirement_number": "5.7",
+            "description": "I have participated in a canoe-over-canoe rescue as both the rescuer and the one being rescued."
+          },
+          {
+            "requirement_number": "5.8",
+            "description": "I can light a ﬁre using no more than three matches."
+          },
+          {
+            "requirement_number": "5.9",
+            "description": "I have made a personal survival kit."
+          }
+        ]
+      },
+      {
+        "level_number": 6,
+        "requirements": [
+          {
+            "requirement_number": "6.1",
+            "description": "I can load my canoe with personal and group gear for a multi-day trip."
+          },
+          {
+            "requirement_number": "6.10",
+            "description": "I know the limits of weather conditions that are safe to paddle in."
+          },
+          {
+            "requirement_number": "6.11",
+            "description": "I have completed and logged at least eight days of backcountry canoe tripping."
+          },
+          {
+            "requirement_number": "6.12",
+            "description": "I have taught at least one paddling skill, one paddling safety element and one paddling knowledge item to paddlers working on Stages 1–4."
+          },
+          {
+            "requirement_number": "6.13",
+            "description": "I have explained the seven principles of Leave No Trace to a Stage 4 paddler."
+          },
+          {
+            "requirement_number": "6.14",
+            "description": "I have kept a journal of my canoe excursions that includes both details of the trip and my personal reﬂections."
+          },
+          {
+            "requirement_number": "6.15",
+            "description": "With my paddling team, I can plan a healthy menu for our canoe adventure and help prepare the meals we have planned."
+          },
+          {
+            "requirement_number": "6.16",
+            "description": "I can explain how I can access emergency assistance while in the backcountry."
+          },
+          {
+            "requirement_number": "6.17",
+            "description": "I have completed at least one paddling trip that is four days, 50 km, has a minimum of three different campsites and includes portages."
+          },
+          {
+            "requirement_number": "6.2",
+            "description": "I have demonstrated several methods for ensuring that water is safe to drink."
+          },
+          {
+            "requirement_number": "6.3",
+            "description": "I have attained at least Paddle Canada Lake Canoe Skills Introduction Tandem certiﬁcation (or provincial equivalent where applicable; see requirements)."
+          },
+          {
+            "requirement_number": "6.4",
+            "description": "I can create a gear list for the personal and group gear required on a four-day trip."
+          },
+          {
+            "requirement_number": "6.5",
+            "description": "I can explain the features of a good campsite on a waterway."
+          },
+          {
+            "requirement_number": "6.6",
+            "description": "I know how to ﬁnd out the backcountry camping regulations in the area where I will be travelling."
+          },
+          {
+            "requirement_number": "6.7",
+            "description": "I can explain how to deal with waste while traveling in the backcountry, including greywater, solid waste, food scraps and human waste."
+          },
+          {
+            "requirement_number": "6.8",
+            "description": "I can read and understand a topographical map, and can use it and a compass to tell where I am and where I am going while on a canoe trip."
+          },
+          {
+            "requirement_number": "6.9",
+            "description": "I can recognize conditions that may precede bad weather."
+          }
+        ]
+      },
+      {
+        "level_number": 7,
+        "requirements": [
+          {
+            "requirement_number": "7.1",
+            "description": "I can efﬁciently and safely carry my canoe and my gear across a portage of a least 700 metres."
+          },
+          {
+            "requirement_number": "7.10",
+            "description": "I can use several different methods for cooking."
+          },
+          {
+            "requirement_number": "7.11",
+            "description": "I have taught at least one paddling skill, one safety element and one knowledge item to paddlers working on Stage 4 or Stage 5."
+          },
+          {
+            "requirement_number": "7.12",
+            "description": "I have participated in 12 days of canoe tripping at Stage 7 and recorded the information in my trip log."
+          },
+          {
+            "requirement_number": "7.13",
+            "description": "I have completed a canoe trip of six days’ duration, 100 kilometres in distance. The trip included four or more campsites, and any number of portages or swifts of moving water (Class 1 or Class 2)."
+          },
+          {
+            "requirement_number": "7.14",
+            "description": "With my team, I have developed a hazard assessment and risk control plan detailing how we will deal with injuries, illness, loss of equipment and other potential emergencies on our trip."
+          },
+          {
+            "requirement_number": "7.15",
+            "description": "With my team, I have developed a ﬂoat plan for my canoe trip."
+          },
+          {
+            "requirement_number": "7.16",
+            "description": "I know what items should be in a ﬁrst aid kit for backcountry travel as per Transport Canada regulations."
+          },
+          {
+            "requirement_number": "7.17",
+            "description": "I have attained a minimum of standard ﬁrst aid training from an accredited agency. Standard wilderness ﬁrst aid is strongly recommended."
+          },
+          {
+            "requirement_number": "7.18",
+            "description": "With my team, I can plan all the details for an overnight canoe trip and have evaluated the trip afterwards to ensure that our planning was complete and appropriate."
+          },
+          {
+            "requirement_number": "7.2",
+            "description": "I have attained a minimum of Paddle Canada Lake Canoe Skills Intermediate Tandem level certiﬁcation."
+          },
+          {
+            "requirement_number": "7.3",
+            "description": "I have attained a minimum of Paddle Canada Moving Water Canoe Skills Introduction Tandem certiﬁcation."
+          },
+          {
+            "requirement_number": "7.4",
+            "description": "I always wear an approved paddling helmet when I paddle in rapids."
+          },
+          {
+            "requirement_number": "7.5",
+            "description": "I can explain the relative beneﬁts of various types of canoe materials and designs."
+          },
+          {
+            "requirement_number": "7.6",
+            "description": "I know how to outﬁt a canoe for safety and comfort."
+          },
+          {
+            "requirement_number": "7.7",
+            "description": "I know how to use basic tripping technology and understand the pros and cons of the devices I use."
+          },
+          {
+            "requirement_number": "7.8",
+            "description": "I can show how and why the way I load my canoe will be different for different water conditions."
+          },
+          {
+            "requirement_number": "7.9",
+            "description": "I understand the food requirements for canoe trippers and have prepared a nutritious and delicious menu for a multiday canoe trip."
+          }
+        ]
+      },
+      {
+        "level_number": 8,
+        "requirements": [
+          {
+            "requirement_number": "8.1",
+            "description": "I can plan and carry out a backcountry canoe trip with my team of at least 14 days, 250 km, and a minimum of 11 different camp sites."
+          },
+          {
+            "requirement_number": "8.10",
+            "description": "I have successfully completed an advanced wilderness ﬁrst aid course of at least 40 hours duration (80 hours preferred) with a certiﬁed accreditation agency (St. John Ambulance, Red Cross or equivalent)."
+          },
+          {
+            "requirement_number": "8.11",
+            "description": "I have assisted in teaching a paddling course to Stage 5 or Stage 6 paddlers."
+          },
+          {
+            "requirement_number": "8.2",
+            "description": "I can inspect a rapid to determine the best lines for running it."
+          },
+          {
+            "requirement_number": "8.3",
+            "description": "I can recognize a rapid that is beyond my skill level to run."
+          },
+          {
+            "requirement_number": "8.4",
+            "description": "I have attained Paddle Canada Moving Water Canoe Skills Intermediate Tandem certiﬁcations."
+          },
+          {
+            "requirement_number": "8.5",
+            "description": "I have completed and logged at least 25 days of canoe tripping at Stage 8."
+          },
+          {
+            "requirement_number": "8.6",
+            "description": "I have successfully completed a Paddle Canada Waterfront Canoeing Instructor course."
+          },
+          {
+            "requirement_number": "8.7",
+            "description": "While on my extended trip, I have been the designated trip leader for at least one day (Two Scouts—but not more than two—may share the trip leader role)."
+          },
+          {
+            "requirement_number": "8.8",
+            "description": "I can rescue a capsized loaded canoe and get the swimmers to safety."
+          },
+          {
+            "requirement_number": "8.9",
+            "description": "I can explain the responsibilities of a trip leader."
+          }
+        ]
+      },
+      {
+        "level_number": 9,
+        "requirements": [
+          {
+            "requirement_number": "9.1",
+            "description": "I have completed instructor-level certiﬁcation in at least one Paddle Canada discipline."
+          },
+          {
+            "requirement_number": "9.2",
+            "description": "I have completed and logged at least 25 days of backcountry canoe tripping (which may include time spent leading trips for less experienced paddlers)."
+          },
+          {
+            "requirement_number": "9.3",
+            "description": "I know and follow the Transport Canada requirements for guided canoe trips."
+          },
+          {
+            "requirement_number": "9.4",
+            "description": "I have completed all necessary paperwork for leading a trip, including a ﬂoat plan, an emergency plan and Scouts Canada requirements."
+          },
+          {
+            "requirement_number": "9.5",
+            "description": "I have successfully completed a swift water rescue course."
+          },
+          {
+            "requirement_number": "9.6",
+            "description": "I can lead a group of Stage 6 or Stage 7 paddlers on a multi-day excursion."
+          },
+          {
+            "requirement_number": "9.7",
+            "description": "I have taught at least two sanctioned Paddle Canada courses to Scouts working at Stage 5–8."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "skill_name": "Sailing skills",
+    "category": "Sailing skills Skills",
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "1.1",
+            "description": "I can explain the risks of cold water."
+          },
+          {
+            "requirement_number": "1.10",
+            "description": "I have taken part in a short sailing adventure of at least one hour."
+          },
+          {
+            "requirement_number": "1.11",
+            "description": "I have participated in a fun physical fitness program designed for sailing."
+          },
+          {
+            "requirement_number": "1.2",
+            "description": "I can explain what a Personal Flotation Device (PFD) is for."
+          },
+          {
+            "requirement_number": "1.3",
+            "description": "I can put on my PFD and know how it should fit."
+          },
+          {
+            "requirement_number": "1.4",
+            "description": "I can show how to avoid sunburns."
+          },
+          {
+            "requirement_number": "1.5",
+            "description": "I can show how to contact emergency services."
+          },
+          {
+            "requirement_number": "1.6",
+            "description": "I can show where the bow and stern are in a sailboat."
+          },
+          {
+            "requirement_number": "1.7",
+            "description": "I can jump into chest-deep water wearing my PFD."
+          },
+          {
+            "requirement_number": "1.8",
+            "description": "I can blow bubbles in the water for ten seconds."
+          },
+          {
+            "requirement_number": "1.9",
+            "description": "I can explain and have demonstrated how to behave safely in my sailboat."
+          }
+        ]
+      },
+      {
+        "level_number": 2,
+        "requirements": [
+          {
+            "requirement_number": "2.1",
+            "description": "I can explain the safety rules for being near water."
+          },
+          {
+            "requirement_number": "2.10",
+            "description": "I can lift a boat with help from others, rig a sailboat, and practise getting into and out of my boat safely."
+          },
+          {
+            "requirement_number": "2.11",
+            "description": "Before I launch my boat, I can show where I am allowed to go sailing."
+          },
+          {
+            "requirement_number": "2.12",
+            "description": "I can swim 50 metres wearing my PFD."
+          },
+          {
+            "requirement_number": "2.13",
+            "description": "I can sail away from dock, hold the tiller, pull in the mainsheet, ease the sheets, and sail straight for one minute."
+          },
+          {
+            "requirement_number": "2.14",
+            "description": "I have taken part in at least two daysails of four hours each or four daysails of two hours each. Competencies."
+          },
+          {
+            "requirement_number": "2.2",
+            "description": "I am familiar with the signs and symptoms of mild hypothermia."
+          },
+          {
+            "requirement_number": "2.3",
+            "description": "I can explain how I should care for my PFD."
+          },
+          {
+            "requirement_number": "2.4",
+            "description": "I can explain the difference between a PFD and a life jacket."
+          },
+          {
+            "requirement_number": "2.5",
+            "description": "I am familiar with the three common whistle signals and when they would be used."
+          },
+          {
+            "requirement_number": "2.6",
+            "description": "I can describe five appropriate actions I should take if I capsize a sailboat."
+          },
+          {
+            "requirement_number": "2.7",
+            "description": "I can demonstrate how to tie the reef knot, sheet bend and figure-eight."
+          },
+          {
+            "requirement_number": "2.8",
+            "description": "I can identify twelve key parts of my sailboat."
+          },
+          {
+            "requirement_number": "2.9",
+            "description": "I have used a throw bag."
+          }
+        ]
+      },
+      {
+        "level_number": 3,
+        "requirements": [
+          {
+            "requirement_number": "3.1",
+            "description": "I can get help if I see somebody in difficulty on the water."
+          },
+          {
+            "requirement_number": "3.10",
+            "description": "I can tack, gybe, sit on gunwale, hike, slow down, speed up, bail the boat and balance the boat."
+          },
+          {
+            "requirement_number": "3.11",
+            "description": "I can de-rig a sailboat, dry the sails and store all the parts properly."
+          },
+          {
+            "requirement_number": "3.12",
+            "description": "I have taken part in an at least three daysails of four hours each, or six daysails of two hours each."
+          },
+          {
+            "requirement_number": "3.13",
+            "description": "I know how and where to get the latest weather forecast for the area where I will be sailing."
+          },
+          {
+            "requirement_number": "3.14",
+            "description": "While fully clothed and with a properly fitted PFD, I can tread water for five minutes, then swim 100 metres using any stroke. Competencies."
+          },
+          {
+            "requirement_number": "3.2",
+            "description": "I can explain why I should not drink the water from the lake, river or ocean on which I am sailing."
+          },
+          {
+            "requirement_number": "3.3",
+            "description": "I am familiar with common hand signals and know when they are to be used."
+          },
+          {
+            "requirement_number": "3.4",
+            "description": "I can identify the equipment Transport Canada requires me to have in my sailboat."
+          },
+          {
+            "requirement_number": "3.5",
+            "description": "I can explain what impact I have on the environment while sailing."
+          },
+          {
+            "requirement_number": "3.6",
+            "description": "I can identify six types of sailcraft."
+          },
+          {
+            "requirement_number": "3.7",
+            "description": "I can identify the signs of dangerous weather and water conditions."
+          },
+          {
+            "requirement_number": "3.8",
+            "description": "I can tie the reef knot, sheet bend, figure-eight and bowline used by Scouts when sailing or when camping."
+          },
+          {
+            "requirement_number": "3.9",
+            "description": "I can rig my boat and then practise getting into and out of my boat safely."
+          }
+        ]
+      },
+      {
+        "level_number": 4,
+        "requirements": [
+          {
+            "requirement_number": "4.1",
+            "description": "I know how to find an appropriate PFD that is the right size and fit for me."
+          },
+          {
+            "requirement_number": "4.10",
+            "description": "Under the direction of the Skipper, I have sailed my sailboat forward for 200 metres."
+          },
+          {
+            "requirement_number": "4.11",
+            "description": "I can demonstrate how to steer a sailboat going upwind or downwind."
+          },
+          {
+            "requirement_number": "4.12",
+            "description": "I can demonstrate how to balance my sailboat and can sail the boat flat."
+          },
+          {
+            "requirement_number": "4.13",
+            "description": "I have capsized the sailboat and recovered to an upright position."
+          },
+          {
+            "requirement_number": "4.14",
+            "description": "I can get back into the sailboat solo, or with help from the Skipper, if my boat capsizes."
+          },
+          {
+            "requirement_number": "4.15",
+            "description": "I can help my Skipper to return the sailboat to the dock or to the beach safely."
+          },
+          {
+            "requirement_number": "4.16",
+            "description": "I can de-rig a sailboat, dry the sails and store all the parts properly."
+          },
+          {
+            "requirement_number": "4.17",
+            "description": "I have taken part in at least four daysails of four hours each, or eight daysails of at least two hours each, on safe, familiar waters."
+          },
+          {
+            "requirement_number": "4.18",
+            "description": "I can toss a throw bag so that someone in the water can reach it."
+          },
+          {
+            "requirement_number": "4.19",
+            "description": "I can swim and demonstrate the HELP and huddle positions while in the water wearing a PFD."
+          },
+          {
+            "requirement_number": "4.2",
+            "description": "I am aware that everyone must wear properly fitted PFD’s while in a boat."
+          },
+          {
+            "requirement_number": "4.20",
+            "description": "I have been introduced to self-help procedures and can explain how to perform the HELP position by myself and the huddle position with others."
+          },
+          {
+            "requirement_number": "4.3",
+            "description": "I am familiar with the signs and symptoms of severe hypothermia."
+          },
+          {
+            "requirement_number": "4.4",
+            "description": "I can describe and demonstrate safety in and on the water."
+          },
+          {
+            "requirement_number": "4.5",
+            "description": "I know how to properly secure a towline to my sailboat."
+          },
+          {
+            "requirement_number": "4.6",
+            "description": "I know the hazards for sailing in different weather conditions."
+          },
+          {
+            "requirement_number": "4.7",
+            "description": "I understand balance in the sailboat, and know how to sail the boat flat."
+          },
+          {
+            "requirement_number": "4.8",
+            "description": "I understand how to trim my sail to get the best performance from the sailboat."
+          },
+          {
+            "requirement_number": "4.9",
+            "description": "I can tie eight knots that are useful when sailing, canoeing or camping."
+          }
+        ]
+      },
+      {
+        "level_number": 5,
+        "requirements": [
+          {
+            "requirement_number": "5.1",
+            "description": "I know when and how to follow the Sail Coach’s commands."
+          },
+          {
+            "requirement_number": "5.10",
+            "description": "I can explain the rules established to avoid collision."
+          },
+          {
+            "requirement_number": "5.11",
+            "description": "I can inspect a rigged sailboat and identify faulty boat parts."
+          },
+          {
+            "requirement_number": "5.12",
+            "description": "I can launch a boat from the dock or from the shore."
+          },
+          {
+            "requirement_number": "5.13",
+            "description": "I can trade places with my sailing crew while on the water in winds less than 9 knots. Competencies 5 (cont’d on next page) Competencies (cont’d)."
+          },
+          {
+            "requirement_number": "5.14",
+            "description": "I have demonstrated steering a sailboat heading upwind, or bearing off and going downwind, depending on wind conditions and direction."
+          },
+          {
+            "requirement_number": "5.15",
+            "description": "I can demonstrate a self-rescue with my sailboat."
+          },
+          {
+            "requirement_number": "5.16",
+            "description": "I have demonstrated proper Man Over Board (MOB) procedures while on the water."
+          },
+          {
+            "requirement_number": "5.17",
+            "description": "I have demonstrated making a sail raft and can explain its uses."
+          },
+          {
+            "requirement_number": "5.18",
+            "description": "I can work as part of a team to sail in a straight line going forward for at least 200 metres."
+          },
+          {
+            "requirement_number": "5.19",
+            "description": "I can effectively steer the sailboat while sailing flat, identify wind direction while sailing, make the boat turn, and head up or bear off within one boat length of the mark."
+          },
+          {
+            "requirement_number": "5.2",
+            "description": "I can identify mild symptoms of hyperthermia."
+          },
+          {
+            "requirement_number": "5.20",
+            "description": "I have demonstrated how to trim the sail while sailing at all points of sail, including adjusting the sails for wind shifts, and adjusting the sails for puffs or lulls."
+          },
+          {
+            "requirement_number": "5.21",
+            "description": "I can manoeuvre the sailboat properly while giving the proper commands to my crew."
+          },
+          {
+            "requirement_number": "5.22",
+            "description": "I can safely dock or beach a sailboat."
+          },
+          {
+            "requirement_number": "5.23",
+            "description": "I can lift the boat from the water to dry storage, de-rig the boat, and store the sails and foils correctly in the boat storage."
+          },
+          {
+            "requirement_number": "5.24",
+            "description": "I have participated in one daysail of at least six hours’ duration which includes sailing to and landing at a beach, making and eating a meal, and returning safely."
+          },
+          {
+            "requirement_number": "5.25",
+            "description": "I have taken part in at least five daysails of six hours each, or ten daysails of three hours each, on safe, familiar waters."
+          },
+          {
+            "requirement_number": "5.26",
+            "description": "I have helped a Stage 2 or Stage 3 sailor explain the basic safety rules for being near water."
+          },
+          {
+            "requirement_number": "5.3",
+            "description": "I can identify three reaching assists that could be used to help someone in the water to reach safety and have demonstrated how to use one of them."
+          },
+          {
+            "requirement_number": "5.4",
+            "description": "I know how to create and use a float plan."
+          },
+          {
+            "requirement_number": "5.5",
+            "description": "I can explain why my boat needs a painter."
+          },
+          {
+            "requirement_number": "5.6",
+            "description": "I know games youth can play to promote flexibility prior to going sailing."
+          },
+          {
+            "requirement_number": "5.7",
+            "description": "I can explain what clothing should be worn while sailing."
+          },
+          {
+            "requirement_number": "5.8",
+            "description": "As the Skipper of my sailcraft, I can identify the equipment Transport Canada requires to be on the sailboat and demonstrate its proper use."
+          },
+          {
+            "requirement_number": "5.9",
+            "description": "I can describe the basic Transport Canada navigational aids on the water."
+          }
+        ]
+      },
+      {
+        "level_number": 6,
+        "requirements": [
+          {
+            "requirement_number": "6.1",
+            "description": "I can identify signs of moderate levels of hyperthermia."
+          },
+          {
+            "requirement_number": "6.10",
+            "description": "I have participated in a local club race."
+          },
+          {
+            "requirement_number": "6.11",
+            "description": "I have participated in a sailing rescue as both the rescuerand the one being rescued, and I have experienced a simulated capsize to acquire the knowledge to recover the boat properly."
+          },
+          {
+            "requirement_number": "6.12",
+            "description": "I can sail a single / double-handed boat to CANSail 3skills standards."
+          },
+          {
+            "requirement_number": "6.13",
+            "description": "I have participated in at least six daysail outings."
+          },
+          {
+            "requirement_number": "6.14",
+            "description": "I have maintained a logbook of my training."
+          },
+          {
+            "requirement_number": "6.15",
+            "description": "I have assisted the sail coach in delivering one safetyelement, one knowledge item and one on-the-water skill to sailors working on Stage 2, 3 or 4. Competencies."
+          },
+          {
+            "requirement_number": "6.2",
+            "description": "I understand and have taken the appropriate actionsto maintain hydration."
+          },
+          {
+            "requirement_number": "6.3",
+            "description": "I understand, and can explain, air dynamics ona sail."
+          },
+          {
+            "requirement_number": "6.4",
+            "description": "I can evaluate local sailing hazards."
+          },
+          {
+            "requirement_number": "6.5",
+            "description": "I have, and can demonstrate, a full understanding of thelocal Racing Rules."
+          },
+          {
+            "requirement_number": "6.6",
+            "description": "I can clearly communicate with my crew to synchronizethe helm to sail trim and to boat balance."
+          },
+          {
+            "requirement_number": "6.7",
+            "description": "I have demonstrated proper steering techniques includingsmooth mark rounding, sailing by the lee and match sheeting to the turn."
+          },
+          {
+            "requirement_number": "6.8",
+            "description": "I can properly trim the sail of the sailboat and the crew should identify the point and speed nodes for the helm upwind."
+          },
+          {
+            "requirement_number": "6.9",
+            "description": "I can manoeuvre the sailboat."
+          }
+        ]
+      },
+      {
+        "level_number": 7,
+        "requirements": [
+          {
+            "requirement_number": "7.1",
+            "description": "I can recognize and treat severe hypothermia and hyperthermia."
+          },
+          {
+            "requirement_number": "7.10",
+            "description": "I can demonstrate Intermediate."
+          },
+          {
+            "requirement_number": "7.11",
+            "description": "I have demonstrated the skills to steer the sailboatwhile underway."
+          },
+          {
+            "requirement_number": "7.12",
+            "description": "I have demonstrated the skills to trim the sailswhile underway."
+          },
+          {
+            "requirement_number": "7.13",
+            "description": "I have successfully shown how to manoeuvrewhile sailing."
+          },
+          {
+            "requirement_number": "7.14",
+            "description": "I have demonstrated down-speed opportunities."
+          },
+          {
+            "requirement_number": "7.15",
+            "description": "I have demonstrated tactical manoeuvreswhile racing."
+          },
+          {
+            "requirement_number": "7.16",
+            "description": "I have participated in a one- to two-day local regatta."
+          },
+          {
+            "requirement_number": "7.17",
+            "description": "I can sail a single / double-handed boat toCANSail 4 standards."
+          },
+          {
+            "requirement_number": "7.18",
+            "description": "I have participated in at least seven daysail outings."
+          },
+          {
+            "requirement_number": "7.2",
+            "description": "I can evaluate geographical and tidal effects of asailing venue."
+          },
+          {
+            "requirement_number": "7.3",
+            "description": "I can describe common seamanship knowledge."
+          },
+          {
+            "requirement_number": "7.4",
+            "description": "I can describe common racing strategies."
+          },
+          {
+            "requirement_number": "7.5",
+            "description": "I can describe the mechanics of air flow over the sail."
+          },
+          {
+            "requirement_number": "7.6",
+            "description": "I can describe how to tune a boat."
+          },
+          {
+            "requirement_number": "7.7",
+            "description": "I know and can describe the intent of the currentISAF racing rules 1–7."
+          },
+          {
+            "requirement_number": "7.8",
+            "description": "I have demonstrated an understanding of sail rigging."
+          },
+          {
+            "requirement_number": "7.9",
+            "description": "I have demonstrated the skills to balance the sailboatwhile underway on the water."
+          }
+        ]
+      },
+      {
+        "level_number": 8,
+        "requirements": [
+          {
+            "requirement_number": "8.1",
+            "description": "I know the Collision Regulations and proper etiquette for using a marine radio on the water."
+          },
+          {
+            "requirement_number": "8.10",
+            "description": "I can demonstrate tactics while racing."
+          },
+          {
+            "requirement_number": "8.11",
+            "description": "I have demonstrated racing strategies."
+          },
+          {
+            "requirement_number": "8.12",
+            "description": "I can sail a single-handed boat to CANSail5 skills standards."
+          },
+          {
+            "requirement_number": "8.13",
+            "description": "I have participated in at least eight daysail outings."
+          },
+          {
+            "requirement_number": "8.14",
+            "description": "I have participated in a regional training camp anda regional regatta."
+          },
+          {
+            "requirement_number": "8.15",
+            "description": "I have successfully completed the equivalentrequirements for a CANSail 1–2 Fundamental Sailing Instructor course, from Sail Canada or its member provincial association, or internationally recognized equivalent. Competencies."
+          },
+          {
+            "requirement_number": "8.2",
+            "description": "I know how to properly prepare my boat for safe travel."
+          },
+          {
+            "requirement_number": "8.3",
+            "description": "I can evaluate geographical and tidal effects of a newsailing venue."
+          },
+          {
+            "requirement_number": "8.4",
+            "description": "I know and can describe the current racing rules."
+          },
+          {
+            "requirement_number": "8.5",
+            "description": "I have demonstrated how to tune a boat."
+          },
+          {
+            "requirement_number": "8.6",
+            "description": "I have demonstrated optimal body position at alltimes when sailing."
+          },
+          {
+            "requirement_number": "8.7",
+            "description": "I have demonstrated tacking/gybe manoeuvres."
+          },
+          {
+            "requirement_number": "8.8",
+            "description": "I have demonstrated the skills to fly a spinnaker/kiteon the water."
+          },
+          {
+            "requirement_number": "8.9",
+            "description": "I can demonstrate the skill to gybe while flying aspinnaker/kite."
+          }
+        ]
+      },
+      {
+        "level_number": 9,
+        "requirements": [
+          {
+            "requirement_number": "9.1",
+            "description": "I have prepared the vehicle and/or trailer with the boat that I am responsible for prior to travelling to any events."
+          },
+          {
+            "requirement_number": "9.10",
+            "description": "I have demonstrated at least four skills to steer thesailboat while underway on the water.• helm trimming main and driving to keep the crew trapezing •pr omoting planing and surfing •completing adjustments to the sail controls to head up •demonstrating smooth tactical mark roundings."
+          },
+          {
+            "requirement_number": "9.11",
+            "description": "I have successfully shown at least three manoeuvres on aboat with a trapeze."
+          },
+          {
+            "requirement_number": "9.12",
+            "description": "I have prepared for competition."
+          },
+          {
+            "requirement_number": "9.13",
+            "description": "I have participated in a provincial regatta where allthe skills that I have learned are consolidated into performance in order to excel during the regatta."
+          },
+          {
+            "requirement_number": "9.14",
+            "description": "I have successfully completed the equivalentrequirements for an Intermediate CANSail 3–4 Sailing Instructor course from Sail Canada or its provincial association, or an internationally recognized equivalent."
+          },
+          {
+            "requirement_number": "9.15",
+            "description": "I can sail a double-handed boat to CANSail 5 skillsstandards including CANsail 5 chute skill sets."
+          },
+          {
+            "requirement_number": "9.2",
+            "description": "I have used precautionary driving skills whiletravelling safely to events carrying passengers and/or transporting sailboats."
+          },
+          {
+            "requirement_number": "9.3",
+            "description": "I have developed strategic and tactical plans, based onwind, geography, tides and currents, prior to a race."
+          },
+          {
+            "requirement_number": "9.4",
+            "description": "I can describe the implications of the I, P, Z and blackflags used in racing with full understanding of their intent in accordance with the current CANSail / World Sailing Racing Rules."
+          },
+          {
+            "requirement_number": "9.5",
+            "description": "I have the knowledge to effectively evaluate and adjustboth standing and running rigging prior to a race with the intent of achieving maximum performance."
+          },
+          {
+            "requirement_number": "9.6",
+            "description": "I have a full understanding of air flow over the sails, andcan explain the implications of changing laminar flow on sail trim."
+          },
+          {
+            "requirement_number": "9.7",
+            "description": "I can demonstrate at least six steering skills."
+          },
+          {
+            "requirement_number": "9.8",
+            "description": "I have successfully demonstrated at least two tacticalsailing manoeuvres."
+          },
+          {
+            "requirement_number": "9.9",
+            "description": "I have demonstrated at least four optimal body positionswhile sailing on a double-handed boat.sailboat while underway on the water."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "skill_name": "Scoutcraft",
+    "category": "Scoutcraft Skills",
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "1.1",
+            "description": "I can hang a drying line at camp with a half hitch or other knot."
+          },
+          {
+            "requirement_number": "1.2",
+            "description": "I can keep my mess kit clean at camp."
+          },
+          {
+            "requirement_number": "1.3",
+            "description": "When outdoors or at camp, I know what is drinkable (safe) and not drinkable (unsafe) water, and to check with a Scouter when I am unsure."
+          },
+          {
+            "requirement_number": "1.4",
+            "description": "I know why it is important to stick to trails when outdoors."
+          },
+          {
+            "requirement_number": "1.5",
+            "description": "I know three reasons for having a shelter when sleeping outdoors."
+          },
+          {
+            "requirement_number": "1.6",
+            "description": "I can name three wildﬂowers by direct observation in a wild ﬁeld, bush or forest."
+          },
+          {
+            "requirement_number": "1.7",
+            "description": "I can gather dry, burnable wood for a ﬁre."
+          },
+          {
+            "requirement_number": "1.8",
+            "description": "I know to tell adults where I am going when outdoors."
+          },
+          {
+            "requirement_number": "1.9",
+            "description": "I know how to keep a camp clean. two half-hitch knots."
+          }
+        ]
+      },
+      {
+        "level_number": 2,
+        "requirements": [
+          {
+            "requirement_number": "2.1",
+            "description": "I can tie a reef knot, a round turn and two half-hitch knots.Scouts can demonstrate each of these knots correctly and explain good uses for each."
+          },
+          {
+            "requirement_number": "2.2",
+            "description": "I can cook a foil-wrapped meal in a ﬁre."
+          },
+          {
+            "requirement_number": "2.3",
+            "description": "I know how much water I should carry when on a hike or taking part in an outdoor activity, and I know how to carry the water."
+          },
+          {
+            "requirement_number": "2.4",
+            "description": "I know what natural shelter materials or locations are to keep out of the wind, rain, sun and snow, and where these may be found."
+          },
+          {
+            "requirement_number": "2.5",
+            "description": "I can identify four trees by direct observation in a wild ﬁeld, bush or forest."
+          },
+          {
+            "requirement_number": "2.6",
+            "description": "I have helped light a ﬁre using only natural ﬁre-starter materials found in the forest, and I know the safety rules for when around a campﬁre."
+          },
+          {
+            "requirement_number": "2.7",
+            "description": "I know why it is important to use a buddy system when traveling in the forest."
+          },
+          {
+            "requirement_number": "2.8",
+            "description": "I know the rules for hygiene at camp (for eating and preparing food).2 S."
+          }
+        ]
+      },
+      {
+        "level_number": 3,
+        "requirements": [
+          {
+            "requirement_number": "3.1",
+            "description": "I can tie a half hitch, clove hitch and a ﬁsherman’s knot."
+          },
+          {
+            "requirement_number": "3.10",
+            "description": "I have put together a personal outdoor survival kit."
+          },
+          {
+            "requirement_number": "3.11",
+            "description": "I know what makes a comfortable and safe place for a sleeping shelter or site. S."
+          },
+          {
+            "requirement_number": "3.2",
+            "description": "I can cook a meal on a camp stove."
+          },
+          {
+            "requirement_number": "3.3",
+            "description": "I can use a shovel to build a camp greywater sump pit, and close the pit when ﬁnished."
+          },
+          {
+            "requirement_number": "3.4",
+            "description": "I have boiled water over a campﬁre, and know the safety precautions around ﬁres and hot pots."
+          },
+          {
+            "requirement_number": "3.5",
+            "description": "I know the ﬁrst-aid treatment for burns from hot water, grease and food."
+          },
+          {
+            "requirement_number": "3.6",
+            "description": "I have used a compass to walk on a bearing."
+          },
+          {
+            "requirement_number": "3.7",
+            "description": "I can make a personal shelter out of plastic sheeting and rope."
+          },
+          {
+            "requirement_number": "3.8",
+            "description": "I can identify three wild animal tracks."
+          },
+          {
+            "requirement_number": "3.9",
+            "description": "I can lay and start a ﬁre with only matches and materials found in the forest."
+          }
+        ]
+      },
+      {
+        "level_number": 4,
+        "requirements": [
+          {
+            "requirement_number": "4.1",
+            "description": "I have completed a Scoutcraft project with my Scout team using at least a square lashing to join two poles at right angles."
+          },
+          {
+            "requirement_number": "4.10",
+            "description": "I know what to do if lost and alone outdoors with no constructed shelter available."
+          },
+          {
+            "requirement_number": "4.11",
+            "description": "I can set up a tree food hang to protect my food from animals. S."
+          },
+          {
+            "requirement_number": "4.2",
+            "description": "I can tie a ﬁgure eight, bowline, trucker’s hitch and sheet bend, and whip the end of a rope."
+          },
+          {
+            "requirement_number": "4.3",
+            "description": "I can cook over a ﬁre to roast and bake food items."
+          },
+          {
+            "requirement_number": "4.4",
+            "description": "I can use a knife safely (opening, closing, passing, cleaning, caring for) and have earned my knife permit."
+          },
+          {
+            "requirement_number": "4.5",
+            "description": "I know how to disinfect water for drinking."
+          },
+          {
+            "requirement_number": "4.6",
+            "description": "I can establish the four cardinal directions (north, south, east, west) without a magnetic compass or any electronic means."
+          },
+          {
+            "requirement_number": "4.7",
+            "description": "I can build a personal sleeping shelter out of snow or any other natural materials."
+          },
+          {
+            "requirement_number": "4.8",
+            "description": "I can safely identify three edible wild plants. (Note: Scouters must approve all plants before they are consumed by Scouts.)."
+          },
+          {
+            "requirement_number": "4.9",
+            "description": "I can quickly (under ﬁve minutes) build an emergency warming ﬁre for a group of three persons without using tools (only matches)."
+          }
+        ]
+      },
+      {
+        "level_number": 5,
+        "requirements": [
+          {
+            "requirement_number": "5.1",
+            "description": "I have built a lean-to shelter and an A-frame sleeping tripod shelter using wood, tied with four lashing knots: square, diagonal, tripod and shear lashings."
+          },
+          {
+            "requirement_number": "5.10",
+            "description": "I have dehydrated 1000 calories of food and taken it on a camping trip as my trail snack for two days. S."
+          },
+          {
+            "requirement_number": "5.2",
+            "description": "I have cooked with cast-iron cookware (or substitute cookware) by placing cookware in the ﬁre or coals, as well as on top of the ﬁre or coals."
+          },
+          {
+            "requirement_number": "5.3",
+            "description": "I know how to use a camp axe and camp folding saw or bow saw safely (opening, closing, passing, cleaning, caring for, sharpening, cutting), and have obtained the appropriate permits for these."
+          },
+          {
+            "requirement_number": "5.4",
+            "description": "I have maintained and used a commercial backpacking portable water-treatment device, and know the limitations, advantages and disadvantages of the device."
+          },
+          {
+            "requirement_number": "5.5",
+            "description": "I have navigated using a magnetic compass bearing (all off trail) 3 km to a predetermined ﬁxed point in a wilderness area."
+          },
+          {
+            "requirement_number": "5.6",
+            "description": "I have built a shelter big enough for three, made of only natural materials found outdoors and rope, and I have slept out in it for at least two nights."
+          },
+          {
+            "requirement_number": "5.7",
+            "description": "I have caught, cleaned and cooked a ﬁsh over a campﬁre (check local regulations for species, size and season prohibitions)."
+          },
+          {
+            "requirement_number": "5.8",
+            "description": "I have laid and lit a teepee ﬁre, pyramid ﬁre, star ﬁre and reﬂector ﬁre."
+          },
+          {
+            "requirement_number": "5.9",
+            "description": "I have built an improvised stretcher out of rope, overnight backpacking camping equipment and natural materials found outdoors."
+          }
+        ]
+      },
+      {
+        "level_number": 6,
+        "requirements": [
+          {
+            "requirement_number": "6.1",
+            "description": "I have built a usable Burma/Monkey bridge."
+          },
+          {
+            "requirement_number": "6.10",
+            "description": "From wood I have not harvested from a live source, I have carved and used my own hiking “Scout” staff on a trail hike.Scouts can use the staff on at least ﬁve hiking days. 6 a three-metre-high or a bridge over a three-metre span.Scouts can complete this construction with the help of other Patrol members."
+          },
+          {
+            "requirement_number": "6.2",
+            "description": "I have built and cooked on a personal-sized stove only made out of tin cans, wax, candle wicks and cardboard (a buddy stove)."
+          },
+          {
+            "requirement_number": "6.3",
+            "description": "Using a knife and axe, I have prepared a 10-person campﬁre with tinder, kindling and fuel logs gathered from a forest ﬂoor. The ﬁre burned for ﬁve hours with all wood gathered before the ﬁre was lit (no gathering additional ﬁre wood once the ﬁre is lit and burning)."
+          },
+          {
+            "requirement_number": "6.4",
+            "description": "I have built a solar still and collected at least one cup of drinking water from the still."
+          },
+          {
+            "requirement_number": "6.5",
+            "description": "I have navigated to and found 10 geocache locations."
+          },
+          {
+            "requirement_number": "6.6",
+            "description": "I have built and slept two nights in an igloo, quinzhee or trench snow shelter capable of sleeping three persons."
+          },
+          {
+            "requirement_number": "6.7",
+            "description": "I have identiﬁed 15 bird species in the wild using a written birding record journal."
+          },
+          {
+            "requirement_number": "6.8",
+            "description": "I can light a ﬁre using only mechanical means (ﬂint and steel, ferrocerium striker or friction-e.g. bow and drill)."
+          },
+          {
+            "requirement_number": "6.9",
+            "description": "I know how to send a signal for help (without any electronic means) in four different ways that can be observed by air searchers."
+          }
+        ]
+      },
+      {
+        "level_number": 7,
+        "requirements": [
+          {
+            "requirement_number": "7.10",
+            "description": "I can make a marine rescue Mayday radio call using the required procedures and voice script.Scouts can demonstrate this knowledge and refer to and use the Transport Canada Radio Distress Call script."
+          },
+          {
+            "requirement_number": "7.11",
+            "description": "I have constructed and used an improvised or commercial solar shower at camp or on a camping trip.The shower can be used over several days. 7 three-strand rope.Scouts must show the splices to their Patrol mates."
+          },
+          {
+            "requirement_number": "7.2",
+            "description": "I have taught ﬁve knots to younger Scout members.Scouts can teach the knots to a mastery level with a ﬁrm feel for the knot, symmetry with no twists or crossovers in the knot, with a 5–10 cm tail at the end of the knot as required."
+          },
+          {
+            "requirement_number": "7.3",
+            "description": "I have made a vagabond (tin can) stove and cooked a personal camp meal on it."
+          },
+          {
+            "requirement_number": "7.4",
+            "description": "I can construct a 2:1, 3:1, and 4:1 rope pulley system to raise or move loads or tension lines.Scouts can build all these systems and demonstrate the function by moving a 20 kilogram load."
+          },
+          {
+            "requirement_number": "7.5",
+            "description": "I have made newspapers ﬁre logs and bricks, sufﬁcient to have a three-hour warming ﬁre indoors in a stove or ﬁreplace or outside with a campﬁre.Scouts can demonstrate the use of this newspaper material to keep three persons warm."
+          },
+          {
+            "requirement_number": "7.6",
+            "description": "I can identify the poisonous living organisms, animals and plants in Canada.Scouts can describe the poisonous ﬂora and fauna in their part of Canada. 7 or absorber to melt enough snow to generate 2 litres of drinking water."
+          },
+          {
+            "requirement_number": "7.8",
+            "description": "Using a topographic map and magnetic compass, I have taught younger Scouts to determine their location on a map and to make their way to another location on a map."
+          },
+          {
+            "requirement_number": "7.9",
+            "description": "I have organized a Scout group and participated in ﬁve days of trail or tent campsite construction, maintenance or clean-up work.Scouts do not have to complete the ﬁve days of work at one time."
+          }
+        ]
+      },
+      {
+        "level_number": 8,
+        "requirements": [
+          {
+            "requirement_number": "8.1",
+            "description": "I can backsplice, short splice and eye splice a three-strand rope."
+          },
+          {
+            "requirement_number": "8.10",
+            "description": "I have made 4 metres of 3-strand cordage from only natural plant products found outdoors. S."
+          },
+          {
+            "requirement_number": "8.2",
+            "description": "I can cook a complete campout meal using only improvised natural cooking surfaces and devices (cooking only using ﬂat stones, wood planks, cooking hooks, spits, covered pits or trenches)."
+          },
+          {
+            "requirement_number": "8.3",
+            "description": "I have made cooking and eating spoons and a bowl with carving tools (or a knife) and wood."
+          },
+          {
+            "requirement_number": "8.4",
+            "description": "I have given a lesson to Scout youth on obtaining drinkable water in the wilderness all year round."
+          },
+          {
+            "requirement_number": "8.5",
+            "description": "I can ﬁnd the North Star and identify four of the constellations in the northern sky."
+          },
+          {
+            "requirement_number": "8.6",
+            "description": "With only materials found in the forest, rope and plastic sheeting, I have built a 10-person campout dining shelter, protected on all sides from the weather."
+          },
+          {
+            "requirement_number": "8.7",
+            "description": "I have observed (and photographed as proof) a total of 15 North American mammals, reptiles and amphibians in the wild."
+          },
+          {
+            "requirement_number": "8.8",
+            "description": "Using only natural materials, I can light and maintain a ﬁre in falling rain or falling snow conditions."
+          },
+          {
+            "requirement_number": "8.9",
+            "description": "I know how to set up and lead a ground search exercise for a missing person using a hasty search and a grid search, all in an area of a minimum of 2 km2 in size."
+          }
+        ]
+      },
+      {
+        "level_number": 9,
+        "requirements": [
+          {
+            "requirement_number": "9.1",
+            "description": "I have built a large temporary pole and lashing (with ﬂag pole) “gateway” entrance for a jamboree or campout activity site."
+          },
+          {
+            "requirement_number": "9.2",
+            "description": "Using only wood as a heat source, I have built a reﬂector camp oven and cooked a meal for ﬁve persons, including both roasted and baked food preparation."
+          },
+          {
+            "requirement_number": "9.3",
+            "description": "I have built and used an improvised potable water ﬁlter."
+          },
+          {
+            "requirement_number": "9.4",
+            "description": "Using GPS devices, I have set up and facilitated a ten-station outdoor orienteering course activity for Scouts."
+          },
+          {
+            "requirement_number": "9.5",
+            "description": "I have planted a minimum of 100 new trees."
+          },
+          {
+            "requirement_number": "9.6",
+            "description": "I have built and used a Leave No Trace warming ﬁre for 10 persons for three hours. No markings or signs of a ﬁre were left on the ground once the ﬁre was out and disassembled."
+          },
+          {
+            "requirement_number": "9.7",
+            "description": "I have led a team on an evacuation simulation exercise of a victim being carried out on at the minimum 3 km of trail using only an improvised stretcher. (Note: It is expected youth have training in wilderness ﬁrst aid before undertaking this activity.)."
+          },
+          {
+            "requirement_number": "9.8",
+            "description": "I have run a ﬁeld camp kitchen for two days or more, for a Cub Scout (or younger) group. S."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "skill_name": "Trail",
+    "category": "Trail Skills",
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "1.1",
+            "description": "I can help pack a rucksack for a day hike."
+          },
+          {
+            "requirement_number": "1.10",
+            "description": "I have attended at least two hikes."
+          },
+          {
+            "requirement_number": "1.2",
+            "description": "I can dress myself for a day hike."
+          },
+          {
+            "requirement_number": "1.3",
+            "description": "I can list what food to bring on a day hike."
+          },
+          {
+            "requirement_number": "1.4",
+            "description": "I can follow directions on a day hike."
+          },
+          {
+            "requirement_number": "1.5",
+            "description": "I can identify the main parts of a compass."
+          },
+          {
+            "requirement_number": "1.6",
+            "description": "I can behave safely while hiking."
+          },
+          {
+            "requirement_number": "1.7",
+            "description": "I can be responsible for myself while we are hiking."
+          },
+          {
+            "requirement_number": "1.8",
+            "description": "I can explain the buddy system."
+          },
+          {
+            "requirement_number": "1.9",
+            "description": "I can recognize the main distress signals."
+          }
+        ]
+      },
+      {
+        "level_number": 2,
+        "requirements": [
+          {
+            "requirement_number": "2.1",
+            "description": "I know what gear to bring for a hike depending on the weather."
+          },
+          {
+            "requirement_number": "2.2",
+            "description": "I can show how to take care of all personal gear needed for a day hike."
+          },
+          {
+            "requirement_number": "2.3",
+            "description": "I can read a simple map."
+          },
+          {
+            "requirement_number": "2.4",
+            "description": "I can use a compass to ﬁnd basic directions."
+          },
+          {
+            "requirement_number": "2.5",
+            "description": "I can obtain a weather forecast."
+          },
+          {
+            "requirement_number": "2.6",
+            "description": "I can be a responsible member of my team while we are hiking."
+          },
+          {
+            "requirement_number": "2.7",
+            "description": "I can get help if someone is hurt."
+          },
+          {
+            "requirement_number": "2.8",
+            "description": "I have attended at least three hikes."
+          },
+          {
+            "requirement_number": "2.9",
+            "description": "I can explain why one brings certain foods and drinks on hikes. Competencies2."
+          }
+        ]
+      },
+      {
+        "level_number": 3,
+        "requirements": [
+          {
+            "requirement_number": "3.1",
+            "description": "I can pack a rucksack for a day hike."
+          },
+          {
+            "requirement_number": "3.10",
+            "description": "I can treat simple cuts and scratches."
+          },
+          {
+            "requirement_number": "3.11",
+            "description": "I know how to avoid becoming lost, and I know what to do if I get lost."
+          },
+          {
+            "requirement_number": "3.12",
+            "description": "I have attended at least thee hiking activities, one of which involves hiking on hilly trails. Competencies3."
+          },
+          {
+            "requirement_number": "3.2",
+            "description": "I can explain what clothes to bring for a day hike depending on the weather."
+          },
+          {
+            "requirement_number": "3.3",
+            "description": "I can follow a route on an orienteering map."
+          },
+          {
+            "requirement_number": "3.4",
+            "description": "I can identify the features of a topographical map."
+          },
+          {
+            "requirement_number": "3.5",
+            "description": "I can demonstrate the basic use of a GPS unit."
+          },
+          {
+            "requirement_number": "3.6",
+            "description": "I can teach another youth how to ﬁnd directions by using a compass."
+          },
+          {
+            "requirement_number": "3.7",
+            "description": "I can explain the effect of weather on hiking activities."
+          },
+          {
+            "requirement_number": "3.8",
+            "description": "I can be responsible for myself and aware of my surroundings while hiking."
+          },
+          {
+            "requirement_number": "3.9",
+            "description": "I can explain the main principles of Leave No Trace."
+          }
+        ]
+      },
+      {
+        "level_number": 4,
+        "requirements": [
+          {
+            "requirement_number": "4.1",
+            "description": "I can teach another youth what to pack for a day hike."
+          },
+          {
+            "requirement_number": "4.10",
+            "description": "I can cross various terrains, such as wet or rocky ground."
+          },
+          {
+            "requirement_number": "4.11",
+            "description": "I can apply the Leave No Trace principles while hiking."
+          },
+          {
+            "requirement_number": "4.12",
+            "description": "I can minimize trail hazards for myself and others as encountered (trip hazards on the trail, minimizing branch whip while moving them out of the way, etc.—overall trail etiquette)."
+          },
+          {
+            "requirement_number": "4.13",
+            "description": "I can be responsible for younger or less experienced members of my team while we are hiking."
+          },
+          {
+            "requirement_number": "4.14",
+            "description": "I can treat simple sprains and blisters."
+          },
+          {
+            "requirement_number": "4.15",
+            "description": "I can identify the different emergency services that are available and how and when to call them."
+          },
+          {
+            "requirement_number": "4.16",
+            "description": "I can build or ﬁnd an emergency shelter."
+          },
+          {
+            "requirement_number": "4.17",
+            "description": "I have attended three hikes (including an overnight)."
+          },
+          {
+            "requirement_number": "4.18",
+            "description": "I can lead a leg of a hike."
+          },
+          {
+            "requirement_number": "4.19",
+            "description": "I can help plan a day hike."
+          },
+          {
+            "requirement_number": "4.2",
+            "description": "I can pack a rucksack for a weekend hike."
+          },
+          {
+            "requirement_number": "4.3",
+            "description": "I can show how to care for all my personal hiking equipment needed for a weekend hike."
+          },
+          {
+            "requirement_number": "4.4",
+            "description": "I know how to plan for and avoid food allergies in a group hike."
+          },
+          {
+            "requirement_number": "4.5",
+            "description": "I can use a map and compass together for navigation."
+          },
+          {
+            "requirement_number": "4.6",
+            "description": "I can teach another youth how to follow a route on an orienteering map."
+          },
+          {
+            "requirement_number": "4.7",
+            "description": "I can keep a map dry and safe from the elements."
+          },
+          {
+            "requirement_number": "4.8",
+            "description": "I can locate a waypoint that has been pre-programmed into a GPS unit."
+          },
+          {
+            "requirement_number": "4.9",
+            "description": "I can plan and bring appropriate personal gear to use on a hike based on weather forecasts for the hiking area."
+          }
+        ]
+      },
+      {
+        "level_number": 5,
+        "requirements": [
+          {
+            "requirement_number": "5.1",
+            "description": "I can explain how the weather affects the equipment I bring on a weekend hike."
+          },
+          {
+            "requirement_number": "5.10",
+            "description": "I can teach another youth the basic use of a GPS unit."
+          },
+          {
+            "requirement_number": "5.11",
+            "description": "I can ﬁnd directions without a compass."
+          },
+          {
+            "requirement_number": "5.12",
+            "description": "I can describe the dangers of weather on hikes."
+          },
+          {
+            "requirement_number": "5.13",
+            "description": "I can plan effectively and recommend appropriate gear for my group to take based on weather forecasts for the hike area."
+          },
+          {
+            "requirement_number": "5.14",
+            "description": "I know when and how to cross a river."
+          },
+          {
+            "requirement_number": "5.15",
+            "description": "I can show how and explain when to use the main distress signals."
+          },
+          {
+            "requirement_number": "5.16",
+            "description": "I can be an active member of my team while hiking."
+          },
+          {
+            "requirement_number": "5.17",
+            "description": "I can recognize and respond to hazards from ﬂora and fauna."
+          },
+          {
+            "requirement_number": "5.18",
+            "description": "I have taken part in three hikes (including an overnight)."
+          },
+          {
+            "requirement_number": "5.19",
+            "description": "I have written a log for at least two of these activities."
+          },
+          {
+            "requirement_number": "5.2",
+            "description": "I can show what group equipment to bring on a weekend hike and explain why each item is needed."
+          },
+          {
+            "requirement_number": "5.20",
+            "description": "I can help plan an overnight hike."
+          },
+          {
+            "requirement_number": "5.21",
+            "description": "I can help choose a suitable hiking destination."
+          },
+          {
+            "requirement_number": "5.22",
+            "description": "I can hike on steep trails safely, using appropriate gear as required.5."
+          },
+          {
+            "requirement_number": "5.3",
+            "description": "I can show how to use group equipment correctly."
+          },
+          {
+            "requirement_number": "5.4",
+            "description": "I can select appropriate footwear for various hikes."
+          },
+          {
+            "requirement_number": "5.5",
+            "description": "I can demonstrate how to use different types of lightweight stoves to prepare a meal."
+          },
+          {
+            "requirement_number": "5.6",
+            "description": "I can keep food and food preparation materials hygienic."
+          },
+          {
+            "requirement_number": "5.7",
+            "description": "I can use a map and compass to ﬁnd my position on the ground."
+          },
+          {
+            "requirement_number": "5.8",
+            "description": "I can plot a proposed hiking route on a map and obtain the required compass bearings."
+          },
+          {
+            "requirement_number": "5.9",
+            "description": "I can input a given waypoint into a GPS and then ﬁnd it."
+          }
+        ]
+      },
+      {
+        "level_number": 6,
+        "requirements": [
+          {
+            "requirement_number": "6.1",
+            "description": "I can teach another youth what to pack for a weekend hike."
+          },
+          {
+            "requirement_number": "6.10",
+            "description": "I can demonstrate the limitations of the compass and other navigation tools."
+          },
+          {
+            "requirement_number": "6.11",
+            "description": "I can teach another youth how to ﬁnd his or her position on the ground using a map and compass."
+          },
+          {
+            "requirement_number": "6.12",
+            "description": "I can recognize changing weather patterns while hiking."
+          },
+          {
+            "requirement_number": "6.13",
+            "description": "I can show different methods for crossing waterways."
+          },
+          {
+            "requirement_number": "6.14",
+            "description": "I can teach the principles of Leave No Trace."
+          },
+          {
+            "requirement_number": "6.15",
+            "description": "I can recognize unstable or elevated risk areas (e.g. slick trails, icy terrain) and either avoid them or minimize the risk in crossing the area with accepted use of gear and technique."
+          },
+          {
+            "requirement_number": "6.16",
+            "description": "I can recognize and treat hypothermia, hyperthermia, sunstroke, dehydration and asthma, or other medical conditions relevant to my team."
+          },
+          {
+            "requirement_number": "6.17",
+            "description": "I can be responsible for myself and my team while hiking."
+          },
+          {
+            "requirement_number": "6.18",
+            "description": "I can describe the limitations of my team."
+          },
+          {
+            "requirement_number": "6.19",
+            "description": "I have taken part in at least six hiking activities, at least one of which was a two-night hike."
+          },
+          {
+            "requirement_number": "6.2",
+            "description": "I can show what group emergency equipment we can carry on a weekend hike, and how to use each item."
+          },
+          {
+            "requirement_number": "6.20",
+            "description": "I have written logs for all of these activities."
+          },
+          {
+            "requirement_number": "6.21",
+            "description": "I can plan and lead a day hike."
+          },
+          {
+            "requirement_number": "6.22",
+            "description": "I can help organize the transportation required for an activity.6."
+          },
+          {
+            "requirement_number": "6.3",
+            "description": "I can teach another youth how to care for, store and maintain the group equipment."
+          },
+          {
+            "requirement_number": "6.4",
+            "description": "I can look after my hiking footwear."
+          },
+          {
+            "requirement_number": "6.5",
+            "description": "I can select and maintain my pack for various hiking adventures."
+          },
+          {
+            "requirement_number": "6.6",
+            "description": "I know how much water to drink and the effects and treatment of dehydration."
+          },
+          {
+            "requirement_number": "6.7",
+            "description": "I know how to use different methods to treat water."
+          },
+          {
+            "requirement_number": "6.8",
+            "description": "I can avoid hyponatremia by ensuring proper planning for the hike."
+          },
+          {
+            "requirement_number": "6.9",
+            "description": "I can obtain coordinates from a point of interest on a topographical map so that it can be inputted into a GPS unit."
+          }
+        ]
+      },
+      {
+        "level_number": 7,
+        "requirements": [
+          {
+            "requirement_number": "7.1",
+            "description": "I can pack a rucksack for a hiking expedition of more than two nights."
+          },
+          {
+            "requirement_number": "7.10",
+            "description": "I can make changes to my group’s outing for safety reasons based on changing weather patterns that can occur during the activity."
+          },
+          {
+            "requirement_number": "7.11",
+            "description": "I can teach trail-travel techniques for various trail types."
+          },
+          {
+            "requirement_number": "7.12",
+            "description": "I can teach appropriate trail etiquette to other Scouts."
+          },
+          {
+            "requirement_number": "7.13",
+            "description": "I can assess risk and be aware of group safety."
+          },
+          {
+            "requirement_number": "7.14",
+            "description": "I can plan escape routes."
+          },
+          {
+            "requirement_number": "7.15",
+            "description": "I have participated in at least ﬁve hikes of various lengths."
+          },
+          {
+            "requirement_number": "7.16",
+            "description": "I have taken, planned and led one hike without a Scouter."
+          },
+          {
+            "requirement_number": "7.17",
+            "description": "I have taken part in an unaccompanied but supervised two-night hike."
+          },
+          {
+            "requirement_number": "7.18",
+            "description": "I have written logs for all of these activities."
+          },
+          {
+            "requirement_number": "7.19",
+            "description": "I can plan and lead an overnight hike."
+          },
+          {
+            "requirement_number": "7.2",
+            "description": "I can inspect group emergency equipment for a hiking expedition of more than two nights."
+          },
+          {
+            "requirement_number": "7.20",
+            "description": "I can organize the transport required for an activity."
+          },
+          {
+            "requirement_number": "7.21",
+            "description": "I can research and ﬁnd information about the hiking destination."
+          },
+          {
+            "requirement_number": "7.22",
+            "description": "I can create a budget for a hiking trip for my group.7."
+          },
+          {
+            "requirement_number": "7.3",
+            "description": "I can show what group equipment to bring on a hiking expedition of more than two nights and explain why each item is needed."
+          },
+          {
+            "requirement_number": "7.4",
+            "description": "I can choose appropriate lightweight hiking equipment."
+          },
+          {
+            "requirement_number": "7.5",
+            "description": "I can plan and cook a variety of meals on a hiking expedition of more than two nights."
+          },
+          {
+            "requirement_number": "7.6",
+            "description": "I can explain how much food is needed on hiking expeditions of various lengths."
+          },
+          {
+            "requirement_number": "7.7",
+            "description": "I can navigate at night or in poor visibility."
+          },
+          {
+            "requirement_number": "7.8",
+            "description": "I can use a topographical map to plan a hike in unfamiliar territory."
+          },
+          {
+            "requirement_number": "7.9",
+            "description": "I can predict weather changes without the use of weather forecasts."
+          }
+        ]
+      },
+      {
+        "level_number": 8,
+        "requirements": [
+          {
+            "requirement_number": "8.1",
+            "description": "I can teach another youth how to pack for a hiking expedition."
+          },
+          {
+            "requirement_number": "8.10",
+            "description": "I can take responsibility for our group on a hiking adventure."
+          },
+          {
+            "requirement_number": "8.11",
+            "description": "I have written logs for all of these activities."
+          },
+          {
+            "requirement_number": "8.12",
+            "description": "I can follow Scouts Canada procedures for a hiking trip.8."
+          },
+          {
+            "requirement_number": "8.2",
+            "description": "I can make recommendations to improve group equipment."
+          },
+          {
+            "requirement_number": "8.3",
+            "description": "I can navigate accurately and safely over rough terrain in any type of weather, and at night."
+          },
+          {
+            "requirement_number": "8.4",
+            "description": "I can teach another youth how to plan a hike in unfamiliar territory using the appropriate tools."
+          },
+          {
+            "requirement_number": "8.5",
+            "description": "I can teach how to read weather patterns outdoors without the use of weather forecasts."
+          },
+          {
+            "requirement_number": "8.6",
+            "description": "I have completed a Wilderness First Aid course."
+          },
+          {
+            "requirement_number": "8.7",
+            "description": "I can follow the procedures in the event of an accident."
+          },
+          {
+            "requirement_number": "8.8",
+            "description": "I have taken part in at least six hiking adventures of various lengths, two of which include overnight components."
+          },
+          {
+            "requirement_number": "8.9",
+            "description": "I can lead a hiking expedition of several nights."
+          }
+        ]
+      },
+      {
+        "level_number": 9,
+        "requirements": [
+          {
+            "requirement_number": "9.1",
+            "description": "I know what equipment is required for various hiking expeditions and the correct use and care of this equipment."
+          },
+          {
+            "requirement_number": "9.2",
+            "description": "I can be responsible for others in various situations on hiking expeditions longer than two nights."
+          },
+          {
+            "requirement_number": "9.3",
+            "description": "I can assess risk and take appropriate action to ensure safety."
+          },
+          {
+            "requirement_number": "9.4",
+            "description": "Where possible, I have taken part in and contributed to the planning of an expedition to 3250 m."
+          },
+          {
+            "requirement_number": "9.5",
+            "description": "I can practise basic winter hiking skills."
+          },
+          {
+            "requirement_number": "9.6",
+            "description": "I have a logbook detailing at least 20 hikes and expeditions that I have undertaken since Stage 7."
+          },
+          {
+            "requirement_number": "9.7",
+            "description": "I can create an exciting expedition while catering for everyone’s needs."
+          },
+          {
+            "requirement_number": "9.8",
+            "description": "I can budget, prepare and manage every aspect of the expedition without input from Scouters."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "skill_name": "Vertical",
+    "category": "Vertical Skills",
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "1.1",
+            "description": "I know the safety rules for climbing on rocks, trees, fences and man-made structures."
+          },
+          {
+            "requirement_number": "1.2",
+            "description": "I have been to a jungle-gym playground and know how to play safely and cooperatively with others."
+          }
+        ]
+      },
+      {
+        "level_number": 2,
+        "requirements": [
+          {
+            "requirement_number": "2.1",
+            "description": "I have been climbing on an artiﬁcial wall or natural rock formation.Scouts have tried either climbing in the context of a supervised “bouldering” or a top rope climbing lesson."
+          },
+          {
+            "requirement_number": "2.2",
+            "description": "I know the safety rules for being at the top of or the bottom of a cliff face."
+          },
+          {
+            "requirement_number": "2.3",
+            "description": "I can properly put on a climbing helmet."
+          },
+          {
+            "requirement_number": "2.4",
+            "description": "I can identify and name the parts of a carabiner."
+          }
+        ]
+      },
+      {
+        "level_number": 3,
+        "requirements": [
+          {
+            "requirement_number": "3.1",
+            "description": "I have correctly tied a ﬁgure-8 follow-through knot."
+          },
+          {
+            "requirement_number": "3.2",
+            "description": "I know when and where I should have a climbing helmet on."
+          },
+          {
+            "requirement_number": "3.3",
+            "description": "I know the safety rules for climbing or rappelling at an artiﬁcial climbing wall."
+          },
+          {
+            "requirement_number": "3.4",
+            "description": "I know how to care for, handle and store a climbing rope, harness, helmet and climbing webbing."
+          },
+          {
+            "requirement_number": "3.5",
+            "description": "I know the basic Leave No Trace rules for an outdoor climbing site."
+          },
+          {
+            "requirement_number": "3.6",
+            "description": "I have completed a climb to the top of an artiﬁcial climbing wall."
+          },
+          {
+            "requirement_number": "3.7",
+            "description": "I can put on and adjust a climbing harness."
+          },
+          {
+            "requirement_number": "3.8",
+            "description": "I know the safety rules for participating on an aerial or ropes challenge course."
+          },
+          {
+            "requirement_number": "3.9",
+            "description": "I know the difference between: 1. single-pitch, 2. multi-pitch, 3. top-rope, 4. lead climbing 5. seconding climbing methods. climbing harness."
+          }
+        ]
+      },
+      {
+        "level_number": 4,
+        "requirements": [
+          {
+            "requirement_number": "4.2",
+            "description": "I know the main safety rules for climbing or rappelling at an outdoor natural climbing site."
+          },
+          {
+            "requirement_number": "4.3",
+            "description": "I know how to perform an equipment safety check of myself, my climbing partner, and anchor and belay systems."
+          },
+          {
+            "requirement_number": "4.4",
+            "description": "I know the communication calls and script to follow between a climber and belayer."
+          },
+          {
+            "requirement_number": "4.5",
+            "description": "I have coiled a climbing rope (any method)."
+          },
+          {
+            "requirement_number": "4.6",
+            "description": "I know what makes a safe and unsafe climbing site."
+          },
+          {
+            "requirement_number": "4.7",
+            "description": "I can belay using an auto-locking belay device."
+          },
+          {
+            "requirement_number": "4.8",
+            "description": "I can name and identify the use of three types of locking carabiners and three types of non-locking carabiners. Competencies4 ﬁsherman’s, Prusik, clove hitch and bowline."
+          }
+        ]
+      },
+      {
+        "level_number": 5,
+        "requirements": [
+          {
+            "requirement_number": "5.10",
+            "description": "I know the climbing-speciﬁc principles of Leave No Trace."
+          },
+          {
+            "requirement_number": "5.11",
+            "description": "I have set up a 3:1 (or greater) rope pulley system."
+          },
+          {
+            "requirement_number": "5.12",
+            "description": "I understand the concepts, principles, physics and consequences of shock loading in climbing. Competencies5 known as an Italian hitch) as a belay method."
+          },
+          {
+            "requirement_number": "5.2",
+            "description": "I can coil a climbing rope using a butterﬂy and a mountaineer method."
+          },
+          {
+            "requirement_number": "5.3",
+            "description": "I can perform a safety inspection of a climbing helmet, harness, rope and carabiners."
+          },
+          {
+            "requirement_number": "5.4",
+            "description": "I can belay using a friction, (non-moving part) belay device such as a tube or auto-blocking device."
+          },
+          {
+            "requirement_number": "5.5",
+            "description": "I have attached a friction (non-moving part) rappel device to a rope and harness and used the device to rappel."
+          },
+          {
+            "requirement_number": "5.6",
+            "description": "I can lower a climber on a top rope down to the ground."
+          },
+          {
+            "requirement_number": "5.7",
+            "description": "I have constructed and climbed in a “Swiss seat” improvised climbing harness made with tubular or tape webbing."
+          },
+          {
+            "requirement_number": "5.8",
+            "description": "I know the safety rules for “bouldering” climbing."
+          },
+          {
+            "requirement_number": "5.9",
+            "description": "I can set and use passive and natural climbing protection to build both top and bottom climbing pitch anchor-point systems."
+          }
+        ]
+      },
+      {
+        "level_number": 6,
+        "requirements": [
+          {
+            "requirement_number": "6.10",
+            "description": "I know the different types of climbing webbing and slings and their uses."
+          },
+          {
+            "requirement_number": "6.11",
+            "description": "I understand the concept, principle, physics and consequences of fall factor in climbing."
+          },
+          {
+            "requirement_number": "6.12",
+            "description": "I know how to identify what is an approved rope for climbing and what sizes of rope are available. Competencies6."
+          },
+          {
+            "requirement_number": "6.2",
+            "description": "I have constructed and used an improvised Parisian Baudrier chest harness."
+          },
+          {
+            "requirement_number": "6.3",
+            "description": "I can maintain the correct foot, body and hand positioning for rappelling."
+          },
+          {
+            "requirement_number": "6.4",
+            "description": "I know the Yosemite Decimal climbing grading system and how to use it."
+          },
+          {
+            "requirement_number": "6.5",
+            "description": "I have belayed a rappeller from above a rappel site."
+          },
+          {
+            "requirement_number": "6.6",
+            "description": "I have set up climbing-anchor systems using active protection."
+          },
+          {
+            "requirement_number": "6.7",
+            "description": "I know how to assess and use in-place climbing bolt anchors and systems."
+          },
+          {
+            "requirement_number": "6.8",
+            "description": "I have completed a mock lead climb on an artiﬁcial climbing wall."
+          },
+          {
+            "requirement_number": "6.9",
+            "description": "I have set up and used a tube, auto-locking, and auto-blocking belay device."
+          }
+        ]
+      },
+      {
+        "level_number": 7,
+        "requirements": [
+          {
+            "requirement_number": "7.1",
+            "description": "I have completed a climbing route over a 30 degree incline, either on an ice climb, glacier or frozen snow ﬁeld."
+          },
+          {
+            "requirement_number": "7.2",
+            "description": "I have constructed and used a highline (also called Tyrolean Travers or Aerial Runway)."
+          },
+          {
+            "requirement_number": "7.3",
+            "description": "I have been caving or on a via ferrata."
+          },
+          {
+            "requirement_number": "7.4",
+            "description": "I have completed a single pitch mock lead climb on a natural (not constructed) climbing site."
+          },
+          {
+            "requirement_number": "7.5",
+            "description": "I have used utility cord and a friction knot (or system) as protection on a rappel."
+          },
+          {
+            "requirement_number": "7.6",
+            "description": "I know the difference between a dynamic and static climbing rope, and where and when these rope types are used. Competencies8 managed or instructed beginner climbers learning to climb at that site."
+          }
+        ]
+      },
+      {
+        "level_number": 8,
+        "requirements": [
+          {
+            "requirement_number": "8.1",
+            "description": "I have climbed at a natural (not constructed) top rope climbing site where I set up all the anchor and belay systems for the routes I climbed or rappelled on."
+          },
+          {
+            "requirement_number": "8.2",
+            "description": "I have seconded on a multi-pitch rock climb of grade 5.7 or higher."
+          },
+          {
+            "requirement_number": "8.3",
+            "description": "I have seconded on an ice climb of W3 or higher."
+          },
+          {
+            "requirement_number": "8.4",
+            "description": "I have assisted with setting up a top rope climbing site and assisted with managing beginner climbers learning to climb at that site."
+          },
+          {
+            "requirement_number": "8.5",
+            "description": "I have assisted with setting up a rappel site with a belay from above, and assisted with managing beginners learning to rappel at that site."
+          },
+          {
+            "requirement_number": "8.6",
+            "description": "I have taught younger Scouts to tie these seven knots: follow-through ﬁgure-8, double ﬁsherman’s, water knot, bowline, Munter hitch, Prusik and clove hitch."
+          }
+        ]
+      },
+      {
+        "level_number": 9,
+        "requirements": [
+          {
+            "requirement_number": "9.1",
+            "description": "I have set up a top rope climbing site and managed or instructed beginner climbers learning to climb at that site.Scouts must have achieved the status of a qualiﬁed top rope climbing instructor to offer this service. Scouts must work under the direct supervision of a qualiﬁed climbing instructor with ﬁve or more years of climbing instruction experience."
+          },
+          {
+            "requirement_number": "9.2",
+            "description": "I have set up a rappel site with a belay from above and managed or instructed beginners learning to rappel at that site."
+          },
+          {
+            "requirement_number": "9.3",
+            "description": "I have completed a lead climb on one of the following multi-pitch climbs: 1. rock climb grade 5.7 or above 2. ice climb grade WI3 or above 3. mountain alpine climb grade III or above 4. caving that requires climbing ropes and harness."
+          },
+          {
+            "requirement_number": "9.4",
+            "description": "I have set up and used a Munter mule combination hitch to facilitate the rescue of beginners learning to rappel.9 fences and man-made structures.Scouts know to always climb with an adult’s permission and an adult present. Scouts do not climb on fences. Scouts climb in playgrounds on play equipment—not on inappropriate structures. Scouts get permission from an adult before climbing trees."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "skill_name": "Winter",
+    "category": "Winter Skills",
+    "levels": [
+      {
+        "level_number": 1,
+        "requirements": [
+          {
+            "requirement_number": "1.1",
+            "description": "I have built something out of snow."
+          },
+          {
+            "requirement_number": "1.10",
+            "description": "I have hiked at least 1 km in winter."
+          },
+          {
+            "requirement_number": "1.11",
+            "description": "I know that I should not touch cold metal with bare skin, especially my lips or tongue."
+          },
+          {
+            "requirement_number": "1.2",
+            "description": "I have prepared a good snack for a winter outing."
+          },
+          {
+            "requirement_number": "1.3",
+            "description": "I always carry a water bottle when going on a winter outing."
+          },
+          {
+            "requirement_number": "1.4",
+            "description": "I can keep my water bottle from freezing on a winter outing."
+          },
+          {
+            "requirement_number": "1.5",
+            "description": "I have participated in a winter sports day (Beaveree, Cuboree, winter challenge)."
+          },
+          {
+            "requirement_number": "1.6",
+            "description": "I know how to dress when I go outside in winter."
+          },
+          {
+            "requirement_number": "1.7",
+            "description": "I know to stay dry or change to dry clothes when I am outside in winter."
+          },
+          {
+            "requirement_number": "1.8",
+            "description": "I know about the buddy system and why it is used when participating in outdoor activities."
+          },
+          {
+            "requirement_number": "1.9",
+            "description": "I know to follow the instructions of the activity leader when at an outdoor event."
+          }
+        ]
+      },
+      {
+        "level_number": 2,
+        "requirements": [
+          {
+            "requirement_number": "2.1",
+            "description": "I have gone sledding or tobogganing."
+          },
+          {
+            "requirement_number": "2.10",
+            "description": "I know to avoid ice or open water without an adult present."
+          },
+          {
+            "requirement_number": "2.11",
+            "description": "I have made a piece of simple winter gear or clothing (wristlet or neck warmer)."
+          },
+          {
+            "requirement_number": "2.2",
+            "description": "I have packed a proper lunch for a winter outing."
+          },
+          {
+            "requirement_number": "2.3",
+            "description": "I have participated in two winter sports days (Beaveree, Cuboree, winter challenge)."
+          },
+          {
+            "requirement_number": "2.4",
+            "description": "I know how to pack extra clothes for winter outings."
+          },
+          {
+            "requirement_number": "2.5",
+            "description": "I know how to keep my feet dry while I am outside in the winter."
+          },
+          {
+            "requirement_number": "2.6",
+            "description": "When I come inside, I know how to put away my outdoor clothing so that it will dry quickly."
+          },
+          {
+            "requirement_number": "2.7",
+            "description": "I can help less experienced Scouts to get dressed to go outside."
+          },
+          {
+            "requirement_number": "2.8",
+            "description": "I have attended one overnight winter camp or sleepover."
+          },
+          {
+            "requirement_number": "2.9",
+            "description": "I have completed two winter hikes of at least 1 km."
+          }
+        ]
+      },
+      {
+        "level_number": 3,
+        "requirements": [
+          {
+            "requirement_number": "3.1",
+            "description": "I have participated in a winter sport (alpine skiing, cross-country skiing, snowshoeing, snowboarding, skating, hockey, tobogganing, sledding, curling)."
+          },
+          {
+            "requirement_number": "3.10",
+            "description": "I have spent one night at winter camp in a cabin or heated tent (in addition to requirements for previous stages)."
+          },
+          {
+            "requirement_number": "3.11",
+            "description": "I can identify the North Star and three other features in the winter night sky."
+          },
+          {
+            "requirement_number": "3.12",
+            "description": "I have completed a winter hike of at least 3 km."
+          },
+          {
+            "requirement_number": "3.13",
+            "description": "I have made a winter survival kit that I take with me on all winter activities."
+          },
+          {
+            "requirement_number": "3.14",
+            "description": "In addition to previous stages, I have made a piece of winter gear or clothing."
+          },
+          {
+            "requirement_number": "3.2",
+            "description": "I can light a small ﬁre."
+          },
+          {
+            "requirement_number": "3.3",
+            "description": "I have helped plan a menu for a winter camp."
+          },
+          {
+            "requirement_number": "3.4",
+            "description": "I have cooked a lunch over an open ﬁre."
+          },
+          {
+            "requirement_number": "3.5",
+            "description": "I understand the layering principle when dressing for winter activities and apply it to all activities."
+          },
+          {
+            "requirement_number": "3.6",
+            "description": "With a small group, I have built an emergency shelter in winter."
+          },
+          {
+            "requirement_number": "3.7",
+            "description": "I know how to ﬁnd shelter from the wind on a cold day."
+          },
+          {
+            "requirement_number": "3.8",
+            "description": "I can pack a day pack for a winter outing."
+          },
+          {
+            "requirement_number": "3.9",
+            "description": "I know how to watch my fellow Scouts for signs of exposure to the cold."
+          }
+        ]
+      },
+      {
+        "level_number": 4,
+        "requirements": [
+          {
+            "requirement_number": "4.1",
+            "description": "I have participated in a winter sport (different from the sport done in earlier stages)."
+          },
+          {
+            "requirement_number": "4.10",
+            "description": "I have traveled in snow using snowshoes or nordic skis."
+          },
+          {
+            "requirement_number": "4.11",
+            "description": "I have participated in two 3 km hikes."
+          },
+          {
+            "requirement_number": "4.12",
+            "description": "I know how to help someone who has fallen through the ice."
+          },
+          {
+            "requirement_number": "4.13",
+            "description": "I know how to prevent and treat hypothermia and frostbite."
+          },
+          {
+            "requirement_number": "4.14",
+            "description": "I know how to avoid and treat snow blindness."
+          },
+          {
+            "requirement_number": "4.2",
+            "description": "I have helped purchase food for a winter outing."
+          },
+          {
+            "requirement_number": "4.3",
+            "description": "I have helped cook meals at winter camp."
+          },
+          {
+            "requirement_number": "4.4",
+            "description": "I have attended a winter campﬁre."
+          },
+          {
+            "requirement_number": "4.5",
+            "description": "I have put up a tent in winter to sleep in."
+          },
+          {
+            "requirement_number": "4.6",
+            "description": "I can properly set up my sleeping area to stay warm through the night at winter camp."
+          },
+          {
+            "requirement_number": "4.7",
+            "description": "I have used a toboggan or sled to transport equipment."
+          },
+          {
+            "requirement_number": "4.8",
+            "description": "I have taught a winter skill to a less experienced Scout."
+          },
+          {
+            "requirement_number": "4.9",
+            "description": "I have spent two consecutive nights at winter camp (in addition to requirements for previous stages)."
+          }
+        ]
+      },
+      {
+        "level_number": 5,
+        "requirements": [
+          {
+            "requirement_number": "5.1",
+            "description": "I have played an outdoor game in winter at least six Scout meetings."
+          },
+          {
+            "requirement_number": "5.10",
+            "description": "I have slept outside for two nights in winter (in addition to requirements for previous stages)."
+          },
+          {
+            "requirement_number": "5.11",
+            "description": "I have participated in a winter hike lasting at least six hours and covering at least 6 km."
+          },
+          {
+            "requirement_number": "5.12",
+            "description": "I have hiked a minimum of 5 km in winter conditions following compass bearings."
+          },
+          {
+            "requirement_number": "5.13",
+            "description": "I know how to avoid, recognize and treat carbon monoxide poisoning (which can occur in winter shelters)."
+          },
+          {
+            "requirement_number": "5.14",
+            "description": "I have a ﬁrst aid qualiﬁcation equivalent to the Scout First Aid badge (St John’s or Red Cross Standard First Aid)."
+          },
+          {
+            "requirement_number": "5.15",
+            "description": "I can execute a ladder rescue, chain assist and reaching assist for someone who has fallen through the ice."
+          },
+          {
+            "requirement_number": "5.2",
+            "description": "I have led my Patrol in planning and purchasing meals for a winter camp."
+          },
+          {
+            "requirement_number": "5.3",
+            "description": "I have been chief cook for at least one meal at winter camp."
+          },
+          {
+            "requirement_number": "5.4",
+            "description": "I have helped to run a campﬁre at a winter camp."
+          },
+          {
+            "requirement_number": "5.5",
+            "description": "I am able to pack the appropriate clothing and equipment for a two-night winter camp."
+          },
+          {
+            "requirement_number": "5.6",
+            "description": "I have built and slept in a temporary winter shelter such as a quinzhee, snow trench or a lean-to."
+          },
+          {
+            "requirement_number": "5.7",
+            "description": "I can lay and light a ﬁre in winter conditions for warmth and cooking."
+          },
+          {
+            "requirement_number": "5.8",
+            "description": "I can use a liquid fuel stove in winter conditions and understand why it is important not to get fuel on clothing and skin."
+          },
+          {
+            "requirement_number": "5.9",
+            "description": "I have helped lead a winter sports day."
+          }
+        ]
+      },
+      {
+        "level_number": 6,
+        "requirements": [
+          {
+            "requirement_number": "6.1",
+            "description": "I have led an outdoor winter game for a younger Section."
+          },
+          {
+            "requirement_number": "6.10",
+            "description": "I have slept outside for two nights in a lightweight shelter in winter (in addition to requirements for previous stages)."
+          },
+          {
+            "requirement_number": "6.11",
+            "description": "I have practised a winter evacuation of a simulated causality."
+          },
+          {
+            "requirement_number": "6.2",
+            "description": "I know how to obtain and keep a supply of safe drinking water for a winter camp."
+          },
+          {
+            "requirement_number": "6.3",
+            "description": "I know how to store water overnight so that it will not freeze."
+          },
+          {
+            "requirement_number": "6.4",
+            "description": "I have baked bread or a dessert at a winter camp."
+          },
+          {
+            "requirement_number": "6.5",
+            "description": "I have taught a less experienced Scout how to dress for winter activities."
+          },
+          {
+            "requirement_number": "6.6",
+            "description": "I have taught a less experienced Scout how to build a winter shelter."
+          },
+          {
+            "requirement_number": "6.7",
+            "description": "I can do simple repairs on liquid fuel stoves."
+          },
+          {
+            "requirement_number": "6.8",
+            "description": "I have led a cooking team for a winter camp."
+          },
+          {
+            "requirement_number": "6.9",
+            "description": "I have assisted at a winter sports day in a leadership role."
+          }
+        ]
+      },
+      {
+        "level_number": 7,
+        "requirements": [
+          {
+            "requirement_number": "7.1",
+            "description": "I know how to plan and implement a simple but nutritious menu for a mobile winter camp."
+          },
+          {
+            "requirement_number": "7.2",
+            "description": "I know how to select an appropriate tent for winter camping."
+          },
+          {
+            "requirement_number": "7.3",
+            "description": "I have made a piece of winter camping or winter safety equipment."
+          },
+          {
+            "requirement_number": "7.4",
+            "description": "I have participated in a winter mobile expedition of at least three days (two nights)."
+          },
+          {
+            "requirement_number": "7.5",
+            "description": "I have maintained my ﬁrst-aid certiﬁcation."
+          }
+        ]
+      },
+      {
+        "level_number": 8,
+        "requirements": [
+          {
+            "requirement_number": "8.1",
+            "description": "I can carry out repairs on gas-fuelled stoves in winter conditions."
+          },
+          {
+            "requirement_number": "8.2",
+            "description": "With a team, I have provided leadership for a one- or two-night activity."
+          },
+          {
+            "requirement_number": "8.3",
+            "description": "I have participated in a ﬁve-day (four-night) mobile winter expedition."
+          },
+          {
+            "requirement_number": "8.4",
+            "description": "I understand the risks and am able to implement appropriate safety procedures for camping in heated tents."
+          },
+          {
+            "requirement_number": "8.5",
+            "description": "I have wilderness ﬁrst aid certiﬁcations appropriate for the areas in which I am traveling and the activities I am doing."
+          }
+        ]
+      },
+      {
+        "level_number": 9,
+        "requirements": [
+          {
+            "requirement_number": "9.1",
+            "description": "I have led a winter campﬁre."
+          },
+          {
+            "requirement_number": "9.2",
+            "description": "I have led a mobile winter expedition of three to ﬁve days."
+          },
+          {
+            "requirement_number": "9.3",
+            "description": "I have slept outside at least 20 nights (including nights from previous stages) in winter conditions.9 Competencies outdoors (even in the cold of winter) by building something out of snow such as a snowman, a snow fort, or some kind of snow sculpture. This can be completed as a group activity or individually. It is preferable that this be completed as part of a Scouting activity with the Scout’s team."
+          }
+        ]
+      }
+    ]
+  }
+]
