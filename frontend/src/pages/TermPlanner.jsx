@@ -244,9 +244,12 @@ export default function TermPlanner() {
                   <h4 className="text-xs font-semibold text-slate-500 uppercase mb-1">{category}</h4>
                   <div className="grid grid-cols-2 gap-1">
                     {categorySkills.map((skill) => {
-                      const levelInfo = selectedLevel 
-                        ? skill.levels?.find(l => l.level_number === selectedLevel)
+                      const levelInfo = selectedLevels.length > 0
+                        ? skill.levels?.find(l => l.level_number === selectedLevels[0])
                         : null;
+                      const reqCount = selectedLevels.length > 0
+                        ? skill.levels?.filter(l => selectedLevels.includes(l.level_number)).reduce((sum, l) => sum + (l.requirements?.length || 0), 0)
+                        : skill.levels?.reduce((sum, l) => sum + (l.requirements?.length || 0), 0) || 0;
                       return (
                         <label key={skill.id} className="flex items-start gap-2 text-sm p-1 hover:bg-slate-50 rounded">
                           <input
@@ -263,9 +266,13 @@ export default function TermPlanner() {
                           />
                           <span>
                             <span className="font-medium">{skill.skill_name}</span>
-                            {levelInfo && (
+                            {selectedLevels.length > 0 ? (
                               <span className="text-slate-500 text-xs ml-1">
-                                (L{selectedLevel}: {levelInfo.requirements?.length || 0} requirements)
+                                (L{selectedLevels.join(',L')}: {reqCount} requirements)
+                              </span>
+                            ) : (
+                              <span className="text-slate-500 text-xs ml-1">
+                                ({reqCount} total requirements)
                               </span>
                             )}
                           </span>
@@ -277,7 +284,7 @@ export default function TermPlanner() {
               ))}
               {Object.keys(groupedSkills).length === 0 && (
                 <p className="text-sm text-slate-500 text-center py-4">
-                  {selectedLevel ? `No skills found for Level ${selectedLevel}` : 'Select a level to filter skills'}
+                  {selectedLevels.length > 0 ? `No skills found for selected levels` : 'Select levels to filter skills'}
                 </p>
               )}
             </div>
