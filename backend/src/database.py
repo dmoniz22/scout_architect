@@ -132,52 +132,47 @@ def load_oas_skills(db: Session):
         with open(oas_file, "r") as f:
             skills_data = json.load(f)
 
-        # Map section names to IDs (all skills apply to Scout section for now)
-        section_map = {
-            "Beaver": 1,
-            "Cub": 2,
-            "Scout": 3,
-            "Venturer": 4,
-            "All": 3,  # Default to Scout section
-        }
+        # Map section names to IDs
+        section_map = {"Beaver": 1, "Cub": 2, "Scout": 3, "Venturer": 4, "All": 3}
 
         for skill in skills_data:
             skill_name = skill.get("skill_name", "")
             category = skill.get("category", "")
-            levels = skill.get("levels", [])
+            levels_list = skill.get("levels", [])
 
-            # Get level descriptions
-            level_descs = {
-                f"level{l['level_number']}_desc": json.dumps(l.get("requirements", []))
-                for l in levels
-                if l.get("level_number")
-            }
+            # Format levels as JSON array with all requirement details
+            formatted_levels = []
+            for level in levels_list:
+                formatted_levels.append(
+                    {
+                        "level_number": level.get("level_number"),
+                        "requirements": level.get("requirements", []),
+                    }
+                )
 
             # Determine section - skills with "All" apply to Scout (3)
-            section_id = (
-                section_map.get(skill_name, 3)
-                if skill_name not in ["Beaver", "Cub", "Scout", "Venturer"]
-                else section_map.get(skill_name, 3)
-            )
+            if skill_name in ["Beaver", "Cub", "Scout", "Venturer"]:
+                section_id = section_map.get(skill_name, 3)
+            else:
+                section_id = 3  # Default to Scout section
 
             db.execute(
                 text("""
-                INSERT INTO oas_skills (section_id, category, skill_name, level1_desc, level2_desc, level3_desc, level4_desc)
-                VALUES (:section_id, :category, :skill_name, :level1_desc, :level2_desc, :level3_desc, :level4_desc)
+                INSERT INTO oas_skills (section_id, category, skill_name, levels)
+                VALUES (:section_id, :category, :skill_name, :levels::jsonb)
             """),
                 {
                     "section_id": section_id,
                     "category": category,
                     "skill_name": skill_name,
-                    "level1_desc": level_descs.get("level1_desc"),
-                    "level2_desc": level_descs.get("level2_desc"),
-                    "level3_desc": level_descs.get("level3_desc"),
-                    "level4_desc": level_descs.get("level4_desc"),
+                    "levels": json.dumps(formatted_levels),
                 },
             )
 
         db.commit()
-        print(f"Loaded {len(skills_data)} OAS skills from {oas_file.name}")
+        print(
+            f"Loaded {len(skills_data)} OAS skills with all {9} levels from {oas_file.name}"
+        )
 
     except Exception as e:
         db.rollback()

@@ -30,10 +30,7 @@ CREATE TABLE oas_skills (
     section_id INTEGER REFERENCES sections(id),
     category VARCHAR(50) NOT NULL,  -- Land, Water, Air, Camping, Wilderness, Outdoor Adventure
     skill_name VARCHAR(100) NOT NULL,
-    level1_desc TEXT,
-    level2_desc TEXT,
-    level3_desc TEXT,
-    level4_desc TEXT,
+    levels JSONB NOT NULL,  -- All 9 levels as JSON array
     prerequisites TEXT[],
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
