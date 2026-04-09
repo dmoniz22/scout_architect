@@ -1,4 +1,5 @@
-""" FastAPI backend for Scout Leader Lesson Architect """
+"""FastAPI backend for Scout Leader Lesson Architect"""
+
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -9,11 +10,21 @@ import json
 import random
 import os
 
-from src.database import get_db, init_db
+from src.database import get_db, init_db, load_oas_skills
 from src.models import (
-    Section, Badge, OASSkill, Activity, Location, TermPlan, MeetingPlan,
-    SafetyProtocol, UserPreference,
-    LocationCreate, TermPlanCreate, MeetingPlanCreate, MeetingPlanGenerate
+    Section,
+    Badge,
+    OASSkill,
+    Activity,
+    Location,
+    TermPlan,
+    MeetingPlan,
+    SafetyProtocol,
+    UserPreference,
+    LocationCreate,
+    TermPlanCreate,
+    MeetingPlanCreate,
+    MeetingPlanGenerate,
 )
 
 app = FastAPI(title="Scout Leader Lesson Architect", version="0.1.0")
@@ -42,6 +53,14 @@ def get_sections(db: Session = Depends(get_db)):
     return db.query(Section).all()
 
 
+@app.post("/admin/reload-oas")
+def reload_oas(db: Session = Depends(get_db)):
+    """Force reload OAS skills from JSON file"""
+    load_oas_skills(db)
+    count = db.query(OASSkill).count()
+    return {"oas_skills_loaded": count}
+
+
 @app.get("/sections/{section_id}")
 def get_section(section_id: int, db: Session = Depends(get_db)):
     section = db.query(Section).filter(Section.id == section_id).first()
@@ -67,7 +86,11 @@ def get_badge(badge_id: int, db: Session = Depends(get_db)):
 
 
 @app.get("/oas-skills")
-def get_oas_skills(section_id: Optional[int] = None, category: Optional[str] = None, db: Session = Depends(get_db)):
+def get_oas_skills(
+    section_id: Optional[int] = None,
+    category: Optional[str] = None,
+    db: Session = Depends(get_db),
+):
     query = db.query(OASSkill)
     if section_id:
         query = query.filter(OASSkill.section_id == section_id)
@@ -103,11 +126,11 @@ def create_location(location: LocationCreate, db: Session = Depends(get_db)):
 def get_ollama_status():
     """Check if Ollama is available and return available models"""
     import requests
-    
+
     # Extract base URL - remove /api/generate if present
     ollama_base = os.getenv("OLLAMA_API_URL", "http://host.docker.internal:11434")
     ollama_base = ollama_base.replace("/api/generate", "").replace("/api/chat", "")
-    
+
     try:
         response = requests.get(f"{ollama_base}/api/tags", timeout=5)
         if response.ok:
@@ -115,7 +138,7 @@ def get_ollama_status():
             return {
                 "status": "connected",
                 "models": [m.get("name") for m in models],
-                "url": ollama_base
+                "url": ollama_base,
             }
         else:
             return {"status": "error", "error": f"HTTP {response.status_code}"}
@@ -124,7 +147,12 @@ def get_ollama_status():
 
 
 @app.get("/term-plans")
-def get_term_plans(status: Optional[str] = None, section_id: Optional[int] = None, include_deleted: bool = False, db: Session = Depends(get_db)):
+def get_term_plans(
+    status: Optional[str] = None,
+    section_id: Optional[int] = None,
+    include_deleted: bool = False,
+    db: Session = Depends(get_db),
+):
     query = db.query(TermPlan)
     # Filter out soft-deleted items by default
     if not include_deleted:
@@ -150,14 +178,15 @@ def create_term_plan(plan: TermPlanCreate, db: Session = Depends(get_db)):
     db.add(db_plan)
     db.commit()
     db.refresh(db_plan)
-    
+
     # Create meeting records for each week
     from datetime import datetime
+
     if isinstance(plan.start_date, str):
         start = datetime.fromisoformat(plan.start_date).date()
     else:
         start = plan.start_date
-    
+
     for week in range(1, plan.total_weeks + 1):
         meeting_date = start + timedelta(weeks=week - 1)
         meeting = MeetingPlan(
@@ -166,12 +195,12 @@ def create_term_plan(plan: TermPlanCreate, db: Session = Depends(get_db)):
             meeting_date=meeting_date,
             title=f"Week {week}: Planning",
             duration_minutes=90,
-            status="planned"
+            status="planned",
         )
         db.add(meeting)
-    
+
     db.commit()
-    
+
     return db_plan
 
 
@@ -188,13 +217,16 @@ def update_term_plan(plan_id: int, plan: TermPlanCreate, db: Session = Depends(g
 
 
 @app.delete("/term-plans/{plan_id}")
-def delete_term_plan(plan_id: int, permanent: bool = False, db: Session = Depends(get_db)):
+def delete_term_plan(
+    plan_id: int, permanent: bool = False, db: Session = Depends(get_db)
+):
     """Soft delete a term plan (can be restored within 30 days). Use permanent=true to delete forever."""
     from datetime import datetime
+
     db_plan = db.query(TermPlan).filter(TermPlan.id == plan_id).first()
     if not db_plan:
         raise HTTPException(status_code=404, detail="Term plan not found")
-    
+
     if permanent:
         # Hard delete - actually remove from database
         # Also delete all meetings
@@ -210,25 +242,29 @@ def delete_term_plan(plan_id: int, permanent: bool = False, db: Session = Depend
             {"deleted_at": datetime.utcnow()}
         )
         db.commit()
-        return {"status": "deleted", "restoreable_until": (datetime.utcnow() + timedelta(days=30)).isoformat()}
+        return {
+            "status": "deleted",
+            "restoreable_until": (datetime.utcnow() + timedelta(days=30)).isoformat(),
+        }
 
 
 @app.post("/term-plans/{plan_id}/restore")
 def restore_term_plan(plan_id: int, db: Session = Depends(get_db)):
     """Restore a soft-deleted term plan"""
     from datetime import datetime
+
     db_plan = db.query(TermPlan).filter(TermPlan.id == plan_id).first()
     if not db_plan:
         raise HTTPException(status_code=404, detail="Term plan not found")
-    
+
     if db_plan.deleted_at is None:
         raise HTTPException(status_code=400, detail="Term plan is not deleted")
-    
+
     # Check if within 30-day recovery window
     days_since_delete = (datetime.utcnow() - db_plan.deleted_at).days
     if days_since_delete > 30:
         raise HTTPException(status_code=410, detail="Recovery window expired (30 days)")
-    
+
     db_plan.deleted_at = None
     db.query(MeetingPlan).filter(MeetingPlan.term_plan_id == plan_id).update(
         {"deleted_at": None}
@@ -241,15 +277,20 @@ def restore_term_plan(plan_id: int, db: Session = Depends(get_db)):
 def get_deleted_term_plans(db: Session = Depends(get_db)):
     """Get all soft-deleted term plans (within 30-day recovery window)"""
     from datetime import datetime
+
     thirty_days_ago = datetime.utcnow() - timedelta(days=30)
-    return db.query(TermPlan).filter(
-        TermPlan.deleted_at.isnot(None),
-        TermPlan.deleted_at > thirty_days_ago
-    ).order_by(TermPlan.deleted_at.desc()).all()
+    return (
+        db.query(TermPlan)
+        .filter(TermPlan.deleted_at.isnot(None), TermPlan.deleted_at > thirty_days_ago)
+        .order_by(TermPlan.deleted_at.desc())
+        .all()
+    )
 
 
 @app.get("/term-plans/{plan_id}/meetings")
-def get_meetings(plan_id: int, include_deleted: bool = False, db: Session = Depends(get_db)):
+def get_meetings(
+    plan_id: int, include_deleted: bool = False, db: Session = Depends(get_db)
+):
     query = db.query(MeetingPlan).filter(MeetingPlan.term_plan_id == plan_id)
     # Filter out soft-deleted items by default
     if not include_deleted:
@@ -266,13 +307,16 @@ def get_meeting(meeting_id: int, db: Session = Depends(get_db)):
 
 
 @app.delete("/meetings/{meeting_id}")
-def delete_meeting(meeting_id: int, permanent: bool = False, db: Session = Depends(get_db)):
+def delete_meeting(
+    meeting_id: int, permanent: bool = False, db: Session = Depends(get_db)
+):
     """Soft delete a meeting (can be restored within 30 days). Use permanent=true to delete forever."""
     from datetime import datetime
+
     meeting = db.query(MeetingPlan).filter(MeetingPlan.id == meeting_id).first()
     if not meeting:
         raise HTTPException(status_code=404, detail="Meeting not found")
-    
+
     if permanent:
         db.delete(meeting)
         db.commit()
@@ -280,24 +324,28 @@ def delete_meeting(meeting_id: int, permanent: bool = False, db: Session = Depen
     else:
         meeting.deleted_at = datetime.utcnow()
         db.commit()
-        return {"status": "deleted", "restoreable_until": (datetime.utcnow() + timedelta(days=30)).isoformat()}
+        return {
+            "status": "deleted",
+            "restoreable_until": (datetime.utcnow() + timedelta(days=30)).isoformat(),
+        }
 
 
 @app.post("/meetings/{meeting_id}/restore")
 def restore_meeting(meeting_id: int, db: Session = Depends(get_db)):
     """Restore a soft-deleted meeting"""
     from datetime import datetime
+
     meeting = db.query(MeetingPlan).filter(MeetingPlan.id == meeting_id).first()
     if not meeting:
         raise HTTPException(status_code=404, detail="Meeting not found")
-    
+
     if meeting.deleted_at is None:
         raise HTTPException(status_code=400, detail="Meeting is not deleted")
-    
+
     days_since_delete = (datetime.utcnow() - meeting.deleted_at).days
     if days_since_delete > 30:
         raise HTTPException(status_code=410, detail="Recovery window expired (30 days)")
-    
+
     meeting.deleted_at = None
     db.commit()
     return {"status": "restored"}
@@ -307,11 +355,16 @@ def restore_meeting(meeting_id: int, db: Session = Depends(get_db)):
 def get_deleted_meetings(db: Session = Depends(get_db)):
     """Get all soft-deleted meetings (within 30-day recovery window)"""
     from datetime import datetime
+
     thirty_days_ago = datetime.utcnow() - timedelta(days=30)
-    return db.query(MeetingPlan).filter(
-        MeetingPlan.deleted_at.isnot(None),
-        MeetingPlan.deleted_at > thirty_days_ago
-    ).order_by(MeetingPlan.deleted_at.desc()).all()
+    return (
+        db.query(MeetingPlan)
+        .filter(
+            MeetingPlan.deleted_at.isnot(None), MeetingPlan.deleted_at > thirty_days_ago
+        )
+        .order_by(MeetingPlan.deleted_at.desc())
+        .all()
+    )
 
 
 @app.put("/meetings/{meeting_id}")
@@ -320,10 +373,10 @@ def update_meeting(meeting_id: int, title: str = None, db: Session = Depends(get
     meeting = db.query(MeetingPlan).filter(MeetingPlan.id == meeting_id).first()
     if not meeting:
         raise HTTPException(status_code=404, detail="Meeting not found")
-    
+
     if title is not None:
         meeting.title = title
-    
+
     db.commit()
     db.refresh(meeting)
     return meeting
@@ -348,10 +401,10 @@ ACTIVITY_DETAILS = {
             "2. 'It' walks around outside tapping heads saying 'Duck'",
             "3. Eventually says 'Goose!' - that player stands and chases",
             "4. 'It' tries to sit in the empty spot before being tagged",
-            "5. If caught, remain 'it'; if safe, Goose becomes 'it'"
+            "5. If caught, remain 'it'; if safe, Goose becomes 'it'",
         ],
         "materials": ["Open space"],
-        "safety": "Run clockwise only. No pushing."
+        "safety": "Run clockwise only. No pushing.",
     },
     "Musical Statues": {
         "description": "Dance and freeze when music stops",
@@ -359,10 +412,10 @@ ACTIVITY_DETAILS = {
             "1. Play music while everyone dances",
             "2. Stop music suddenly - everyone freezes",
             "3. Anyone moving is out",
-            "4. Continue until 2-3 players remain (winners)"
+            "4. Continue until 2-3 players remain (winners)",
         ],
         "materials": ["Music player"],
-        "safety": "Clear area of hazards before starting"
+        "safety": "Clear area of hazards before starting",
     },
     "Capture the Flag": {
         "description": "Teams try to capture opponent's flag",
@@ -372,10 +425,10 @@ ACTIVITY_DETAILS = {
             "3. Cross into enemy territory to capture their flag",
             "4. If tagged in enemy territory, go to jail",
             "5. Teammates can free you by touching jail",
-            "6. First team to capture opponent's flag wins"
+            "6. First team to capture opponent's flag wins",
         ],
         "materials": ["Two flags", "Boundary markers"],
-        "safety": "Two-hand touch only, no tackling"
+        "safety": "Two-hand touch only, no tackling",
     },
     "Predator vs Prey": {
         "description": "Tag game teaching food chain dynamics",
@@ -385,10 +438,10 @@ ACTIVITY_DETAILS = {
             "3. 2-3 players are predators (wolves, hawks)",
             "4. Prey must leave habitats to 'forage'",
             "5. Predators tag prey outside habitats",
-            "6. Tagged prey become predators next round"
+            "6. Tagged prey become predators next round",
         ],
         "materials": ["Cones for habitats"],
-        "safety": "Safe zones are strictly safe - no tagging inside"
+        "safety": "Safe zones are strictly safe - no tagging inside",
     },
     "Hospital Tag": {
         "description": "Tagged players need 'treatment' to rejoin",
@@ -398,10 +451,10 @@ ACTIVITY_DETAILS = {
             "3. Two teammates must link arms and circle patient",
             "4. Say 'Treatment!' three times to heal",
             "5. Patient is healed and can rejoin",
-            "6. Switch taggers every few minutes"
+            "6. Switch taggers every few minutes",
         ],
         "materials": ["Open space"],
-        "safety": "Sit immediately when tagged"
+        "safety": "Sit immediately when tagged",
     },
     "Relay Races": {
         "description": "Team relay competitions",
@@ -411,10 +464,10 @@ ACTIVITY_DETAILS = {
             "3. Tasks: touch cone, jumping jacks, answer riddle",
             "4. Tap next teammate who runs",
             "5. Continue until all team members have gone",
-            "6. First team finished wins"
+            "6. First team finished wins",
         ],
         "materials": ["Cones", "Task cards (optional)"],
-        "safety": "Stay in lanes, no cutting across"
+        "safety": "Stay in lanes, no cutting across",
     },
     "Wide Games": {
         "description": "Large-scale outdoor games over expanded area",
@@ -423,10 +476,10 @@ ACTIVITY_DETAILS = {
             "2. Examples: Manhunt, Search/Rescue, Capture zones",
             "3. Set clear objectives: find items, collect clues",
             "4. Use whistles for pause/stop",
-            "5. Debrief about strategy and teamwork"
+            "5. Debrief about strategy and teamwork",
         ],
         "materials": ["Whistle", "Boundary markers"],
-        "safety": "Buddy system required. Boundaries enforced."
+        "safety": "Buddy system required. Boundaries enforced.",
     },
     "Nature Scavenger Hunt": {
         "description": "Find natural items on a list",
@@ -435,10 +488,10 @@ ACTIVITY_DETAILS = {
             "2. Set boundaries and time limit",
             "3. Teams explore to find items",
             "4. Return when time expires",
-            "5. Most items found wins"
+            "5. Most items found wins",
         ],
         "materials": ["Scavenger hunt lists", "Bags", "Pencils"],
-        "safety": "Stay in boundaries. Look don't touch unknown plants."
+        "safety": "Stay in boundaries. Look don't touch unknown plants.",
     },
     "Knot Tying": {
         "description": "Learn essential Scout knots",
@@ -448,10 +501,10 @@ ACTIVITY_DETAILS = {
             "3. Clove Hitch: Two half-hitches around post",
             "4. Practice each knot 5 times",
             "5. Test: Partner checks your knot",
-            "6. Teach your best knot to partner"
+            "6. Teach your best knot to partner",
         ],
         "materials": ["Rope (5ft per Scout)", "Knot boards"],
-        "safety": "Check ropes for fraying. No rope around necks."
+        "safety": "Check ropes for fraying. No rope around necks.",
     },
     "First Aid Basics": {
         "description": "Learn basic first aid skills",
@@ -461,10 +514,10 @@ ACTIVITY_DETAILS = {
             "3. Learn how to apply pressure to stop bleeding",
             "4. Practice RICE method for sprains (Rest, Ice, Compress, Elevate)",
             "5. When to call for adult help",
-            "6. Role play scenarios"
+            "6. Role play scenarios",
         ],
         "materials": ["First aid kit", "Bandages", "Gauze"],
-        "safety": "Use fake wounds for practice. Sharps only with supervision."
+        "safety": "Use fake wounds for practice. Sharps only with supervision.",
     },
     "Shelter Building": {
         "description": "Build emergency shelters using natural materials",
@@ -475,10 +528,10 @@ ACTIVITY_DETAILS = {
             "4. Add horizontal branches between ribs",
             "5. Layer leaves/debris for waterproofing",
             "6. Test: Is it off ground? Can it keep you dry?",
-            "7. Disassemble properly"
+            "7. Disassemble properly",
         ],
         "materials": ["Optional: Tarp", "No tools needed"],
-        "safety": "Check for widowmakers above. Avoid poison ivy."
+        "safety": "Check for widowmakers above. Avoid poison ivy.",
     },
     "Map Reading": {
         "description": "Learn to read and use maps",
@@ -488,10 +541,10 @@ ACTIVITY_DETAILS = {
             "3. Find your current location on map",
             "4. Identify landmarks and terrain features",
             "5. Practice pacing distances",
-            "6. Navigate to points on map"
+            "6. Navigate to points on map",
         ],
         "materials": ["Maps of area", "Compasses"],
-        "safety": "Stay in designated area. Buddy system."
+        "safety": "Stay in designated area. Buddy system.",
     },
     "Flag Ceremony": {
         "description": "Conduct proper opening/closing ceremony",
@@ -501,10 +554,10 @@ ACTIVITY_DETAILS = {
             "3. Raise/lower flag with proper respect",
             "4. Salute during national anthem",
             "5. Recite Scout Promise/Law",
-            "6. Color party marches back"
+            "6. Color party marches back",
         ],
         "materials": ["Canadian flag", "Rope"],
-        "safety": "Handle flag with respect. No horseplay."
+        "safety": "Handle flag with respect. No horseplay.",
     },
     "Cooking": {
         "description": "Outdoor cooking basics",
@@ -514,10 +567,10 @@ ACTIVITY_DETAILS = {
             "3. Cook simple meal over fire",
             "4. Practice fire safety",
             "5. Properly extinguish and clean up",
-            "6. Leave no trace principles"
+            "6. Leave no trace principles",
         ],
         "materials": ["Fire pit/trench", "Matches/flint", "Firewood", "Food to cook"],
-        "safety": "Fire permit required. Bucket of water nearby. Never leave fire unattended."
+        "safety": "Fire permit required. Bucket of water nearby. Never leave fire unattended.",
     },
     "Compass Orienteering": {
         "description": "Navigate using compass bearings",
@@ -527,11 +580,11 @@ ACTIVITY_DETAILS = {
             "3. Set up course with checkpoints",
             "4. Scouts navigate from point to point using bearings",
             "5. Record times and accuracy",
-            "6. Discuss what affects navigation"
+            "6. Discuss what affects navigation",
         ],
         "materials": ["Compasses", "Maps", "Control markers"],
-        "safety": "Stay on trails. Report back if lost."
-    }
+        "safety": "Stay on trails. Report back if lost.",
+    },
 }
 
 
@@ -539,20 +592,16 @@ ACTIVITY_DETAILS = {
 def call_ollama(prompt: str, model: str = "gemma3:12b") -> str:
     """Call Ollama API to generate content"""
     import requests
-    
+
     # Get base URL from environment, strip any /api/* suffix
     base_url = os.getenv("OLLAMA_API_URL", "http://host.docker.internal:11434")
     base_url = base_url.replace("/api/generate", "").replace("/api/chat", "")
-    
+
     try:
         response = requests.post(
             f"{base_url}/api/generate",
-            json={
-                "model": model,
-                "prompt": prompt,
-                "stream": False
-            },
-            timeout=120
+            json={"model": model, "prompt": prompt, "stream": False},
+            timeout=120,
         )
         if response.ok:
             return response.json().get("response", "")
@@ -564,28 +613,42 @@ def call_ollama(prompt: str, model: str = "gemma3:12b") -> str:
         return None
 
 
-def generate_with_llm(section_name, week_number, duration, theme, location_name, skills=None) -> dict:
+def generate_with_llm(
+    section_name, week_number, duration, theme, location_name, skills=None
+) -> dict:
     """Generate meeting content using LLM"""
     # Age ranges for different sections
     age_ranges = {
         "Beaver": "ages 5-7 (young children)",
-        "Cub": "ages 8-10 (older children)", 
+        "Cub": "ages 8-10 (older children)",
         "Scout": "ages 11-14 (early teens)",
-        "Venturer": "ages 14-18 (teens/young adults)"
+        "Venturer": "ages 14-18 (teens/young adults)",
     }
     age_context = age_ranges.get(section_name, f"{section_name} Scouts")
-    
+
     # Build skills context - MUST be emphasized as core requirements
     skills_context = ""
     required_activities = ""
     if skills and len(skills) > 0:
-        skills_list = ', '.join(skills)
+        skills_list = ", ".join(skills)
         skills_context = f"\n\n**CRITICAL REQUIREMENT: You MUST incorporate these specific OAS (Outdoors Adventure Skills) skills as the MAIN FOCUS of the meeting: {skills_list}**"
         # Map skills to suggested activities
         skill_activities = {
-            "Camping": ["shelter building", "camping basics", "tent setup", "fire starting", "outdoor cooking"],
+            "Camping": [
+                "shelter building",
+                "camping basics",
+                "tent setup",
+                "fire starting",
+                "outdoor cooking",
+            ],
             "Scoutcraft": ["knots", "lashings", "tools", "pioneering", "rope work"],
-            "Trail": ["hiking", "orienteering", "compass", "map reading", "trail skills"],
+            "Trail": [
+                "hiking",
+                "orienteering",
+                "compass",
+                "map reading",
+                "trail skills",
+            ],
             "Nature": ["nature identification", "wildlife", "plants", "environmental"],
             "First Aid": ["first aid", "injury treatment", "safety"],
             "Aquatics": ["swimming", "water safety", "kayaking", "canoeing"],
@@ -597,12 +660,12 @@ def generate_with_llm(section_name, week_number, duration, theme, location_name,
                 activities_for_skills.extend(skill_activities[skill][:2])
         if activities_for_skills:
             required_activities = f"\n- Each main activity should teach/practice these specific skills: {', '.join(activities_for_skills)}"
-    
+
     prompt = f"""Create a detailed {section_name} Scouts meeting plan for week {week_number}.{skills_context}
 
 Requirements:
 - Duration: {duration} minutes
-- Theme: {theme if theme else 'general scouting activities'}
+- Theme: {theme if theme else "general scouting activities"}
 - Location context: {location_name}
 - Age group: {age_context}{required_activities}
 - The meeting MUST have 2-3 main activities that directly teach the OAS skills listed above
@@ -621,28 +684,28 @@ Format the output as a detailed meeting plan with:
 6. Location-specific considerations for {location_name}"""
 
     result = call_ollama(prompt)
-    
+
     if result:
         # Extract title from the generated content - look for "Title:" or "##" heading
-        lines = result.split('\n')
+        lines = result.split("\n")
         title = None
         for line in lines:
             line = line.strip()
-            if line.lower().startswith('title:') or line.lower().startswith('**title:'):
-                title = line.split(':', 1)[1].strip().replace('**', '')
+            if line.lower().startswith("title:") or line.lower().startswith("**title:"):
+                title = line.split(":", 1)[1].strip().replace("**", "")
                 break
-            elif line.startswith('## ') or line.startswith('**'):
+            elif line.startswith("## ") or line.startswith("**"):
                 # Use the first heading as title
-                title = line.replace('##', '').replace('**', '').strip()
+                title = line.replace("##", "").replace("**", "").strip()
                 break
-        
+
         # If no title found, generate one from skills
         if not title:
             if skills and len(skills) > 0:
                 title = f"Week {week_number}: {', '.join(skills)}"
             else:
                 title = f"Week {week_number}: {theme or 'Scouting Activities'}"
-        
+
         return {
             "title": title,
             "plan": result,
@@ -657,38 +720,83 @@ SECTION_ACTIVITIES = {
     "Beaver": {
         "games": ["Duck Duck Goose", "Musical Statues", "Relay Races"],
         "skills": ["Nature Scavenger Hunt", "Simple Knots", "Flag Ceremony"],
-        "focus": ["Team Building", "Nature Walk", "Crafts"]
+        "focus": ["Team Building", "Nature Walk", "Crafts"],
     },
     "Cub": {
-        "games": ["Capture the Flag", "Predator vs Prey", "Hospital Tag", "Relay Races"],
+        "games": [
+            "Capture the Flag",
+            "Predator vs Prey",
+            "Hospital Tag",
+            "Relay Races",
+        ],
         "skills": ["Knot Tying", "First Aid Basics", "Map Reading", "Flag Ceremony"],
-        "focus": ["Shelter Building", "Orienteering", "Cooking", "Service Project"]
+        "focus": ["Shelter Building", "Orienteering", "Cooking", "Service Project"],
     },
     "Scout": {
-        "games": ["Capture the Flag", "Wide Games", "Predator vs Prey", "Hospital Tag", "Compass Orienteering"],
-        "skills": ["Shelter Building", "Knot Tying", "First Aid Basics", "Map Reading", "Compass Orienteering"],
-        "focus": ["Expedition Planning", "Cooking", "Advanced First Aid", "Service Project", "Leadership"]
+        "games": [
+            "Capture the Flag",
+            "Wide Games",
+            "Predator vs Prey",
+            "Hospital Tag",
+            "Compass Orienteering",
+        ],
+        "skills": [
+            "Shelter Building",
+            "Knot Tying",
+            "First Aid Basics",
+            "Map Reading",
+            "Compass Orienteering",
+        ],
+        "focus": [
+            "Expedition Planning",
+            "Cooking",
+            "Advanced First Aid",
+            "Service Project",
+            "Leadership",
+        ],
     },
     "Venturer": {
         "games": ["Wide Games", "Capture the Flag", "Strategic Games"],
         "skills": ["First Aid", "Trip Planning", "Compass Orienteering", "Cooking"],
-        "focus": ["Expedition Leadership", "Service Projects", "Peer Mentorship", "Risk Assessment"]
-    }
+        "focus": [
+            "Expedition Leadership",
+            "Service Projects",
+            "Peer Mentorship",
+            "Risk Assessment",
+        ],
+    },
 }
 
 
 def get_activity_details(activity_name, activity_type, section_name):
     """Get detailed instructions for an activity"""
-    details = ACTIVITY_DETAILS.get(activity_name, {
-        "description": f"{activity_name} activity",
-        "instructions": ["1. Gather group", "2. Explain activity", "3. Demonstrate", "4. Practice", "5. Debrief"],
-        "materials": ["TBD"],
-        "safety": "Follow standard safety guidelines"
-    })
+    details = ACTIVITY_DETAILS.get(
+        activity_name,
+        {
+            "description": f"{activity_name} activity",
+            "instructions": [
+                "1. Gather group",
+                "2. Explain activity",
+                "3. Demonstrate",
+                "4. Practice",
+                "5. Debrief",
+            ],
+            "materials": ["TBD"],
+            "safety": "Follow standard safety guidelines",
+        },
+    )
     return details
 
 
-def generate_meeting_content(section_name, week_number, duration, theme, badges, skills, location_name="Chilliwack, BC"):
+def generate_meeting_content(
+    section_name,
+    week_number,
+    duration,
+    theme,
+    badges,
+    skills,
+    location_name="Chilliwack, BC",
+):
     """Generate detailed meeting content"""
     random.seed(week_number * 1000 + hash(location_name) % 1000)
 
@@ -710,22 +818,52 @@ def generate_meeting_content(section_name, week_number, duration, theme, badges,
     if duration <= 75:
         timeline = [
             {"time": "0:00-0:10", "name": "Opening Ceremony", "type": "ceremony"},
-            {"time": "0:10-0:25", "name": f"Game: {game1}", "type": "game", "details": game1_details},
-            {"time": "0:25-0:45", "name": f"Skill: {skill}", "type": "skill", "details": skill_details},
+            {
+                "time": "0:10-0:25",
+                "name": f"Game: {game1}",
+                "type": "game",
+                "details": game1_details,
+            },
+            {
+                "time": "0:25-0:45",
+                "name": f"Skill: {skill}",
+                "type": "skill",
+                "details": skill_details,
+            },
             {"time": "0:45-0:55", "name": "Snack Break", "type": "break"},
-            {"time": "0:55-1:10", "name": f"Activity: {focus}", "type": "activity", "details": activity_details},
+            {
+                "time": "0:55-1:10",
+                "name": f"Activity: {focus}",
+                "type": "activity",
+                "details": activity_details,
+            },
             {"time": "1:10-1:20", "name": f"Game: {game2}", "type": "game"},
-            {"time": "1:20-1:25", "name": "Closing", "type": "ceremony"}
+            {"time": "1:20-1:25", "name": "Closing", "type": "ceremony"},
         ]
     else:
         timeline = [
             {"time": "0:00-0:10", "name": "Opening Ceremony", "type": "ceremony"},
-            {"time": "0:10-0:25", "name": f"Game: {game1}", "type": "game", "details": game1_details},
-            {"time": "0:25-0:45", "name": f"Skill: {skill}", "type": "skill", "details": skill_details},
+            {
+                "time": "0:10-0:25",
+                "name": f"Game: {game1}",
+                "type": "game",
+                "details": game1_details,
+            },
+            {
+                "time": "0:25-0:45",
+                "name": f"Skill: {skill}",
+                "type": "skill",
+                "details": skill_details,
+            },
             {"time": "0:45-0:50", "name": "Snack", "type": "break"},
-            {"time": "0:50-1:15", "name": f"Activity: {focus}", "type": "activity", "details": activity_details},
+            {
+                "time": "0:50-1:15",
+                "name": f"Activity: {focus}",
+                "type": "activity",
+                "details": activity_details,
+            },
             {"time": "1:15-1:25", "name": f"Game: {game2}", "type": "game"},
-            {"time": "1:25-1:30", "name": "Closing Circle", "type": "ceremony"}
+            {"time": "1:25-1:30", "name": "Closing Circle", "type": "ceremony"},
         ]
 
     # Build objectives
@@ -750,7 +888,7 @@ def generate_meeting_content(section_name, week_number, duration, theme, badges,
         activity_data = {
             "time": item["time"],
             "activity": item["name"],
-            "type": item["type"]
+            "type": item["type"],
         }
         if "details" in item:
             activity_data["description"] = item["details"]["description"]
@@ -767,7 +905,13 @@ def generate_meeting_content(section_name, week_number, duration, theme, badges,
 
     lines.append("## Timeline\n")
     for item in timeline:
-        emoji = {"ceremony": "🚩", "game": "🎮", "skill": "🎯", "break": "🍎", "activity": "🏕️"}.get(item["type"], "•")
+        emoji = {
+            "ceremony": "🚩",
+            "game": "🎮",
+            "skill": "🎯",
+            "break": "🍎",
+            "activity": "🏕️",
+        }.get(item["type"], "•")
         lines.append(f"### {emoji} {item['time']} - {item['name']}\n")
         if "details" in item:
             lines.append(f"**{item['details']['description']}**\n")
@@ -794,27 +938,32 @@ def generate_meeting_content(section_name, week_number, duration, theme, badges,
     lines.append("- Follow leader instructions")
     lines.append("- Use equipment only with supervision")
     lines.append("")
-    
+
     # Add location-specific note
     if location_name and location_name != "Chilliwack, BC":
         lines.append(f"## Location Notes\n")
         lines.append(f"- This plan is tailored for {location_name}")
         lines.append("- Consider local weather conditions and facilities")
         lines.append("")
-    
+
     return {
         "title": title,
         "plan": "\n".join(lines),
         "objectives": objectives,
         "activities": activities_json,
         "materials": materials,
-        "timeline": timeline
+        "timeline": timeline,
     }
 
 
 @app.post("/meetings/{meeting_id}/generate")
-def generate_single_meeting(meeting_id: int, use_llm: bool = False, model: str = "gemma3:12b", 
-                            ollama_url: str = "http://host.docker.internal:11434", db: Session = Depends(get_db)):
+def generate_single_meeting(
+    meeting_id: int,
+    use_llm: bool = False,
+    model: str = "gemma3:12b",
+    ollama_url: str = "http://host.docker.internal:11434",
+    db: Session = Depends(get_db),
+):
     """Generate meeting plan - template or LLM based"""
     meeting = db.query(MeetingPlan).filter(MeetingPlan.id == meeting_id).first()
     if not meeting:
@@ -832,30 +981,48 @@ def generate_single_meeting(meeting_id: int, use_llm: bool = False, model: str =
 
     skill_names = []
     if meeting.skills_covered:
-        skills = db.query(OASSkill).filter(OASSkill.id.in_(meeting.skills_covered)).all()
+        skills = (
+            db.query(OASSkill).filter(OASSkill.id.in_(meeting.skills_covered)).all()
+        )
         skill_names = [s.skill_name for s in skills]
-    
+
     # Also get skills from term plan if not specified on meeting
     if not skill_names and term_plan.focus_skills:
-        term_skills = db.query(OASSkill).filter(OASSkill.id.in_(term_plan.focus_skills)).all()
+        term_skills = (
+            db.query(OASSkill).filter(OASSkill.id.in_(term_plan.focus_skills)).all()
+        )
         skill_names = [s.skill_name for s in term_skills]
 
     # Use LLM if requested, otherwise fall back to template
     if use_llm:
         content = generate_with_llm(
-            section.name, meeting.week_number, meeting.duration_minutes or 90,
-            term_plan.theme, location_name, skill_names
+            section.name,
+            meeting.week_number,
+            meeting.duration_minutes or 90,
+            term_plan.theme,
+            location_name,
+            skill_names,
         )
         if not content:
             # Fall back to template if LLM fails
             content = generate_meeting_content(
-                section.name, meeting.week_number, meeting.duration_minutes or 90,
-                term_plan.theme, badge_names, skill_names, location_name
+                section.name,
+                meeting.week_number,
+                meeting.duration_minutes or 90,
+                term_plan.theme,
+                badge_names,
+                skill_names,
+                location_name,
             )
     else:
         content = generate_meeting_content(
-            section.name, meeting.week_number, meeting.duration_minutes or 90,
-            term_plan.theme, badge_names, skill_names, location_name
+            section.name,
+            meeting.week_number,
+            meeting.duration_minutes or 90,
+            term_plan.theme,
+            badge_names,
+            skill_names,
+            location_name,
         )
 
     meeting.title = content["title"]
@@ -870,7 +1037,12 @@ def generate_single_meeting(meeting_id: int, use_llm: bool = False, model: str =
 
 
 @app.post("/term-plans/{plan_id}/generate-meetings")
-def generate_all_meetings(plan_id: int, use_llm: bool = False, model: str = "gemma3:12b", db: Session = Depends(get_db)):
+def generate_all_meetings(
+    plan_id: int,
+    use_llm: bool = False,
+    model: str = "gemma3:12b",
+    db: Session = Depends(get_db),
+):
     """Generate all meetings for a term plan. Set use_llm=true to use LLM for generation."""
     term_plan = db.query(TermPlan).filter(TermPlan.id == plan_id).first()
     if not term_plan:
@@ -890,7 +1062,9 @@ def generate_all_meetings(plan_id: int, use_llm: bool = False, model: str = "gem
 
     skill_names = []
     if term_plan.focus_skills:
-        skills = db.query(OASSkill).filter(OASSkill.id.in_(term_plan.focus_skills)).all()
+        skills = (
+            db.query(OASSkill).filter(OASSkill.id.in_(term_plan.focus_skills)).all()
+        )
         skill_names = [s.skill_name for s in skills]
 
     generated_count = 0
@@ -902,7 +1076,7 @@ def generate_all_meetings(plan_id: int, use_llm: bool = False, model: str = "gem
         start = term_plan.start_date
 
     for week in range(1, term_plan.total_weeks + 1):
-        meeting_date = start + timedelta(weeks=week-1)
+        meeting_date = start + timedelta(weeks=week - 1)
 
         if week in existing_weeks:
             meeting = existing_weeks[week]
@@ -912,7 +1086,7 @@ def generate_all_meetings(plan_id: int, use_llm: bool = False, model: str = "gem
                 week_number=week,
                 meeting_date=meeting_date,
                 duration_minutes=90,
-                status="planned"
+                status="planned",
             )
             db.add(meeting)
 
@@ -924,11 +1098,23 @@ def generate_all_meetings(plan_id: int, use_llm: bool = False, model: str = "gem
             if not content:
                 # Fall back to template if LLM fails
                 content = generate_meeting_content(
-                    section.name, week, 90, term_plan.theme, badge_names[:2], skill_names[:2], location_name
+                    section.name,
+                    week,
+                    90,
+                    term_plan.theme,
+                    badge_names[:2],
+                    skill_names[:2],
+                    location_name,
                 )
         else:
             content = generate_meeting_content(
-                section.name, week, 90, term_plan.theme, badge_names[:2], skill_names[:2], location_name
+                section.name,
+                week,
+                90,
+                term_plan.theme,
+                badge_names[:2],
+                skill_names[:2],
+                location_name,
             )
 
         meeting.title = content["title"]
@@ -946,7 +1132,7 @@ def generate_all_meetings(plan_id: int, use_llm: bool = False, model: str = "gem
         "term_plan_id": plan_id,
         "meetings_generated": generated_count,
         "total_weeks": term_plan.total_weeks,
-        "status": "success"
+        "status": "success",
     }
 
 
@@ -957,7 +1143,15 @@ def download_meeting_pdf(meeting_id: int, db: Session = Depends(get_db)):
     from reportlab.lib.pagesizes import letter
     from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
     from reportlab.lib.units import inch
-    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, ListFlowable, ListItem
+    from reportlab.platypus import (
+        SimpleDocTemplate,
+        Paragraph,
+        Spacer,
+        Table,
+        TableStyle,
+        ListFlowable,
+        ListItem,
+    )
     from reportlab.lib import colors
     from reportlab.lib.enums import TA_LEFT, TA_CENTER
 
@@ -970,66 +1164,113 @@ def download_meeting_pdf(meeting_id: int, db: Session = Depends(get_db)):
 
     # Create PDF in memory
     from io import BytesIO
+
     buffer = BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=letter,
-                            rightMargin=72, leftMargin=72,
-                            topMargin=72, bottomMargin=18)
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=letter,
+        rightMargin=72,
+        leftMargin=72,
+        topMargin=72,
+        bottomMargin=18,
+    )
 
     styles = getSampleStyleSheet()
-    styles.add(ParagraphStyle(name='DocTitle', fontSize=24, textColor=colors.HexColor('#1f4e79'), spaceAfter=20))
-    styles.add(ParagraphStyle(name='DocHeading', fontSize=14, textColor=colors.HexColor('#2e75b5'), spaceAfter=10, spaceBefore=15))
-    styles.add(ParagraphStyle(name='DocNormal', fontSize=11, spaceAfter=6))
-    styles.add(ParagraphStyle(name='DocBullet', fontSize=11, leftIndent=20, spaceAfter=3))
+    styles.add(
+        ParagraphStyle(
+            name="DocTitle",
+            fontSize=24,
+            textColor=colors.HexColor("#1f4e79"),
+            spaceAfter=20,
+        )
+    )
+    styles.add(
+        ParagraphStyle(
+            name="DocHeading",
+            fontSize=14,
+            textColor=colors.HexColor("#2e75b5"),
+            spaceAfter=10,
+            spaceBefore=15,
+        )
+    )
+    styles.add(ParagraphStyle(name="DocNormal", fontSize=11, spaceAfter=6))
+    styles.add(
+        ParagraphStyle(name="DocBullet", fontSize=11, leftIndent=20, spaceAfter=3)
+    )
 
     story = []
 
     # Title
-    story.append(Paragraph(f"{meeting.title}", styles['DocTitle']))
-    story.append(Spacer(1, 0.1*inch))
+    story.append(Paragraph(f"{meeting.title}", styles["DocTitle"]))
+    story.append(Spacer(1, 0.1 * inch))
 
     # Meeting info
-    story.append(Paragraph(f"<b>Section:</b> {section.name} Scouts", styles['DocNormal']))
-    story.append(Paragraph(f"<b>Date:</b> {meeting.meeting_date}", styles['DocNormal']))
-    story.append(Paragraph(f"<b>Duration:</b> {meeting.duration_minutes} minutes", styles['DocNormal']))
-    story.append(Spacer(1, 0.2*inch))
+    story.append(
+        Paragraph(f"<b>Section:</b> {section.name} Scouts", styles["DocNormal"])
+    )
+    story.append(Paragraph(f"<b>Date:</b> {meeting.meeting_date}", styles["DocNormal"]))
+    story.append(
+        Paragraph(
+            f"<b>Duration:</b> {meeting.duration_minutes} minutes", styles["DocNormal"]
+        )
+    )
+    story.append(Spacer(1, 0.2 * inch))
 
     # Objectives
     if meeting.objectives:
-        story.append(Paragraph("Objectives", styles['DocHeading']))
+        story.append(Paragraph("Objectives", styles["DocHeading"]))
         for obj in meeting.objectives:
-            story.append(Paragraph(f"• {obj}", styles['DocBullet']))
-        story.append(Spacer(1, 0.1*inch))
+            story.append(Paragraph(f"• {obj}", styles["DocBullet"]))
+        story.append(Spacer(1, 0.1 * inch))
 
     # Activities/Timeline
-    story.append(Paragraph("Meeting Timeline", styles['DocHeading']))
+    story.append(Paragraph("Meeting Timeline", styles["DocHeading"]))
     if meeting.activities:
         for activity in meeting.activities:
-            emoji = {"ceremony": "🚩", "game": "🎮", "skill": "🎯", "break": "🍎", "activity": "🏕️"}.get(activity.get('type'), "•")
-            story.append(Paragraph(f"<b>{emoji} {activity.get('time', '')}</b> - {activity.get('activity', '')}", styles['DocNormal']))
-            if activity.get('instructions'):
-                for instr in activity['instructions']:
-                    story.append(Paragraph(f"   {instr}", styles['DocBullet']))
-            if activity.get('safety'):
-                story.append(Paragraph(f"   <i>Safety: {activity['safety']}</i>", styles['DocBullet']))
-            story.append(Spacer(1, 0.05*inch))
+            emoji = {
+                "ceremony": "🚩",
+                "game": "🎮",
+                "skill": "🎯",
+                "break": "🍎",
+                "activity": "🏕️",
+            }.get(activity.get("type"), "•")
+            story.append(
+                Paragraph(
+                    f"<b>{emoji} {activity.get('time', '')}</b> - {activity.get('activity', '')}",
+                    styles["DocNormal"],
+                )
+            )
+            if activity.get("instructions"):
+                for instr in activity["instructions"]:
+                    story.append(Paragraph(f"   {instr}", styles["DocBullet"]))
+            if activity.get("safety"):
+                story.append(
+                    Paragraph(
+                        f"   <i>Safety: {activity['safety']}</i>", styles["DocBullet"]
+                    )
+                )
+            story.append(Spacer(1, 0.05 * inch))
 
-    story.append(Spacer(1, 0.1*inch))
+    story.append(Spacer(1, 0.1 * inch))
 
     # Materials
     if meeting.materials_needed:
-        story.append(Paragraph("Materials Needed", styles['DocHeading']))
-        materials_text = "• " + "<br/>• ".join([m for m in meeting.materials_needed if m])
-        story.append(Paragraph(materials_text, styles['DocNormal']))
-        story.append(Spacer(1, 0.1*inch))
+        story.append(Paragraph("Materials Needed", styles["DocHeading"]))
+        materials_text = "• " + "<br/>• ".join(
+            [m for m in meeting.materials_needed if m]
+        )
+        story.append(Paragraph(materials_text, styles["DocNormal"]))
+        story.append(Spacer(1, 0.1 * inch))
 
     # Full plan text
     if meeting.generated_plan:
-        story.append(Paragraph("Full Meeting Plan", styles['DocHeading']))
+        story.append(Paragraph("Full Meeting Plan", styles["DocHeading"]))
         # Clean up HTML-like tags that might be malformed
         import re
-        plan_text = re.sub(r'<[^>]+>', '', meeting.generated_plan)  # Strip all HTML
-        plan_text = plan_text.replace('\n', '<br/>')
-        story.append(Paragraph(plan_text[:2000] + "...", styles['DocNormal']))
+
+        plan_text = re.sub(r"<[^>]+>", "", meeting.generated_plan)  # Strip all HTML
+        plan_text = plan_text.replace("\n", "<br/>")
+        story.append(Paragraph(plan_text[:2000] + "...", styles["DocNormal"]))
 
     # Build PDF
     doc.build(story)
@@ -1037,8 +1278,14 @@ def download_meeting_pdf(meeting_id: int, db: Session = Depends(get_db)):
     # Return PDF
     buffer.seek(0)
     from starlette.responses import StreamingResponse
-    return StreamingResponse(buffer, media_type="application/pdf",
-                            headers={"Content-Disposition": f"attachment; filename=meeting_{meeting_id}.pdf"})
+
+    return StreamingResponse(
+        buffer,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f"attachment; filename=meeting_{meeting_id}.pdf"
+        },
+    )
 
 
 @app.get("/term-plans/{plan_id}/pdf")
@@ -1055,46 +1302,85 @@ def download_term_plan_pdf(plan_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Term plan not found")
 
     section = db.query(Section).filter(Section.id == term_plan.section_id).first()
-    meetings = db.query(MeetingPlan).filter(MeetingPlan.term_plan_id == plan_id).order_by(MeetingPlan.week_number).all()
+    meetings = (
+        db.query(MeetingPlan)
+        .filter(MeetingPlan.term_plan_id == plan_id)
+        .order_by(MeetingPlan.week_number)
+        .all()
+    )
 
     from io import BytesIO
+
     buffer = BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=letter)
 
     styles = getSampleStyleSheet()
-    styles.add(ParagraphStyle(name='DocTitle', fontSize=24, textColor=colors.HexColor('#1f4e79'), spaceAfter=20))
-    styles.add(ParagraphStyle(name='DocHeading', fontSize=16, textColor=colors.HexColor('#2e75b5'), spaceAfter=10))
-    styles.add(ParagraphStyle(name='DocNormal', fontSize=11, spaceAfter=6))
-    styles.add(ParagraphStyle(name='Small', fontSize=9, textColor=colors.grey))
+    styles.add(
+        ParagraphStyle(
+            name="DocTitle",
+            fontSize=24,
+            textColor=colors.HexColor("#1f4e79"),
+            spaceAfter=20,
+        )
+    )
+    styles.add(
+        ParagraphStyle(
+            name="DocHeading",
+            fontSize=16,
+            textColor=colors.HexColor("#2e75b5"),
+            spaceAfter=10,
+        )
+    )
+    styles.add(ParagraphStyle(name="DocNormal", fontSize=11, spaceAfter=6))
+    styles.add(ParagraphStyle(name="Small", fontSize=9, textColor=colors.grey))
 
     story = []
 
     # Title page
-    story.append(Paragraph(f"{term_plan.name}", styles['DocTitle']))
-    story.append(Paragraph(f"<b>Section:</b> {section.name} Scouts", styles['DocNormal']))
-    story.append(Paragraph(f"<b>Dates:</b> {term_plan.start_date} to {term_plan.end_date}", styles['DocNormal']))
-    story.append(Paragraph(f"<b>Weeks:</b> {term_plan.total_weeks}", styles['DocNormal']))
+    story.append(Paragraph(f"{term_plan.name}", styles["DocTitle"]))
+    story.append(
+        Paragraph(f"<b>Section:</b> {section.name} Scouts", styles["DocNormal"])
+    )
+    story.append(
+        Paragraph(
+            f"<b>Dates:</b> {term_plan.start_date} to {term_plan.end_date}",
+            styles["DocNormal"],
+        )
+    )
+    story.append(
+        Paragraph(f"<b>Weeks:</b> {term_plan.total_weeks}", styles["DocNormal"])
+    )
     if term_plan.theme:
-        story.append(Paragraph(f"<b>Theme:</b> {term_plan.theme}", styles['DocNormal']))
-    story.append(Spacer(1, 0.5*inch))
+        story.append(Paragraph(f"<b>Theme:</b> {term_plan.theme}", styles["DocNormal"]))
+    story.append(Spacer(1, 0.5 * inch))
 
     # Meeting summaries
-    story.append(Paragraph("Meeting Schedule", styles['DocHeading']))
+    story.append(Paragraph("Meeting Schedule", styles["DocHeading"]))
     for meeting in meetings:
-        story.append(Paragraph(f"<b>Week {meeting.week_number}:</b> {meeting.title}", styles['DocNormal']))
-        story.append(Paragraph(f"   {meeting.meeting_date}", styles['Small']))
+        story.append(
+            Paragraph(
+                f"<b>Week {meeting.week_number}:</b> {meeting.title}",
+                styles["DocNormal"],
+            )
+        )
+        story.append(Paragraph(f"   {meeting.meeting_date}", styles["Small"]))
 
     story.append(PageBreak())
 
     # Full meeting details
     for i, meeting in enumerate(meetings):
-        story.append(Paragraph(f"Week {meeting.week_number}: {meeting.title}", styles['DocHeading']))
+        story.append(
+            Paragraph(
+                f"Week {meeting.week_number}: {meeting.title}", styles["DocHeading"]
+            )
+        )
 
         if meeting.generated_plan:
             import re
-            plan_text = re.sub(r'<[^>]+>', '', meeting.generated_plan)  # Strip all HTML
-            plan_text = plan_text.replace('\n', '<br/>')[:1500]
-            story.append(Paragraph(plan_text + "...", styles['DocNormal']))
+
+            plan_text = re.sub(r"<[^>]+>", "", meeting.generated_plan)  # Strip all HTML
+            plan_text = plan_text.replace("\n", "<br/>")[:1500]
+            story.append(Paragraph(plan_text + "...", styles["DocNormal"]))
 
         if i < len(meetings) - 1:
             story.append(PageBreak())
@@ -1103,8 +1389,14 @@ def download_term_plan_pdf(plan_id: int, db: Session = Depends(get_db)):
 
     buffer.seek(0)
     from starlette.responses import StreamingResponse
-    return StreamingResponse(buffer, media_type="application/pdf",
-                            headers={"Content-Disposition": f"attachment; filename=term_plan_{plan_id}.pdf"})
+
+    return StreamingResponse(
+        buffer,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f"attachment; filename=term_plan_{plan_id}.pdf"
+        },
+    )
 
 
 # ============== MARKDOWN EXPORT ==============
@@ -1157,8 +1449,13 @@ def download_meeting_md(meeting_id: int, db: Session = Depends(get_db)):
         md += "## Safety Notes\n"
         md += meeting.safety_notes + "\n"
 
-    return Response(md, media_type="text/markdown",
-                    headers={"Content-Disposition": f"attachment; filename=meeting_{meeting_id}.md"})
+    return Response(
+        md,
+        media_type="text/markdown",
+        headers={
+            "Content-Disposition": f"attachment; filename=meeting_{meeting_id}.md"
+        },
+    )
 
 
 @app.get("/term-plans/{plan_id}/md")
@@ -1172,13 +1469,18 @@ def download_term_plan_md(plan_id: int, db: Session = Depends(get_db)):
 
     section = db.query(Section).filter(Section.id == term_plan.section_id).first()
     location = db.query(Location).filter(Location.id == term_plan.location_id).first()
-    meetings = db.query(MeetingPlan).filter(MeetingPlan.term_plan_id == plan_id).order_by(MeetingPlan.week_number).all()
+    meetings = (
+        db.query(MeetingPlan)
+        .filter(MeetingPlan.term_plan_id == plan_id)
+        .order_by(MeetingPlan.week_number)
+        .all()
+    )
 
     md = f"""# {term_plan.name}
 
 ## Term Plan Details
 - **Section:** {section.name} Scouts
-- **Location:** {location.name if location else 'TBD'}
+- **Location:** {location.name if location else "TBD"}
 - **Start Date:** {term_plan.start_date}
 - **End Date:** {term_plan.end_date}
 - **Total Weeks:** {term_plan.total_weeks}
@@ -1220,45 +1522,54 @@ def download_term_plan_md(plan_id: int, db: Session = Depends(get_db)):
 
         md += "---\n\n"
 
-    return Response(md, media_type="text/markdown",
-                    headers={"Content-Disposition": f"attachment; filename=term_plan_{plan_id}.md"})
+    return Response(
+        md,
+        media_type="text/markdown",
+        headers={"Content-Disposition": f"attachment; filename=term_plan_{plan_id}.md"},
+    )
 
 
 # ============== SOFT DELETE CLEANUP (for cron job) ==============
+
 
 @app.post("/admin/cleanup-deleted")
 def cleanup_deleted_items(db: Session = Depends(get_db)):
     """Permanently delete items that have been soft-deleted for more than 30 days. Call via cron."""
     from datetime import datetime
+
     thirty_days_ago = datetime.utcnow() - timedelta(days=30)
-    
+
     # Find and permanently delete old deleted term plans
-    old_term_plans = db.query(TermPlan).filter(
-        TermPlan.deleted_at.isnot(None),
-        TermPlan.deleted_at < thirty_days_ago
-    ).all()
-    
+    old_term_plans = (
+        db.query(TermPlan)
+        .filter(TermPlan.deleted_at.isnot(None), TermPlan.deleted_at < thirty_days_ago)
+        .all()
+    )
+
     term_plan_count = 0
     for plan in old_term_plans:
         # Delete associated meetings first
         db.query(MeetingPlan).filter(MeetingPlan.term_plan_id == plan.id).delete()
         db.delete(plan)
         term_plan_count += 1
-    
+
     # Find and permanently delete old deleted meetings
-    old_meetings = db.query(MeetingPlan).filter(
-        MeetingPlan.deleted_at.isnot(None),
-        MeetingPlan.deleted_at < thirty_days_ago
-    ).all()
-    
+    old_meetings = (
+        db.query(MeetingPlan)
+        .filter(
+            MeetingPlan.deleted_at.isnot(None), MeetingPlan.deleted_at < thirty_days_ago
+        )
+        .all()
+    )
+
     meeting_count = len(old_meetings)
     for meeting in old_meetings:
         db.delete(meeting)
-    
+
     db.commit()
-    
+
     return {
         "status": "cleanup complete",
         "term_plans_permanently_deleted": term_plan_count,
-        "meetings_permanently_deleted": meeting_count
+        "meetings_permanently_deleted": meeting_count,
     }
