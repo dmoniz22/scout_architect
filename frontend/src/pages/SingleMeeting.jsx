@@ -235,7 +235,7 @@ export default function SingleMeeting() {
                       {showPlan ? 'Hide Plan' : 'View Plan'}
                     </button>
                     <a
-                      href={`${import.meta.env.VITE_API_URL || 'http://localhost:8002'}/meetings/${meeting.id}/pdf`}
+                      href={`/api/meetings/${meeting.id}/pdf`}
                       target="_blank"
                       className="btn-secondary flex items-center gap-2"
                     >
@@ -243,7 +243,7 @@ export default function SingleMeeting() {
                       PDF
                     </a>
                     <a
-                      href={`${import.meta.env.VITE_API_URL || 'http://localhost:8002'}/meetings/${meeting.id}/md`}
+                      href={`/api/meetings/${meeting.id}/md`}
                       target="_blank"
                       className="btn-secondary flex items-center gap-2"
                     >

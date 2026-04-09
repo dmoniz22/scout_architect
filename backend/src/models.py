@@ -138,6 +138,7 @@ class TermPlan(Base):
     total_weeks = Column(Integer, nullable=False)
     focus_badges = Column(ARRAY(Integer))
     focus_skills = Column(ARRAY(Integer))
+    target_levels = Column(ARRAY(Integer))  # e.g., [3, 4, 5]
     theme = Column(String(100))
     notes = Column(Text)
     status = Column(String(20), default="draft")
@@ -231,6 +232,7 @@ class TermPlanCreate(BaseModel):
     total_weeks: int
     focus_badges: Optional[List[int]] = None
     focus_skills: Optional[List[int]] = None
+    target_levels: Optional[List[int]] = None  # e.g., [3, 4, 5]
     theme: Optional[str] = None
     notes: Optional[str] = None
 

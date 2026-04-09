@@ -235,7 +235,7 @@ export default function MyPlans() {
                   {/* Downloads */}
                   <div className="flex flex-wrap gap-2 mb-4">
                     <a
-                      href={`${import.meta.env.VITE_API_URL || 'http://localhost:8002'}/term-plans/${plan.id}/pdf`}
+                      href={`/api/term-plans/${plan.id}/pdf`}
                       target="_blank"
                       className="btn-secondary flex items-center gap-2 text-sm"
                     >
@@ -243,7 +243,7 @@ export default function MyPlans() {
                       PDF
                     </a>
                     <a
-                      href={`${import.meta.env.VITE_API_URL || 'http://localhost:8002'}/term-plans/${plan.id}/md`}
+                      href={`/api/term-plans/${plan.id}/md`}
                       target="_blank"
                       className="btn-secondary flex items-center gap-2 text-sm"
                     >
@@ -352,14 +352,14 @@ export default function MyPlans() {
                               {meeting.generated_plan && (
                                 <div className="flex gap-1">
                                   <a
-                                    href={`${import.meta.env.VITE_API_URL || 'http://localhost:8002'}/meetings/${meeting.id}/pdf`}
+                                    href={`/api/meetings/${meeting.id}/pdf`}
                                     target="_blank"
                                     className="text-xs bg-white border px-2 py-1 rounded hover:bg-gray-50"
                                   >
                                     PDF
                                   </a>
                                   <a
-                                    href={`${import.meta.env.VITE_API_URL || 'http://localhost:8002'}/meetings/${meeting.id}/md`}
+                                    href={`/api/meetings/${meeting.id}/md`}
                                     target="_blank"
                                     className="text-xs bg-white border px-2 py-1 rounded hover:bg-gray-50"
                                   >

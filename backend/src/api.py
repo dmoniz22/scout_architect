@@ -681,9 +681,10 @@ def generate_with_llm(
     model_provider: str = "local",
     model: str = "gemma3:12b",
     openrouter_api_key: str = None,
+    skill_objects=None,
+    target_levels=None,
 ) -> dict:
     """Generate meeting content using LLM"""
-    # Age ranges for different sections
     age_ranges = {
         "Beaver": "ages 5-7 (young children)",
         "Cub": "ages 8-10 (older children)",
@@ -692,40 +693,59 @@ def generate_with_llm(
     }
     age_context = age_ranges.get(section_name, f"{section_name} Scouts")
 
-    # Build skills context - MUST be emphasized as core requirements
+    # Build detailed skills context with level-specific requirements
     skills_context = ""
-    required_activities = ""
-    if skills and len(skills) > 0:
-        skills_list = ", ".join(skills)
-        skills_context = f"\n\n**CRITICAL REQUIREMENT: You MUST incorporate these specific OAS (Outdoors Adventure Skills) skills as the MAIN FOCUS of the meeting: {skills_list}**"
-        # Map skills to suggested activities
-        skill_activities = {
-            "Camping": [
-                "shelter building",
-                "camping basics",
-                "tent setup",
-                "fire starting",
-                "outdoor cooking",
-            ],
-            "Scoutcraft": ["knots", "lashings", "tools", "pioneering", "rope work"],
-            "Trail": [
-                "hiking",
-                "orienteering",
-                "compass",
-                "map reading",
-                "trail skills",
-            ],
-            "Nature": ["nature identification", "wildlife", "plants", "environmental"],
-            "First Aid": ["first aid", "injury treatment", "safety"],
-            "Aquatics": ["swimming", "water safety", "kayaking", "canoeing"],
-            "Climbing": ["climbing", "bouldering", "ropes courses"],
-        }
-        activities_for_skills = []
-        for skill in skills:
-            if skill in skill_activities:
-                activities_for_skills.extend(skill_activities[skill][:2])
-        if activities_for_skills:
-            required_activities = f"\n- Each main activity should teach/practice these specific skills: {', '.join(activities_for_skills)}"
+    if skill_objects and len(skill_objects) > 0:
+        target_levels = target_levels or []
+
+        # Build detailed requirements for each skill at each target level
+        skill_details = []
+        for skill_obj in skill_objects:
+            skill_name = skill_obj.skill_name
+            category = skill_obj.category
+
+            # Get the levels data
+            levels_data = skill_obj.levels if hasattr(skill_obj, "levels") else []
+            if isinstance(levels_data, str):
+                import json
+
+                levels_data = json.loads(levels_data)
+
+            # Filter to target levels if specified
+            if target_levels:
+                filtered_levels = [
+                    l for l in levels_data if l.get("level_number") in target_levels
+                ]
+            else:
+                filtered_levels = levels_data
+
+            # Build requirements text for each level
+            level_reqs = []
+            for lvl in filtered_levels:
+                lvl_num = lvl.get("level_number")
+                requirements = lvl.get("requirements", [])
+                req_list = [
+                    f"{r.get('requirement_number', '')}. {r.get('description', '')}"
+                    for r in requirements
+                ]
+                if req_list:
+                    level_reqs.append(
+                        f"Level {lvl_num}:\n  - " + "\n  - ".join(req_list)
+                    )
+
+            if level_reqs:
+                skill_details.append(
+                    f"**{skill_name}** ({category}):\n" + "\n".join(level_reqs)
+                )
+
+        if skill_details:
+            skills_context = f"""
+**CRITICAL: You MUST incorporate these specific OAS skill requirements as the MAIN FOCUS of the meeting:**
+
+{chr(10).join(skill_details)}
+
+The meeting activities must directly teach and allow scouts to practice these exact requirements.
+"""
 
     prompt = f"""Create a detailed {section_name} Scouts meeting plan for week {week_number}.{skills_context}
 
@@ -1051,11 +1071,13 @@ def generate_single_meeting(
         badge_names = [b.badge_name for b in badges]
 
     skill_names = []
+    skill_levels_data = []  # Full skill objects with levels
     if meeting.skills_covered:
         skills = (
             db.query(OASSkill).filter(OASSkill.id.in_(meeting.skills_covered)).all()
         )
         skill_names = [s.skill_name for s in skills]
+        skill_levels_data = skills
 
     # Also get skills from term plan if not specified on meeting
     if not skill_names and term_plan.focus_skills:
@@ -1063,6 +1085,10 @@ def generate_single_meeting(
             db.query(OASSkill).filter(OASSkill.id.in_(term_plan.focus_skills)).all()
         )
         skill_names = [s.skill_name for s in term_skills]
+        skill_levels_data = term_skills
+
+    # Get target levels from term plan
+    target_levels = term_plan.target_levels or []
 
     # Use LLM if requested, otherwise fall back to template
     if use_llm:
@@ -1076,6 +1102,8 @@ def generate_single_meeting(
             model_provider,
             model,
             openrouter_api_key,
+            skill_levels_data,
+            target_levels,
         )
         if not content:
             # Fall back to template if LLM fails
@@ -1151,6 +1179,15 @@ def generate_all_meetings(
     else:
         start = term_plan.start_date
 
+    # Get skill objects for LLM
+    term_skill_objects = []
+    if term_plan.focus_skills:
+        term_skill_objects = (
+            db.query(OASSkill).filter(OASSkill.id.in_(term_plan.focus_skills)).all()
+        )
+
+    target_levels = term_plan.target_levels or []
+
     for week in range(1, term_plan.total_weeks + 1):
         meeting_date = start + timedelta(weeks=week - 1)
 
@@ -1168,16 +1205,19 @@ def generate_all_meetings(
 
         # Use LLM if requested
         if use_llm:
+            skill_names = [s.skill_name for s in term_skill_objects]
             content = generate_with_llm(
                 section.name,
                 week,
                 90,
                 term_plan.theme,
                 location_name,
-                None,
+                skill_names,
                 model_provider,
                 model,
                 openrouter_api_key,
+                term_skill_objects,
+                target_levels,
             )
             if not content:
                 # Fall back to template if LLM fails
