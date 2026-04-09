@@ -753,7 +753,7 @@ Requirements:
 - Duration: {duration} minutes
 - Theme: {theme if theme else "general scouting activities"}
 - Location context: {location_name}
-- Age group: {age_context}{required_activities}
+- Age group: {age_context}
 - The meeting MUST have 2-3 main activities that directly teach the OAS skills listed above
 - Include: opening, main activities, closing
 - Include timing for each activity
