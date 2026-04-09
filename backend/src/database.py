@@ -36,78 +36,94 @@ def init_db():
 
     db = SessionLocal()
     try:
-        # Check if data already exists
+        # Check if sections exist
         result = db.execute(text("SELECT COUNT(*) FROM sections")).scalar()
-        if result > 0:
-            print(f"Database already has {result} sections, skipping seed")
-            return
 
-        # Seed Sections
-        sections_data = [
-            {
-                "name": "Beaver",
-                "min_age": 5,
-                "max_age": 7,
-                "description": "Beaver Scouts - Fun, friends, and the outdoors",
-            },
-            {
-                "name": "Cub",
-                "min_age": 8,
-                "max_age": 10,
-                "description": "Cub Scouts - Adventure and discovery",
-            },
-            {
-                "name": "Scout",
-                "min_age": 11,
-                "max_age": 14,
-                "description": "Scouts - Challenge and adventure",
-            },
-            {
-                "name": "Venturer",
-                "min_age": 15,
-                "max_age": 17,
-                "description": "Venturer Scouts - Leadership and exploration",
-            },
-        ]
-        for s in sections_data:
-            db.execute(
-                text("""
-                INSERT INTO sections (name, min_age, max_age, description) 
-                VALUES (:name, :min_age, :max_age, :description)
-            """),
-                s,
-            )
-
-        # Seed Locations
-        db.execute(
-            text("""
-            INSERT INTO locations (name, city, province, country, latitude, longitude, timezone, is_default)
-            VALUES ('Chilliwack, BC', 'Chilliwack', 'BC', 'Canada', 49.1579, -121.9515, 'America/Vancouver', TRUE)
-        """)
-        )
-
-        # Seed User Preferences
-        db.execute(
-            text("""
-            INSERT INTO user_preferences (key, value) VALUES
-            ('default_location_id', '1'),
-            ('default_section_id', '1'),
-            ('default_meeting_duration', '90'),
-            ('temperature_unit', 'celsius')
-        """)
-        )
-
-        db.commit()
-        print("Sections, locations, and preferences seeded successfully")
-
-        # Load OAS skills from JSON
-        load_oas_skills(db)
+        if result == 0:
+            # Fresh database - seed everything
+            seed_sections(db)
+            seed_locations(db)
+            seed_preferences(db)
+            db.commit()
+            print("Seeded sections, locations, preferences")
+            load_oas_skills(db)
+        else:
+            # Sections exist - check if OAS skills need loading
+            oas_count = db.execute(text("SELECT COUNT(*) FROM oas_skills")).scalar()
+            if oas_count == 0:
+                print("Sections exist but OAS skills missing, loading...")
+                load_oas_skills(db)
+            else:
+                print(
+                    f"Database ready with {result} sections and {oas_count} OAS skills"
+                )
 
     except Exception as e:
         db.rollback()
         print(f"Seed error: {e}")
     finally:
         db.close()
+
+
+def seed_sections(db):
+    """Seed sections table"""
+    sections_data = [
+        {
+            "name": "Beaver",
+            "min_age": 5,
+            "max_age": 7,
+            "description": "Beaver Scouts - Fun, friends, and the outdoors",
+        },
+        {
+            "name": "Cub",
+            "min_age": 8,
+            "max_age": 10,
+            "description": "Cub Scouts - Adventure and discovery",
+        },
+        {
+            "name": "Scout",
+            "min_age": 11,
+            "max_age": 14,
+            "description": "Scouts - Challenge and adventure",
+        },
+        {
+            "name": "Venturer",
+            "min_age": 15,
+            "max_age": 17,
+            "description": "Venturer Scouts - Leadership and exploration",
+        },
+    ]
+    for s in sections_data:
+        db.execute(
+            text("""
+            INSERT INTO sections (name, min_age, max_age, description) 
+            VALUES (:name, :min_age, :max_age, :description)
+        """),
+            s,
+        )
+
+
+def seed_locations(db):
+    """Seed locations table"""
+    db.execute(
+        text("""
+        INSERT INTO locations (name, city, province, country, latitude, longitude, timezone, is_default)
+        VALUES ('Chilliwack, BC', 'Chilliwack', 'BC', 'Canada', 49.1579, -121.9515, 'America/Vancouver', TRUE)
+    """)
+    )
+
+
+def seed_preferences(db):
+    """Seed user preferences"""
+    db.execute(
+        text("""
+        INSERT INTO user_preferences (key, value) VALUES
+        ('default_location_id', '1'),
+        ('default_section_id', '1'),
+        ('default_meeting_duration', '90'),
+        ('temperature_unit', 'celsius')
+    """)
+    )
 
 
 def load_oas_skills(db: Session):
@@ -132,15 +148,12 @@ def load_oas_skills(db: Session):
         with open(oas_file, "r") as f:
             skills_data = json.load(f)
 
-        # Map section names to IDs
-        section_map = {"Beaver": 1, "Cub": 2, "Scout": 3, "Venturer": 4, "All": 3}
-
         for skill in skills_data:
             skill_name = skill.get("skill_name", "")
             category = skill.get("category", "")
             levels_list = skill.get("levels", [])
 
-            # Format levels as JSON array with all requirement details
+            # Format levels as JSON array
             formatted_levels = []
             for level in levels_list:
                 formatted_levels.append(
@@ -150,11 +163,8 @@ def load_oas_skills(db: Session):
                     }
                 )
 
-            # Determine section - skills with "All" apply to Scout (3)
-            if skill_name in ["Beaver", "Cub", "Scout", "Venturer"]:
-                section_id = section_map.get(skill_name, 3)
-            else:
-                section_id = 3  # Default to Scout section
+            # All skills apply to Scout section (3) for now
+            section_id = 3
 
             db.execute(
                 text("""
@@ -171,7 +181,7 @@ def load_oas_skills(db: Session):
 
         db.commit()
         print(
-            f"Loaded {len(skills_data)} OAS skills with all {9} levels from {oas_file.name}"
+            f"Loaded {len(skills_data)} OAS skills with all 9 levels from {oas_file.name}"
         )
 
     except Exception as e:
