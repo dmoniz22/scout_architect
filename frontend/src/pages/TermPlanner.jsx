@@ -10,7 +10,7 @@ export default function TermPlanner() {
   const [sections, setSections] = useState([]);
   const [locations, setLocations] = useState([]);
   const [skills, setSkills] = useState([]);
-  const [selectedLevel, setSelectedLevel] = useState(null);
+  const [selectedLevels, setSelectedLevels] = useState([]);
   
   const [form, setForm] = useState({
     name: '',
@@ -63,7 +63,7 @@ export default function TermPlanner() {
         notes: form.notes || null,
         focus_badges: [],
         focus_skills: form.focus_skills || [],
-        target_level: selectedLevel || null,
+        target_levels: selectedLevels.length > 0 ? selectedLevels : null,
       };
       const res = await createTermPlan(data);
       navigate(`/my-plans?view=${res.data.id}`);
@@ -75,10 +75,10 @@ export default function TermPlanner() {
     }
   };
 
-  const filteredSkills = selectedLevel
+  const filteredSkills = selectedLevels.length > 0
     ? skills.filter(skill => {
         const levels = skill.levels || [];
-        return levels.some(l => l.level_number === selectedLevel);
+        return levels.some(l => selectedLevels.includes(l.level_number));
       })
     : skills;
 
@@ -191,38 +191,52 @@ export default function TermPlanner() {
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">
-              Target OAS Level {selectedLevel && `(showing ${Object.values(groupedSkills).flat().length} skills)`}
+              Target OAS Levels {selectedLevels.length > 0 && `(showing ${Object.values(groupedSkills).flat().length} skills)`}
             </label>
-            <select
-              className="input-field"
-              value={selectedLevel || ''}
-              onChange={(e) => setForm({ ...form, focus_skills: [] })}
-            >
-              <option value="">All Levels (1-9)</option>
+            <div className="flex flex-wrap gap-2 mb-2">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(level => (
-                <option key={level} value={level}>Level {level}</option>
+                <label
+                  key={level}
+                  className={`px-3 py-1 rounded-full text-sm cursor-pointer transition-colors ${
+                    selectedLevels.includes(level)
+                      ? 'bg-scout-blue text-white'
+                      : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedLevels.includes(level)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedLevels([...selectedLevels, level]);
+                      } else {
+                        setSelectedLevels(selectedLevels.filter(l => l !== level));
+                      }
+                      setForm({ ...form, focus_skills: [] });
+                    }}
+                    className="sr-only"
+                  />
+                  Level {level}
+                </label>
               ))}
-            </select>
-            <input
-              type="range"
-              min="1"
-              max="9"
-              value={selectedLevel || 1}
-              onChange={(e) => {
-                setSelectedLevel(parseInt(e.target.value));
-                setForm({ ...form, focus_skills: [] });
-              }}
-              className="w-full mt-2"
-            />
-            <div className="flex justify-between text-xs text-slate-500 mt-1">
-              <span>Beginner</span>
-              <span>Advanced</span>
             </div>
+            {selectedLevels.length > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedLevels([]);
+                  setForm({ ...form, focus_skills: [] });
+                }}
+                className="text-sm text-scout-blue hover:underline"
+              >
+                Clear level filter
+              </button>
+            )}
           </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">
-              Focus OAS Skills {selectedLevel && `(Level ${selectedLevel})`}
+              Focus OAS Skills {selectedLevels.length > 0 && `(Levels ${selectedLevels.join(', ')})`}
             </label>
             <div className="max-h-60 overflow-y-auto border rounded-lg p-2 space-y-3">
               {Object.entries(groupedSkills).map(([category, categorySkills]) => (
