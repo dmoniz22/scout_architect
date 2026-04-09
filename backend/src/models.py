@@ -256,6 +256,13 @@ class MeetingPlanGenerate(BaseModel):
     include_weather_plan: bool = True
 
 
+class GenerateRequest(BaseModel):
+    use_llm: bool = False
+    model_provider: str = "local"
+    model: str = "gemma3:12b"
+    openrouter_api_key: Optional[str] = None
+
+
 class MeetingPlanResponse(BaseModel):
     id: int
     term_plan_id: Optional[int] = None

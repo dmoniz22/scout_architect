@@ -52,17 +52,17 @@ export const generateMeeting = (id) => {
   const settings = JSON.parse(localStorage.getItem('scout_architect_settings') || '{}');
   const use_llm = settings.use_ai_generation || false;
   
-  const params = { use_llm };
+  const body = { use_llm };
   
   if (use_llm) {
-    params.model_provider = settings.model || 'local';
-    params.model = settings.model === 'openrouter' 
+    body.model_provider = settings.model || 'local';
+    body.model = settings.model === 'openrouter' 
       ? (settings.openrouter_model || 'openrouter/auto')
       : (settings.ollama_model || 'gemma3:12b');
-    params.openrouter_api_key = settings.openrouter_api_key || '';
+    body.openrouter_api_key = settings.openrouter_api_key || '';
   }
   
-  return api.post(`/meetings/${id}/generate`, {}, { params });
+  return api.post(`/meetings/${id}/generate`, body);
 };
 
 // Generate all meetings for a term plan
@@ -70,17 +70,17 @@ export const generateAllMeetings = (planId) => {
   const settings = JSON.parse(localStorage.getItem('scout_architect_settings') || '{}');
   const use_llm = settings.use_ai_generation || false;
   
-  const params = { use_llm };
+  const body = { use_llm };
   
   if (use_llm) {
-    params.model_provider = settings.model || 'local';
-    params.model = settings.model === 'openrouter' 
+    body.model_provider = settings.model || 'local';
+    body.model = settings.model === 'openrouter' 
       ? (settings.openrouter_model || 'openrouter/auto')
       : (settings.ollama_model || 'gemma3:12b');
-    params.openrouter_api_key = settings.openrouter_api_key || '';
+    body.openrouter_api_key = settings.openrouter_api_key || '';
   }
   
-  return api.post(`/term-plans/${planId}/generate-meetings`, {}, { params });
+  return api.post(`/term-plans/${planId}/generate-meetings`, body);
 };
 
 // Downloads

@@ -1049,12 +1049,13 @@ def generate_meeting_content(
 @app.post("/meetings/{meeting_id}/generate")
 def generate_single_meeting(
     meeting_id: int,
-    use_llm: bool = False,
-    model_provider: str = "local",
-    model: str = "gemma3:12b",
-    openrouter_api_key: str = None,
+    body: dict = None,
     db: Session = Depends(get_db),
 ):
+    use_llm = body.get("use_llm", False) if body else False
+    model_provider = body.get("model_provider", "local") if body else "local"
+    model = body.get("model", "gemma3:12b") if body else "gemma3:12b"
+    openrouter_api_key = body.get("openrouter_api_key") if body else None
     """Generate meeting plan - template or LLM based"""
     meeting = db.query(MeetingPlan).filter(MeetingPlan.id == meeting_id).first()
     if not meeting:
@@ -1141,12 +1142,13 @@ def generate_single_meeting(
 @app.post("/term-plans/{plan_id}/generate-meetings")
 def generate_all_meetings(
     plan_id: int,
-    use_llm: bool = False,
-    model_provider: str = "local",
-    model: str = "gemma3:12b",
-    openrouter_api_key: str = None,
+    body: dict = None,
     db: Session = Depends(get_db),
 ):
+    use_llm = body.get("use_llm", False) if body else False
+    model_provider = body.get("model_provider", "local") if body else "local"
+    model = body.get("model", "gemma3:12b") if body else "gemma3:12b"
+    openrouter_api_key = body.get("openrouter_api_key") if body else None
     """Generate all meetings for a term plan. Set use_llm=true to use LLM for generation."""
     term_plan = db.query(TermPlan).filter(TermPlan.id == plan_id).first()
     if not term_plan:
