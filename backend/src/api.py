@@ -1388,15 +1388,37 @@ def download_meeting_pdf(meeting_id: int, db: Session = Depends(get_db)):
         story.append(Paragraph(materials_text, styles["DocNormal"]))
         story.append(Spacer(1, 0.1 * inch))
 
-    # Full plan text
+    # Full plan text - parse markdown and add to PDF properly
     if meeting.generated_plan:
         story.append(Paragraph("Full Meeting Plan", styles["DocHeading"]))
-        # Clean up HTML-like tags that might be malformed
         import re
 
-        plan_text = re.sub(r"<[^>]+>", "", meeting.generated_plan)  # Strip all HTML
-        plan_text = plan_text.replace("\n", "<br/>")
-        story.append(Paragraph(plan_text[:2000] + "...", styles["DocNormal"]))
+        # Split into lines and process markdown
+        lines = meeting.generated_plan.split("\n")
+        for line in lines:
+            line = line.strip()
+            if not line:
+                story.append(Spacer(1, 0.05 * inch))
+                continue
+
+            # Check for headings
+            if line.startswith("## "):
+                story.append(Paragraph(line[3:], styles["DocHeading"]))
+            elif line.startswith("# "):
+                story.append(Paragraph(line[2:], styles["DocTitle"]))
+            elif line.startswith("**") and line.endswith("**"):
+                story.append(Paragraph(line[2:-2], styles["DocNormal"]))
+            elif line.startswith("- ") or line.startswith("* "):
+                story.append(Paragraph(f"• {line[2:]}", styles["DocBullet"]))
+            elif line[0].isdigit() and ". " in line[:5]:
+                # Numbered list item
+                idx = line.index(". ")
+                story.append(Paragraph(f"{line}", styles["DocBullet"]))
+            else:
+                # Regular text - clean up markdown bold/italic
+                clean_line = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", line)
+                clean_line = re.sub(r"\*(.+?)\*", r"<i>\1</i>", clean_line)
+                story.append(Paragraph(clean_line, styles["DocNormal"]))
 
     # Build PDF
     doc.build(story)
@@ -1504,9 +1526,27 @@ def download_term_plan_pdf(plan_id: int, db: Session = Depends(get_db)):
         if meeting.generated_plan:
             import re
 
-            plan_text = re.sub(r"<[^>]+>", "", meeting.generated_plan)  # Strip all HTML
-            plan_text = plan_text.replace("\n", "<br/>")[:1500]
-            story.append(Paragraph(plan_text + "...", styles["DocNormal"]))
+            lines = meeting.generated_plan.split("\n")
+            for line in lines:
+                line = line.strip()
+                if not line:
+                    story.append(Spacer(1, 0.05 * inch))
+                    continue
+
+                if line.startswith("## "):
+                    story.append(Paragraph(line[3:], styles["DocHeading"]))
+                elif line.startswith("# "):
+                    story.append(Paragraph(line[2:], styles["DocTitle"]))
+                elif line.startswith("**") and line.endswith("**"):
+                    story.append(Paragraph(line[2:-2], styles["DocNormal"]))
+                elif line.startswith("- ") or line.startswith("* "):
+                    story.append(Paragraph(f"• {line[2:]}", styles["DocBullet"]))
+                elif line[0].isdigit() and ". " in line[:5]:
+                    story.append(Paragraph(f"{line}", styles["DocBullet"]))
+                else:
+                    clean_line = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", line)
+                    clean_line = re.sub(r"\*(.+?)\*", r"<i>\1</i>", clean_line)
+                    story.append(Paragraph(clean_line, styles["DocNormal"]))
 
         if i < len(meetings) - 1:
             story.append(PageBreak())
