@@ -695,18 +695,19 @@ ACTIVITY_DETAILS = {
 
 
 # ============== LLM Integration ==============
-def call_ollama(prompt: str, model: str = "gemma3:12b") -> str:
-    """Call Ollama API to generate content"""
+def call_ollama(prompt: str, model: str = "gemma3:12b", base_url: str = None) -> str:
+    """Call Ollama API to generate content (local or cloud)"""
     import requests
 
-    base_url = os.getenv("OLLAMA_API_URL", "http://host.docker.internal:11434")
+    if base_url is None:
+        base_url = os.getenv("OLLAMA_API_URL", "http://host.docker.internal:11434")
     base_url = base_url.replace("/api/generate", "").replace("/api/chat", "")
 
     try:
         response = requests.post(
             f"{base_url}/api/generate",
             json={"model": model, "prompt": prompt, "stream": False},
-            timeout=120,
+            timeout=180,
         )
         if response.ok:
             return response.json().get("response", "")
@@ -715,6 +716,42 @@ def call_ollama(prompt: str, model: str = "gemma3:12b") -> str:
             return None
     except Exception as e:
         print(f"Ollama connection error: {e}")
+        return None
+
+
+def call_ollama_cloud(prompt: str, model: str, api_key: str = None) -> str:
+    """Call Ollama Cloud API to generate content"""
+    import requests
+
+    if not api_key:
+        print("Ollama Cloud API key not provided")
+        return None
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+
+    payload = {
+        "model": model,
+        "prompt": prompt,
+        "stream": False,
+    }
+
+    try:
+        response = requests.post(
+            "https://cloud.ollama.ai/api/generate",
+            headers=headers,
+            json=payload,
+            timeout=180,
+        )
+        if response.ok:
+            return response.json().get("response", "")
+        else:
+            print(f"Ollama Cloud error: {response.status_code} - {response.text}")
+            return None
+    except Exception as e:
+        print(f"Ollama Cloud connection error: {e}")
         return None
 
 
@@ -770,6 +807,7 @@ def generate_with_llm(
     model_provider: str = "local",
     model: str = "gemma3:12b",
     openrouter_api_key: str = None,
+    ollama_api_key: str = None,
     skill_objects=None,
     target_levels=None,
 ) -> dict:
@@ -861,6 +899,8 @@ Format the output as a detailed meeting plan with:
     # Call the appropriate LLM provider
     if model_provider == "openrouter":
         result = call_openrouter(prompt, model, openrouter_api_key)
+    elif model_provider == "ollama_cloud":
+        result = call_ollama_cloud(prompt, model, ollama_api_key)
     else:
         result = call_ollama(prompt, model)
 
@@ -1163,6 +1203,11 @@ def generate_single_meeting(
         if body
         else stored.get("openrouter_api_key")
     )
+    ollama_api_key = (
+        body.get("ollama_api_key", stored.get("ollama_api_key"))
+        if body
+        else stored.get("ollama_api_key")
+    )
 
     """Generate meeting plan - template or LLM based"""
     meeting = db.query(MeetingPlan).filter(MeetingPlan.id == meeting_id).first()
@@ -1211,6 +1256,7 @@ def generate_single_meeting(
             model_provider,
             model,
             openrouter_api_key,
+            ollama_api_key,
             skill_levels_data,
             target_levels,
         )
@@ -1274,6 +1320,11 @@ def generate_all_meetings(
         body.get("openrouter_api_key", stored.get("openrouter_api_key"))
         if body
         else stored.get("openrouter_api_key")
+    )
+    ollama_api_key = (
+        body.get("ollama_api_key", stored.get("ollama_api_key"))
+        if body
+        else stored.get("ollama_api_key")
     )
 
     """Generate all meetings for a term plan. Set use_llm=true to use LLM for generation."""
@@ -1345,6 +1396,7 @@ def generate_all_meetings(
                 model_provider,
                 model,
                 openrouter_api_key,
+                ollama_api_key,
                 term_skill_objects,
                 target_levels,
             )

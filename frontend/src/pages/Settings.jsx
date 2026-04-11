@@ -20,6 +20,7 @@ export default function Settings() {
     use_ai_generation: false,
     openrouter_api_key: '',
     openrouter_model: 'openrouter/auto',
+    ollama_api_key: '',
   });
 
   // Available Ollama models
@@ -227,6 +228,7 @@ export default function Settings() {
                 }
               >
                 <option value="local">Local (Ollama)</option>
+                <option value="ollama_cloud">Ollama Cloud</option>
                 <option value="openrouter">OpenRouter (many models)</option>
                 <option value="openai">OpenAI (GPT models)</option>
                 <option value="anthropic">Anthropic (Claude)</option>
@@ -271,6 +273,54 @@ export default function Settings() {
                 )}
                 <p className="text-xs text-slate-500 mt-1">
                   Ollama URL: {settings.ollama_url}
+                </p>
+              </div>
+            )}
+
+            {settings.model === 'ollama_cloud' && (
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Ollama Cloud API Key
+                </label>
+                <input
+                  type="password"
+                  className="input-field"
+                  value={settings.ollama_api_key || ''}
+                  onChange={(e) =>
+                    setSettings({ ...settings, ollama_api_key: e.target.value })
+                  }
+                  placeholder="Enter your Ollama Cloud API key"
+                />
+                <p className="text-xs text-slate-500 mt-1">
+                  Get your API key from{" "}
+                  <a
+                    href="https://cloud.ollama.ai/settings/api-keys"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-scout-blue hover:underline"
+                  >
+                    cloud.ollama.ai
+                  </a>
+                </p>
+              </div>
+            )}
+
+            {settings.model === 'ollama_cloud' && (
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Ollama Cloud Model
+                </label>
+                <input
+                  type="text"
+                  className="input-field"
+                  value={settings.ollama_model || ''}
+                  onChange={(e) =>
+                    setSettings({ ...settings, ollama_model: e.target.value })
+                  }
+                  placeholder="llama3.2:latest"
+                />
+                <p className="text-xs text-slate-500 mt-1">
+                  Examples: llama3.2:latest, gemma3:12b, mistral
                 </p>
               </div>
             )}

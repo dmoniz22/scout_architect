@@ -22,5 +22,6 @@ INSERT INTO user_settings (user_id, key, value) VALUES
     (1, 'ollama_model', 'gemma3:12b'),
     (1, 'use_ai_generation', 'false'),
     (1, 'openrouter_api_key', ''),
-    (1, 'openrouter_model', 'openrouter/auto')
+    (1, 'openrouter_model', 'openrouter/auto'),
+    (1, 'ollama_api_key', '')
 ON CONFLICT (user_id, key) DO NOTHING;

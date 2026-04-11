@@ -295,3 +295,4 @@ class UserSettings(BaseModel):
     use_ai_generation: bool = False
     openrouter_api_key: str = ""
     openrouter_model: str = "openrouter/auto"
+    ollama_api_key: str = ""
