@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Save, Loader2, MapPin, Clock, Link as LinkIcon, Database, Brain, Users } from 'lucide-react';
-import { getSections, getLocations } from '../utils/api';
+import { getSections, getLocations, getSettings, saveSettings } from '../utils/api';
 
 export default function Settings() {
   const [loading, setLoading] = useState(true);
@@ -29,18 +29,17 @@ export default function Settings() {
   useEffect(() => {
     async function loadData() {
       try {
-        const [sectionsRes, locationsRes] = await Promise.all([
+        const [sectionsRes, locationsRes, settingsRes] = await Promise.all([
           getSections(),
           getLocations(),
+          getSettings(),
         ]);
         setSections(sectionsRes.data);
         setLocations(locationsRes.data);
         
-        // Load saved settings from localStorage
-        const saved = localStorage.getItem('scout_architect_settings');
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          setSettings(prev => ({ ...prev, ...parsed }));
+        // Load saved settings from server
+        if (settingsRes.data && Object.keys(settingsRes.data).length > 0) {
+          setSettings(prev => ({ ...prev, ...settingsRes.data }));
         }
       } catch (err) {
         console.error('Error loading data:', err);
@@ -86,8 +85,8 @@ export default function Settings() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      // Save to localStorage for persistence
-      localStorage.setItem('scout_architect_settings', JSON.stringify(settings));
+      // Save to server for persistent, cross-device settings
+      await saveSettings(settings);
       setMessage({ type: 'success', text: 'Settings saved successfully!' });
       setTimeout(() => setMessage(null), 3000);
     } catch (err) {

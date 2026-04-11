@@ -21,6 +21,8 @@ from src.models import (
     MeetingPlan,
     SafetyProtocol,
     UserPreference,
+    UserSetting,
+    UserSettings,
     LocationCreate,
     TermPlanCreate,
     MeetingPlanCreate,
@@ -136,6 +138,93 @@ def create_location(location: LocationCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_location)
     return db_location
+
+
+# ============== User Settings (Server-side) ==============
+@app.get("/settings")
+def get_settings(user_id: int = 1, db: Session = Depends(get_db)):
+    """Get all settings for a user (defaults to user 1)"""
+    settings = db.query(UserSetting).filter(UserSetting.user_id == user_id).all()
+    result = {}
+    for s in settings:
+        # Convert string booleans to actual booleans
+        if s.value == "true":
+            result[s.key] = True
+        elif s.value == "false":
+            result[s.key] = False
+        else:
+            result[s.key] = s.value
+    return result
+
+
+@app.put("/settings")
+def save_settings(
+    settings: UserSettings, user_id: int = 1, db: Session = Depends(get_db)
+):
+    """Save all settings for a user"""
+    settings_dict = settings.dict()
+
+    for key, value in settings_dict.items():
+        # Convert booleans to strings for storage
+        str_value = (
+            "true"
+            if value is True
+            else "false"
+            if value is False
+            else str(value)
+            if value
+            else ""
+        )
+
+        existing = (
+            db.query(UserSetting)
+            .filter(UserSetting.user_id == user_id, UserSetting.key == key)
+            .first()
+        )
+
+        if existing:
+            existing.value = str_value
+        else:
+            new_setting = UserSetting(user_id=user_id, key=key, value=str_value)
+            db.add(new_setting)
+
+    db.commit()
+    return {"status": "saved", "user_id": user_id}
+
+
+@app.patch("/settings/{key}")
+def update_setting(
+    key: str, value: str, user_id: int = 1, db: Session = Depends(get_db)
+):
+    """Update a single setting"""
+    existing = (
+        db.query(UserSetting)
+        .filter(UserSetting.user_id == user_id, UserSetting.key == key)
+        .first()
+    )
+
+    if existing:
+        existing.value = value
+    else:
+        new_setting = UserSetting(user_id=user_id, key=key, value=value)
+        db.add(new_setting)
+
+    db.commit()
+    return {"status": "updated", "key": key, "value": value}
+
+
+def get_user_settings(db: Session, user_id: int = 1) -> dict:
+    """Get all settings for a user as a dictionary"""
+    settings = db.query(UserSetting).filter(UserSetting.user_id == user_id).all()
+    result = {}
+    for s in settings:
+        if s.value == "true":
+            result[s.key] = True
+        elif s.value == "false":
+            result[s.key] = False
+        else:
+            result[s.key] = s.value
+    return result
 
 
 # ============== Ollama Integration ==============
@@ -1052,10 +1141,29 @@ def generate_single_meeting(
     body: dict = None,
     db: Session = Depends(get_db),
 ):
-    use_llm = body.get("use_llm", False) if body else False
-    model_provider = body.get("model_provider", "local") if body else "local"
-    model = body.get("model", "gemma3:12b") if body else "gemma3:12b"
-    openrouter_api_key = body.get("openrouter_api_key") if body else None
+    # Get stored user settings, merge with body overrides
+    stored = get_user_settings(db)
+    use_llm = (
+        body.get("use_llm", stored.get("use_ai_generation", False))
+        if body
+        else stored.get("use_ai_generation", False)
+    )
+    model_provider = (
+        body.get("model_provider", stored.get("model", "local"))
+        if body
+        else stored.get("model", "local")
+    )
+    model = (
+        body.get("model", stored.get("ollama_model", "gemma3:12b"))
+        if body
+        else stored.get("ollama_model", "gemma3:12b")
+    )
+    openrouter_api_key = (
+        body.get("openrouter_api_key", stored.get("openrouter_api_key"))
+        if body
+        else stored.get("openrouter_api_key")
+    )
+
     """Generate meeting plan - template or LLM based"""
     meeting = db.query(MeetingPlan).filter(MeetingPlan.id == meeting_id).first()
     if not meeting:
@@ -1145,10 +1253,29 @@ def generate_all_meetings(
     body: dict = None,
     db: Session = Depends(get_db),
 ):
-    use_llm = body.get("use_llm", False) if body else False
-    model_provider = body.get("model_provider", "local") if body else "local"
-    model = body.get("model", "gemma3:12b") if body else "gemma3:12b"
-    openrouter_api_key = body.get("openrouter_api_key") if body else None
+    # Get stored user settings, merge with body overrides
+    stored = get_user_settings(db)
+    use_llm = (
+        body.get("use_llm", stored.get("use_ai_generation", False))
+        if body
+        else stored.get("use_ai_generation", False)
+    )
+    model_provider = (
+        body.get("model_provider", stored.get("model", "local"))
+        if body
+        else stored.get("model", "local")
+    )
+    model = (
+        body.get("model", stored.get("ollama_model", "gemma3:12b"))
+        if body
+        else stored.get("ollama_model", "gemma3:12b")
+    )
+    openrouter_api_key = (
+        body.get("openrouter_api_key", stored.get("openrouter_api_key"))
+        if body
+        else stored.get("openrouter_api_key")
+    )
+
     """Generate all meetings for a term plan. Set use_llm=true to use LLM for generation."""
     term_plan = db.query(TermPlan).filter(TermPlan.id == plan_id).first()
     if not term_plan:

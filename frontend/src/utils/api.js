@@ -22,6 +22,10 @@ api.interceptors.response.use(
   }
 );
 
+// Settings
+export const getSettings = () => api.get('/settings');
+export const saveSettings = (settings) => api.put('/settings', settings);
+
 // Sections
 export const getSections = () => api.get('/sections');
 export const getLocations = () => api.get('/locations');
@@ -49,38 +53,14 @@ export const restoreMeeting = (id) => api.post(`/meetings/${id}/restore`);
 export const getDeletedMeetings = () => api.get('/deleted-meetings');
 
 export const generateMeeting = (id) => {
-  const settings = JSON.parse(localStorage.getItem('scout_architect_settings') || '{}');
-  const use_llm = settings.use_ai_generation || false;
-  
-  const body = { use_llm };
-  
-  if (use_llm) {
-    body.model_provider = settings.model || 'local';
-    body.model = settings.model === 'openrouter' 
-      ? (settings.openrouter_model || 'openrouter/auto')
-      : (settings.ollama_model || 'gemma3:12b');
-    body.openrouter_api_key = settings.openrouter_api_key || '';
-  }
-  
-  return api.post(`/meetings/${id}/generate`, body);
+  // Settings are now read from server-side storage by the backend
+  return api.post(`/meetings/${id}/generate`, {});
 };
 
 // Generate all meetings for a term plan
 export const generateAllMeetings = (planId) => {
-  const settings = JSON.parse(localStorage.getItem('scout_architect_settings') || '{}');
-  const use_llm = settings.use_ai_generation || false;
-  
-  const body = { use_llm };
-  
-  if (use_llm) {
-    body.model_provider = settings.model || 'local';
-    body.model = settings.model === 'openrouter' 
-      ? (settings.openrouter_model || 'openrouter/auto')
-      : (settings.ollama_model || 'gemma3:12b');
-    body.openrouter_api_key = settings.openrouter_api_key || '';
-  }
-  
-  return api.post(`/term-plans/${planId}/generate-meetings`, body);
+  // Settings are now read from server-side storage by the backend
+  return api.post(`/term-plans/${planId}/generate-meetings`, {});
 };
 
 // Downloads

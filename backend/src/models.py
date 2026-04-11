@@ -204,6 +204,17 @@ class UserPreference(Base):
     updated_at = Column(DateTime, default=datetime.utcnow)
 
 
+class UserSetting(Base):
+    __tablename__ = "user_settings"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, default=1)
+    key = Column(String(100), nullable=False)
+    value = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
 # Pydantic models for API
 class SectionCreate(BaseModel):
     name: str
@@ -271,3 +282,16 @@ class MeetingPlanResponse(BaseModel):
     title: Optional[str] = None
     duration_minutes: int = 90
     status: str = "planned"
+
+
+class UserSettings(BaseModel):
+    default_location: str = "1"
+    default_duration: str = "90"
+    default_section: str = ""
+    api_url: str = "http://localhost:8002"
+    model: str = "local"
+    ollama_url: str = "http://localhost:11434"
+    ollama_model: str = "gemma3:12b"
+    use_ai_generation: bool = False
+    openrouter_api_key: str = ""
+    openrouter_model: str = "openrouter/auto"

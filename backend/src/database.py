@@ -36,6 +36,9 @@ def init_db():
 
     db = SessionLocal()
     try:
+        # Ensure user_settings table exists and has defaults
+        seed_user_settings(db)
+
         # Check if sections exist
         result = db.execute(text("SELECT COUNT(*) FROM sections")).scalar()
 
@@ -124,6 +127,33 @@ def seed_preferences(db):
         ('temperature_unit', 'celsius')
     """)
     )
+
+
+def seed_user_settings(db):
+    """Seed user_settings table with defaults if not exists"""
+    default_settings = [
+        ("default_location", "1"),
+        ("default_duration", "90"),
+        ("default_section", ""),
+        ("api_url", "http://localhost:8002"),
+        ("model", "local"),
+        ("ollama_url", "http://localhost:11434"),
+        ("ollama_model", "gemma3:12b"),
+        ("use_ai_generation", "false"),
+        ("openrouter_api_key", ""),
+        ("openrouter_model", "openrouter/auto"),
+    ]
+
+    for key, value in default_settings:
+        db.execute(
+            text("""
+            INSERT INTO user_settings (user_id, key, value) 
+            VALUES (1, :key, :value)
+            ON CONFLICT (user_id, key) DO NOTHING
+        """),
+            {"key": key, "value": value},
+        )
+    db.commit()
 
 
 def load_oas_skills(db: Session):
