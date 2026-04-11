@@ -739,7 +739,7 @@ def call_openrouter(
     payload = {
         "model": model_name,
         "messages": [{"role": "user", "content": prompt}],
-        "max_tokens": 2048,
+        "max_tokens": 8192,
     }
 
     try:
