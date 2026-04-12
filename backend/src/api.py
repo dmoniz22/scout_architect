@@ -751,7 +751,7 @@ def call_ollama_cloud(prompt: str, model: str, api_key: str = None) -> str:
 
     try:
         response = requests.post(
-            "https://ollama.com/v1/api/generate",
+            "https://ollama.com/api/generate",
             headers=headers,
             json=payload,
             timeout=180,
