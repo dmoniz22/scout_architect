@@ -225,8 +225,15 @@ export default function Settings() {
                 className="input-field"
                 value={settings.model}
                 onChange={(e) => {
-                  console.log('[DEBUG] Model provider changed to:', e.target.value);
-                  setSettings(prev => ({ ...prev, model: e.target.value }));
+                  const newModel = e.target.value;
+                  console.log('[DEBUG] Model provider changed to:', newModel);
+                  const updates = { model: newModel };
+                  // Auto-set URL for Ollama Cloud
+                  if (newModel === 'ollama_cloud') {
+                    updates.ollama_url = 'https://ollama.com/api';
+                    updates.ollama_model = 'qwen3.5:397b'; // Reset to recommended model
+                  }
+                  setSettings(prev => ({ ...prev, ...updates }));
                 }}
               >
                 <option value="local">Local (Ollama)</option>
