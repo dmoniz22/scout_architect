@@ -206,6 +206,9 @@ class UserPreference(Base):
 
 class UserSetting(Base):
     __tablename__ = "user_settings"
+    __table_args__ = (
+        UniqueConstraint("user_id", "key", name="uix_user_settings_user_id_key"),
+    )
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, default=1)

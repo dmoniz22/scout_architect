@@ -738,10 +738,8 @@ def call_ollama_cloud(prompt: str, model: str, api_key: str = None) -> str:
         "Content-Type": "application/json",
     }
 
-    # Ollama Cloud requires models to be prefixed with "ollama-cloud/"
-    cloud_model = (
-        f"ollama-cloud/{model}" if not model.startswith("ollama-cloud/") else model
-    )
+    # Ollama Cloud uses the model name directly (no prefix needed)
+    cloud_model = model
 
     payload = {
         "model": cloud_model,

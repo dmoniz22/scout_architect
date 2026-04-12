@@ -145,14 +145,18 @@ def seed_user_settings(db):
     ]
 
     for key, value in default_settings:
-        db.execute(
-            text("""
-            INSERT INTO user_settings (user_id, key, value) 
-            VALUES (1, :key, :value)
-            ON CONFLICT (user_id, key) DO NOTHING
-        """),
-            {"key": key, "value": value},
-        )
+        existing = db.execute(
+            text("SELECT 1 FROM user_settings WHERE user_id = 1 AND key = :key"),
+            {"key": key},
+        ).scalar()
+        if not existing:
+            db.execute(
+                text("""
+                INSERT INTO user_settings (user_id, key, value) 
+                VALUES (1, :key, :value)
+            """),
+                {"key": key, "value": value},
+            )
     db.commit()
 
 
