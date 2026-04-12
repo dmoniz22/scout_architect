@@ -747,6 +747,10 @@ def call_ollama_cloud(prompt: str, model: str, api_key: str = None) -> str:
         "stream": False,
     }
 
+    print(
+        f"[DEBUG] Calling Ollama Cloud: model={cloud_model}, prompt_length={len(prompt)}"
+    )
+
     try:
         response = requests.post(
             "https://ollama.com/api/generate",
@@ -754,6 +758,7 @@ def call_ollama_cloud(prompt: str, model: str, api_key: str = None) -> str:
             json=payload,
             timeout=180,
         )
+        print(f"[DEBUG] Ollama Cloud response: status={response.status_code}")
         if response.ok:
             return response.json().get("response", "")
         else:
