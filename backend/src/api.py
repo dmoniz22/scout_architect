@@ -163,6 +163,9 @@ def save_settings(
 ):
     """Save all settings for a user"""
     settings_dict = settings.dict()
+    print(
+        f"[DEBUG] save_settings received: model={settings_dict.get('model')}, ollama_model={settings_dict.get('ollama_model')}"
+    )
 
     for key, value in settings_dict.items():
         # Convert booleans to strings for storage
@@ -224,6 +227,9 @@ def get_user_settings(db: Session, user_id: int = 1) -> dict:
             result[s.key] = False
         else:
             result[s.key] = s.value
+    print(
+        f"[DEBUG] get_user_settings: keys={list(result.keys())}, model={result.get('model')}, ollama_model={result.get('ollama_model')}"
+    )
     return result
 
 
