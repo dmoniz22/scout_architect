@@ -86,6 +86,7 @@ export default function Settings() {
   const handleSave = async () => {
     setSaving(true);
     try {
+      console.log('[DEBUG] Saving settings:', JSON.stringify(settings, null, 2));
       // Save to server for persistent, cross-device settings
       await saveSettings(settings);
       setMessage({ type: 'success', text: 'Settings saved successfully!' });
@@ -223,9 +224,10 @@ export default function Settings() {
               <select
                 className="input-field"
                 value={settings.model}
-                onChange={(e) =>
-                  setSettings({ ...settings, model: e.target.value })
-                }
+                onChange={(e) => {
+                  console.log('[DEBUG] Model provider changed to:', e.target.value);
+                  setSettings(prev => ({ ...prev, model: e.target.value }));
+                }}
               >
                 <option value="local">Local (Ollama)</option>
                 <option value="ollama_cloud">Ollama Cloud</option>
@@ -313,9 +315,10 @@ export default function Settings() {
                 <select
                   className="input-field"
                   value={settings.ollama_model || 'qwen3.5:397b'}
-                  onChange={(e) =>
-                    setSettings({ ...settings, ollama_model: e.target.value })
-                  }
+                  onChange={(e) => {
+                    console.log('[DEBUG] Ollama model changed to:', e.target.value);
+                    setSettings(prev => ({ ...prev, ollama_model: e.target.value }));
+                  }}
                 >
                   <option value="qwen3.5:397b">First: qwen3.5:397b (Recommended)</option>
                   <option value="devstral-2:123b">Second: devstral-2:123b</option>
