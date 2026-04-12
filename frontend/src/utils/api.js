@@ -64,6 +64,32 @@ export const generateAllMeetings = (planId) => {
   return api.post(`/term-plans/${planId}/generate-meetings`, {});
 };
 
+// Poll for meeting generation completion
+export const pollForMeetingComplete = async (meetingId, maxAttempts = 60, intervalMs = 3000) => {
+  for (let i = 0; i < maxAttempts; i++) {
+    const res = await getMeeting(meetingId);
+    if (res.data && res.data.status !== 'generating') {
+      return res.data;
+    }
+    await new Promise(r => setTimeout(r, intervalMs));
+  }
+  throw new Error('Generation timed out');
+};
+
+// Poll for all meetings generation completion
+export const pollForAllMeetingsComplete = async (planId, maxAttempts = 60, intervalMs = 5000) => {
+  for (let i = 0; i < maxAttempts; i++) {
+    const res = await api.get(`/term-plans/${planId}/meetings`);
+    const meetings = res.data || [];
+    const stillGenerating = meetings.filter(m => m.status === 'generating').length;
+    if (stillGenerating === 0) {
+      return meetings;
+    }
+    await new Promise(r => setTimeout(r, intervalMs));
+  }
+  throw new Error('Generation timed out');
+};
+
 // Downloads
 export const downloadPDF = (url) => window.open(url, '_blank');
 export const downloadMD = (url) => window.open(url, '_blank');

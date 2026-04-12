@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronDown, FileText, Download, Loader2, Zap, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { getSections, getLocations, createMeeting, generateMeeting, getMeeting } from '../utils/api';
+import { getSections, getLocations, createMeeting, generateMeeting, pollForMeetingComplete } from '../utils/api';
 
 export default function SingleMeeting() {
   const navigate = useNavigate();
@@ -64,15 +64,15 @@ export default function SingleMeeting() {
     
     setGenerating(true);
     try {
-      // Settings are now read from server-side by the backend
+      // Start generation (returns immediately)
       await generateMeeting(meeting.id);
       
-      // Refresh to get the generated plan
-      const res = await getMeeting(meeting.id);
-      setMeeting(res.data);
+      // Poll until generation is complete
+      const updatedMeeting = await pollForMeetingComplete(meeting.id);
+      setMeeting(updatedMeeting);
     } catch (err) {
       console.error('Error generating meeting:', err);
-      alert('Failed to generate meeting plan');
+      alert('Failed to generate meeting plan: ' + err.message);
     } finally {
       setGenerating(false);
     }

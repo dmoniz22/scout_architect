@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ChevronDown, ChevronUp, FileText, Download, Loader2, Zap, Eye, EyeOff, Trash2, RotateCcw, AlertTriangle } from 'lucide-react';
-import { getTermPlans, getMeetings, generateMeeting, generateAllMeetings, updateMeeting, deleteTermPlan, restoreTermPlan, deleteMeeting, restoreMeeting } from '../utils/api';
+import { getTermPlans, getMeetings, generateMeeting, generateAllMeetings, pollForMeetingComplete, pollForAllMeetingsComplete, updateMeeting, deleteTermPlan, restoreTermPlan, deleteMeeting, restoreMeeting } from '../utils/api';
 
 // Confirmation Dialog Component
 function ConfirmDialog({ isOpen, title, message, onConfirm, onCancel, confirmText = "Delete", confirmVariant = "danger" }) {
@@ -92,11 +92,16 @@ export default function MyPlans() {
   async function handleGenerate(meetingId) {
     setGenerating({ ...generating, [meetingId]: true });
     try {
+      // Start generation (returns immediately)
       await generateMeeting(meetingId);
+      // Poll until complete
+      await pollForMeetingComplete(meetingId);
+      // Refresh meetings
       const res = await getMeetings(expandedPlan);
       setMeetings(res.data);
     } catch (err) {
       console.error('Error generating meeting:', err);
+      alert('Failed to generate meeting: ' + err.message);
     } finally {
       setGenerating({ ...generating, [meetingId]: false });
     }
@@ -108,11 +113,16 @@ export default function MyPlans() {
     
     setGeneratingAll(true);
     try {
+      // Start generation (returns immediately)
       await generateAllMeetings(expandedPlan);
+      // Poll until all complete
+      await pollForAllMeetingsComplete(expandedPlan);
+      // Refresh meetings
       const res = await getMeetings(expandedPlan);
       setMeetings(res.data);
     } catch (err) {
       console.error('Error generating all meetings:', err);
+      alert('Failed to generate meetings: ' + err.message);
     } finally {
       setGeneratingAll(false);
     }
