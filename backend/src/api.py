@@ -739,9 +739,21 @@ def call_ollama_cloud(prompt: str, model: str, api_key: str = None) -> str:
     }
 
     # Ollama Cloud requires models to be prefixed with "ollama-cloud/"
-    cloud_model = (
-        f"ollama-cloud/{model}" if not model.startswith("ollama-cloud/") else model
-    )
+    cloud_model = f"ollama-cloud/{model}" if not model.startswith("ollama-cloud/") else model
+
+    payload = {
+        "model": cloud_model,
+        "prompt": prompt,
+        "stream": False,
+    }
+
+    try:
+        response = requests.post(
+            "https://ollama.com/v1/api/generate",
+            headers=headers,
+            json=payload,
+            timeout=180,
+        )
 
     payload = {
         "model": cloud_model,

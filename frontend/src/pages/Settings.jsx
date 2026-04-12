@@ -230,7 +230,7 @@ export default function Settings() {
                   const updates = { model: newModel };
                   // Auto-set URL for Ollama Cloud
                   if (newModel === 'ollama_cloud') {
-                    updates.ollama_url = 'https://ollama.com/api';
+                    updates.ollama_url = 'https://ollama.com/v1';
                     updates.ollama_model = 'qwen3.5:397b'; // Reset to recommended model
                   }
                   setSettings(prev => ({ ...prev, ...updates }));
