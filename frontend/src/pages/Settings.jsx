@@ -310,17 +310,19 @@ export default function Settings() {
                 <label className="block text-sm font-medium text-slate-700 mb-1">
                   Ollama Cloud Model
                 </label>
-                <input
-                  type="text"
+                <select
                   className="input-field"
-                  value={settings.ollama_model || ''}
+                  value={settings.ollama_model || 'qwen3.5:397b'}
                   onChange={(e) =>
                     setSettings({ ...settings, ollama_model: e.target.value })
                   }
-                  placeholder="llama3.2:latest"
-                />
+                >
+                  <option value="qwen3.5:397b">First: qwen3.5:397b (Recommended)</option>
+                  <option value="devstral-2:123b">Second: devstral-2:123b</option>
+                  <option value="nemotron-3-super">Third: nemotron-3-super</option>
+                </select>
                 <p className="text-xs text-slate-500 mt-1">
-                  Examples: llama3.2:latest, gemma3:12b, mistral
+                  These models are optimized for instruction following and structured tasks
                 </p>
               </div>
             )}
