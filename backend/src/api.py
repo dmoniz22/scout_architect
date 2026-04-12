@@ -743,7 +743,7 @@ def call_ollama_cloud(prompt: str, model: str, api_key: str = None) -> str:
 
     payload = {
         "model": cloud_model,
-        "prompt": prompt,
+        "messages": [{"role": "user", "content": prompt}],
         "stream": False,
     }
 
@@ -753,14 +753,15 @@ def call_ollama_cloud(prompt: str, model: str, api_key: str = None) -> str:
 
     try:
         response = requests.post(
-            "https://ollama.com/api/generate",
+            "https://ollama.com/api/chat",
             headers=headers,
             json=payload,
             timeout=180,
         )
         print(f"[DEBUG] Ollama Cloud response: status={response.status_code}")
         if response.ok:
-            return response.json().get("response", "")
+            data = response.json()
+            return data.get("message", {}).get("content", "")
         else:
             print(f"Ollama Cloud error: {response.status_code} - {response.text}")
             return None
