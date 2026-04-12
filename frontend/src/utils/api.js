@@ -29,6 +29,7 @@ export const saveSettings = (settings) => api.put('/settings', settings);
 // Sections
 export const getSections = () => api.get('/sections');
 export const getLocations = () => api.get('/locations');
+export const createLocation = (data) => api.post('/locations', data);
 export const getOASSkills = () => api.get('/oas-skills');
 export const getBadges = () => api.get('/badges');
 

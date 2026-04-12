@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Save, Loader2 } from 'lucide-react';
-import { getSections, getLocations, getOASSkills, createTermPlan } from '../utils/api';
+import { Save, Loader2, Plus, X } from 'lucide-react';
+import { getSections, getLocations, getOASSkills, createTermPlan, createLocation } from '../utils/api';
 
 export default function TermPlanner() {
   const navigate = useNavigate();
@@ -11,6 +11,8 @@ export default function TermPlanner() {
   const [locations, setLocations] = useState([]);
   const [skills, setSkills] = useState([]);
   const [selectedLevels, setSelectedLevels] = useState([]);
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const [newLocation, setNewLocation] = useState({ name: '', city: '', province: '', country: 'Canada' });
   
   const [form, setForm] = useState({
     name: '',
@@ -72,6 +74,20 @@ export default function TermPlanner() {
       alert('Failed to create term plan: ' + (err.response?.data?.detail || err.message));
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleCreateLocation = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await createLocation(newLocation);
+      setLocations([...locations, res.data]);
+      setForm({ ...form, location_id: String(res.data.id) });
+      setShowLocationModal(false);
+      setNewLocation({ name: '', city: '', province: '', country: 'Canada' });
+    } catch (err) {
+      console.error('Error creating location:', err);
+      alert('Failed to create location');
     }
   };
 
@@ -142,6 +158,29 @@ export default function TermPlanner() {
                 <option value="60">60 minutes</option>
                 <option value="90">90 minutes</option>
                 <option value="120">2 hours</option>
+              </select>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-sm font-medium text-slate-700">Location</label>
+                <button
+                  type="button"
+                  onClick={() => setShowLocationModal(true)}
+                  className="text-xs text-scout-blue hover:underline flex items-center gap-1"
+                >
+                  <Plus size={12} /> Add New
+                </button>
+              </div>
+              <select
+                className="input-field"
+                value={form.location_id}
+                onChange={(e) => setForm({ ...form, location_id: e.target.value })}
+              >
+                <option value="1">Default Location</option>
+                {locations.filter(l => l.id !== 1).map((l) => (
+                  <option key={l.id} value={l.id}>{l.name}</option>
+                ))}
               </select>
             </div>
           </div>
@@ -310,6 +349,56 @@ export default function TermPlanner() {
           {saving ? 'Creating...' : 'Create Term Plan'}
         </button>
       </form>
+
+      {/* Add Location Modal */}
+      {showLocationModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold">Add New Location</h3>
+              <button onClick={() => setShowLocationModal(false)} className="text-slate-400 hover:text-slate-600">
+                <X size={20} />
+              </button>
+            </div>
+            <form onSubmit={handleCreateLocation} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Location Name</label>
+                <input
+                  type="text"
+                  className="input-field"
+                  placeholder="e.g., Kelowna Lakefront"
+                  value={newLocation.name}
+                  onChange={(e) => setNewLocation({ ...newLocation, name: e.target.value })}
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">City</label>
+                  <input
+                    type="text"
+                    className="input-field"
+                    placeholder="e.g., Kelowna"
+                    value={newLocation.city}
+                    onChange={(e) => setNewLocation({ ...newLocation, city: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Province</label>
+                  <input
+                    type="text"
+                    className="input-field"
+                    placeholder="e.g., BC"
+                    value={newLocation.province}
+                    onChange={(e) => setNewLocation({ ...newLocation, province: e.target.value })}
+                  />
+                </div>
+              </div>
+              <button type="submit" className="btn-primary w-full">Add Location</button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

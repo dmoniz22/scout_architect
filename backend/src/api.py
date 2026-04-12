@@ -873,6 +873,16 @@ def generate_with_llm(
 
 The meeting activities must directly teach and allow scouts to practice these exact requirements.
 """
+        else:
+            print(
+                f"[DEBUG] No skill_details built. target_levels={target_levels}, skills_count={len(skill_objects)}"
+            )
+            for so in skill_objects:
+                print(
+                    f"[DEBUG] Skill: {so.skill_name}, category: {so.category}, levels: {so.levels}"
+                )
+    else:
+        print(f"[DEBUG] No skill_objects provided to generate_with_llm")
 
     prompt = f"""Create a detailed {section_name} Scouts meeting plan for week {week_number}.{skills_context}
 
@@ -895,6 +905,10 @@ Format the output as a detailed meeting plan with:
 4. Materials Needed
 5. Safety Notes
 6. Location-specific considerations for {location_name}"""
+
+    print(
+        f"[DEBUG] generate_with_llm: model_provider={model_provider}, model={model}, skills_context_length={len(skills_context)}"
+    )
 
     # Call the appropriate LLM provider
     if model_provider == "openrouter":

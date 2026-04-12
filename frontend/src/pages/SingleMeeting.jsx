@@ -64,10 +64,7 @@ export default function SingleMeeting() {
     
     setGenerating(true);
     try {
-      const settings = JSON.parse(localStorage.getItem('scout_architect_settings') || '{}');
-      const use_llm = settings.use_ai_generation || false;
-      const model = settings.ollama_model || 'gemma3:12b';
-      
+      // Settings are now read from server-side by the backend
       await generateMeeting(meeting.id);
       
       // Refresh to get the generated plan
