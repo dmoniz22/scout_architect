@@ -1,6 +1,6 @@
 """FastAPI backend for Scout Leader Lesson Architect"""
 
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from sqlalchemy import func
@@ -1204,93 +1204,82 @@ def generate_meeting_content(
     }
 
 
-@app.post("/meetings/{meeting_id}/generate")
-def generate_single_meeting(
+def generate_meeting_task(
     meeting_id: int,
-    body: dict = None,
-    db: Session = Depends(get_db),
+    use_llm: bool,
+    model_provider: str,
+    model: str,
+    openrouter_api_key: str,
+    ollama_api_key: str,
 ):
-    # Get stored user settings, merge with body overrides
-    stored = get_user_settings(db)
-    use_llm = (
-        body.get("use_llm", stored.get("use_ai_generation", False))
-        if body
-        else stored.get("use_ai_generation", False)
-    )
-    model_provider = (
-        body.get("model_provider", stored.get("model", "local"))
-        if body
-        else stored.get("model", "local")
-    )
-    model = (
-        body.get("model", stored.get("ollama_model", "gemma3:12b"))
-        if body
-        else stored.get("ollama_model", "gemma3:12b")
-    )
-    openrouter_api_key = (
-        body.get("openrouter_api_key", stored.get("openrouter_api_key"))
-        if body
-        else stored.get("openrouter_api_key")
-    )
-    ollama_api_key = (
-        body.get("ollama_api_key", stored.get("ollama_api_key"))
-        if body
-        else stored.get("ollama_api_key")
-    )
+    """Background task to generate a meeting plan"""
+    from src.database import SessionLocal
 
-    """Generate meeting plan - template or LLM based"""
-    meeting = db.query(MeetingPlan).filter(MeetingPlan.id == meeting_id).first()
-    if not meeting:
-        raise HTTPException(status_code=404, detail="Meeting not found")
+    db = SessionLocal()
+    try:
+        meeting = db.query(MeetingPlan).filter(MeetingPlan.id == meeting_id).first()
+        if not meeting:
+            print(f"[ERROR] Meeting {meeting_id} not found")
+            return
 
-    term_plan = db.query(TermPlan).filter(TermPlan.id == meeting.term_plan_id).first()
-    section = db.query(Section).filter(Section.id == term_plan.section_id).first()
-    location = db.query(Location).filter(Location.id == term_plan.location_id).first()
-    location_name = location.name if location else "Chilliwack, BC"
-
-    badge_names = []
-    if meeting.badges_covered:
-        badges = db.query(Badge).filter(Badge.id.in_(meeting.badges_covered)).all()
-        badge_names = [b.badge_name for b in badges]
-
-    skill_names = []
-    skill_levels_data = []  # Full skill objects with levels
-    if meeting.skills_covered:
-        skills = (
-            db.query(OASSkill).filter(OASSkill.id.in_(meeting.skills_covered)).all()
+        term_plan = (
+            db.query(TermPlan).filter(TermPlan.id == meeting.term_plan_id).first()
         )
-        skill_names = [s.skill_name for s in skills]
-        skill_levels_data = skills
-
-    # Also get skills from term plan if not specified on meeting
-    if not skill_names and term_plan.focus_skills:
-        term_skills = (
-            db.query(OASSkill).filter(OASSkill.id.in_(term_plan.focus_skills)).all()
+        section = db.query(Section).filter(Section.id == term_plan.section_id).first()
+        location = (
+            db.query(Location).filter(Location.id == term_plan.location_id).first()
         )
-        skill_names = [s.skill_name for s in term_skills]
-        skill_levels_data = term_skills
+        location_name = location.name if location else "Chilliwack, BC"
 
-    # Get target levels from term plan
-    target_levels = term_plan.target_levels or []
+        badge_names = []
+        if meeting.badges_covered:
+            badges = db.query(Badge).filter(Badge.id.in_(meeting.badges_covered)).all()
+            badge_names = [b.badge_name for b in badges]
 
-    # Use LLM if requested, otherwise fall back to template
-    if use_llm:
-        content = generate_with_llm(
-            section.name,
-            meeting.week_number,
-            meeting.duration_minutes or 90,
-            term_plan.theme,
-            location_name,
-            skill_names,
-            model_provider,
-            model,
-            openrouter_api_key,
-            ollama_api_key,
-            skill_levels_data,
-            target_levels,
-        )
-        if not content:
-            # Fall back to template if LLM fails
+        skill_names = []
+        skill_levels_data = []
+        if meeting.skills_covered:
+            skills = (
+                db.query(OASSkill).filter(OASSkill.id.in_(meeting.skills_covered)).all()
+            )
+            skill_names = [s.skill_name for s in skills]
+            skill_levels_data = skills
+
+        if not skill_names and term_plan.focus_skills:
+            term_skills = (
+                db.query(OASSkill).filter(OASSkill.id.in_(term_plan.focus_skills)).all()
+            )
+            skill_names = [s.skill_name for s in term_skills]
+            skill_levels_data = term_skills
+
+        target_levels = term_plan.target_levels or []
+
+        if use_llm:
+            content = generate_with_llm(
+                section.name,
+                meeting.week_number,
+                meeting.duration_minutes or 90,
+                term_plan.theme,
+                location_name,
+                skill_names,
+                model_provider,
+                model,
+                openrouter_api_key,
+                ollama_api_key,
+                skill_levels_data,
+                target_levels,
+            )
+            if not content:
+                content = generate_meeting_content(
+                    section.name,
+                    meeting.week_number,
+                    meeting.duration_minutes or 90,
+                    term_plan.theme,
+                    badge_names,
+                    skill_names,
+                    location_name,
+                )
+        else:
             content = generate_meeting_content(
                 section.name,
                 meeting.week_number,
@@ -1300,34 +1289,34 @@ def generate_single_meeting(
                 skill_names,
                 location_name,
             )
-    else:
-        content = generate_meeting_content(
-            section.name,
-            meeting.week_number,
-            meeting.duration_minutes or 90,
-            term_plan.theme,
-            badge_names,
-            skill_names,
-            location_name,
-        )
 
-    meeting.title = content["title"]
-    meeting.generated_plan = content["plan"]
-    meeting.objectives = content["objectives"]
-    meeting.activities = content["activities"]
-    meeting.materials_needed = content["materials"]
-    meeting.status = "generated"
-    db.commit()
-
-    return {"meeting_id": meeting_id, "title": content["title"], "status": "generated"}
+        meeting.title = content["title"]
+        meeting.generated_plan = content["plan"]
+        meeting.objectives = content["objectives"]
+        meeting.activities = content["activities"]
+        meeting.materials_needed = content["materials"]
+        meeting.status = "generated"
+        db.commit()
+        print(f"[OK] Meeting {meeting_id} generated successfully")
+    except Exception as e:
+        db.rollback()
+        print(f"[ERROR] Failed to generate meeting {meeting_id}: {e}")
+    finally:
+        db.close()
 
 
-@app.post("/term-plans/{plan_id}/generate-meetings")
-def generate_all_meetings(
-    plan_id: int,
+@app.post("/meetings/{meeting_id}/generate")
+async def generate_single_meeting(
+    meeting_id: int,
+    background_tasks: BackgroundTasks,
     body: dict = None,
     db: Session = Depends(get_db),
 ):
+    # Check if meeting exists
+    meeting = db.query(MeetingPlan).filter(MeetingPlan.id == meeting_id).first()
+    if not meeting:
+        raise HTTPException(status_code=404, detail="Meeting not found")
+
     # Get stored user settings, merge with body overrides
     stored = get_user_settings(db)
     use_llm = (
@@ -1356,81 +1345,123 @@ def generate_all_meetings(
         else stored.get("ollama_api_key")
     )
 
-    """Generate all meetings for a term plan. Set use_llm=true to use LLM for generation."""
-    term_plan = db.query(TermPlan).filter(TermPlan.id == plan_id).first()
-    if not term_plan:
-        raise HTTPException(status_code=404, detail="Term plan not found")
+    # Mark as generating
+    meeting.status = "generating"
+    db.commit()
 
-    section = db.query(Section).filter(Section.id == term_plan.section_id).first()
-    location = db.query(Location).filter(Location.id == term_plan.location_id).first()
-    location_name = location.name if location else "Chilliwack, BC"
+    # Run generation in background
+    background_tasks.add_task(
+        generate_meeting_task,
+        meeting_id,
+        use_llm,
+        model_provider,
+        model,
+        openrouter_api_key,
+        ollama_api_key,
+    )
 
-    existing = db.query(MeetingPlan).filter(MeetingPlan.term_plan_id == plan_id).all()
-    existing_weeks = {m.week_number: m for m in existing}
+    return {
+        "status": "generating",
+        "meeting_id": meeting_id,
+        "message": "Generation started in background",
+    }
 
-    badge_names = []
-    if term_plan.focus_badges:
-        badges = db.query(Badge).filter(Badge.id.in_(term_plan.focus_badges)).all()
-        badge_names = [b.badge_name for b in badges]
 
-    skill_names = []
-    if term_plan.focus_skills:
-        skills = (
-            db.query(OASSkill).filter(OASSkill.id.in_(term_plan.focus_skills)).all()
-        )
-        skill_names = [s.skill_name for s in skills]
-
-    generated_count = 0
+def generate_all_meetings_task(
+    plan_id: int,
+    use_llm: bool,
+    model_provider: str,
+    model: str,
+    openrouter_api_key: str,
+    ollama_api_key: str,
+):
+    """Background task to generate all meetings for a term plan"""
+    from src.database import SessionLocal
     from datetime import datetime
 
-    if isinstance(term_plan.start_date, str):
-        start = datetime.fromisoformat(term_plan.start_date).date()
-    else:
-        start = term_plan.start_date
+    db = SessionLocal()
+    try:
+        term_plan = db.query(TermPlan).filter(TermPlan.id == plan_id).first()
+        if not term_plan:
+            print(f"[ERROR] Term plan {plan_id} not found")
+            return
 
-    # Get skill objects for LLM
-    term_skill_objects = []
-    if term_plan.focus_skills:
-        term_skill_objects = (
-            db.query(OASSkill).filter(OASSkill.id.in_(term_plan.focus_skills)).all()
+        section = db.query(Section).filter(Section.id == term_plan.section_id).first()
+        location = (
+            db.query(Location).filter(Location.id == term_plan.location_id).first()
         )
+        location_name = location.name if location else "Chilliwack, BC"
 
-    target_levels = term_plan.target_levels or []
+        existing = (
+            db.query(MeetingPlan).filter(MeetingPlan.term_plan_id == plan_id).all()
+        )
+        existing_weeks = {m.week_number: m for m in existing}
 
-    for week in range(1, term_plan.total_weeks + 1):
-        meeting_date = start + timedelta(weeks=week - 1)
+        badge_names = []
+        if term_plan.focus_badges:
+            badges = db.query(Badge).filter(Badge.id.in_(term_plan.focus_badges)).all()
+            badge_names = [b.badge_name for b in badges]
 
-        if week in existing_weeks:
-            meeting = existing_weeks[week]
+        term_skill_objects = []
+        if term_plan.focus_skills:
+            term_skill_objects = (
+                db.query(OASSkill).filter(OASSkill.id.in_(term_plan.focus_skills)).all()
+            )
+
+        target_levels = term_plan.target_levels or []
+
+        if isinstance(term_plan.start_date, str):
+            start = datetime.fromisoformat(term_plan.start_date).date()
         else:
-            meeting = MeetingPlan(
-                term_plan_id=plan_id,
-                week_number=week,
-                meeting_date=meeting_date,
-                duration_minutes=90,
-                status="planned",
-            )
-            db.add(meeting)
+            start = term_plan.start_date
 
-        # Use LLM if requested
-        if use_llm:
+        generated_count = 0
+        for week in range(1, term_plan.total_weeks + 1):
+            meeting_date = start + timedelta(weeks=week - 1)
+
+            if week in existing_weeks:
+                meeting = existing_weeks[week]
+            else:
+                meeting = MeetingPlan(
+                    term_plan_id=plan_id,
+                    week_number=week,
+                    meeting_date=meeting_date,
+                    duration_minutes=90,
+                    status="planned",
+                )
+                db.add(meeting)
+
+            meeting.status = "generating"
+            db.commit()
+
             skill_names = [s.skill_name for s in term_skill_objects]
-            content = generate_with_llm(
-                section.name,
-                week,
-                90,
-                term_plan.theme,
-                location_name,
-                skill_names,
-                model_provider,
-                model,
-                openrouter_api_key,
-                ollama_api_key,
-                term_skill_objects,
-                target_levels,
-            )
-            if not content:
-                # Fall back to template if LLM fails
+
+            if use_llm:
+                content = generate_with_llm(
+                    section.name,
+                    week,
+                    90,
+                    term_plan.theme,
+                    location_name,
+                    skill_names,
+                    model_provider,
+                    model,
+                    openrouter_api_key,
+                    ollama_api_key,
+                    term_skill_objects,
+                    target_levels,
+                )
+                if not content:
+                    content = generate_meeting_content(
+                        section.name,
+                        week,
+                        90,
+                        term_plan.theme,
+                        badge_names[:2],
+                        skill_names[:2],
+                        location_name,
+                    )
+            else:
                 content = generate_meeting_content(
                     section.name,
                     week,
@@ -1440,33 +1471,83 @@ def generate_all_meetings(
                     skill_names[:2],
                     location_name,
                 )
-        else:
-            content = generate_meeting_content(
-                section.name,
-                week,
-                90,
-                term_plan.theme,
-                badge_names[:2],
-                skill_names[:2],
-                location_name,
-            )
 
-        meeting.title = content["title"]
-        meeting.generated_plan = content["plan"]
-        meeting.objectives = content["objectives"]
-        meeting.activities = content["activities"]
-        meeting.materials_needed = content["materials"]
-        meeting.status = "generated"
-        generated_count += 1
+            meeting.title = content["title"]
+            meeting.generated_plan = content["plan"]
+            meeting.objectives = content["objectives"]
+            meeting.activities = content["activities"]
+            meeting.materials_needed = content["materials"]
+            meeting.status = "generated"
+            db.commit()
+            generated_count += 1
+            print(f"[OK] Generated meeting {week} for term plan {plan_id}")
 
-    term_plan.status = "planned"
-    db.commit()
+        print(
+            f"[OK] Completed generating {generated_count} meetings for term plan {plan_id}"
+        )
+    except Exception as e:
+        db.rollback()
+        print(f"[ERROR] Failed to generate meetings for term plan {plan_id}: {e}")
+    finally:
+        db.close()
+
+
+@app.post("/term-plans/{plan_id}/generate-meetings")
+async def generate_all_meetings(
+    plan_id: int,
+    background_tasks: BackgroundTasks,
+    body: dict = None,
+    db: Session = Depends(get_db),
+):
+    # Check term plan exists
+    term_plan = db.query(TermPlan).filter(TermPlan.id == plan_id).first()
+    if not term_plan:
+        raise HTTPException(status_code=404, detail="Term plan not found")
+
+    # Get stored user settings, merge with body overrides
+    stored = get_user_settings(db)
+    use_llm = (
+        body.get("use_llm", stored.get("use_ai_generation", False))
+        if body
+        else stored.get("use_ai_generation", False)
+    )
+    model_provider = (
+        body.get("model_provider", stored.get("model", "local"))
+        if body
+        else stored.get("model", "local")
+    )
+    model = (
+        body.get("model", stored.get("ollama_model", "gemma3:12b"))
+        if body
+        else stored.get("ollama_model", "gemma3:12b")
+    )
+    openrouter_api_key = (
+        body.get("openrouter_api_key", stored.get("openrouter_api_key"))
+        if body
+        else stored.get("openrouter_api_key")
+    )
+    ollama_api_key = (
+        body.get("ollama_api_key", stored.get("ollama_api_key"))
+        if body
+        else stored.get("ollama_api_key")
+    )
+
+    # Run generation in background
+    background_tasks.add_task(
+        generate_all_meetings_task,
+        plan_id,
+        use_llm,
+        model_provider,
+        model,
+        openrouter_api_key,
+        ollama_api_key,
+    )
 
     return {
+        "status": "generating",
         "term_plan_id": plan_id,
-        "meetings_generated": generated_count,
-        "total_weeks": term_plan.total_weeks,
-        "status": "success",
+        "total_meetings": term_plan.total_weeks,
+        "message": "Generation started in background",
     }
 
 
