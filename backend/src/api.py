@@ -792,12 +792,14 @@ def html_to_docx_paragraph(html_content: str, doc, styles) -> None:
             elif tag == 'table':
                 self.in_table = False
                 if self.table_data:
-                    table = doc.add_table(rows=len(self.table_data), cols=len(self.table_data[0]))
-                    table.style = 'Light Grid Accent 1'
-                    for i, row_data in enumerate(self.table_data):
-                        row = table.rows[i]
-                        for j, cell_text in enumerate(row_data):
-                            row.cells[j].text = cell_text.strip() if cell_text else ""
+                    max_cols = max(len(row) for row in self.table_data) if self.table_data else 0
+                    if max_cols > 0:
+                        table = doc.add_table(rows=len(self.table_data), cols=max_cols)
+                        table.style = 'Light Grid Accent 1'
+                        for i, row_data in enumerate(self.table_data):
+                            row = table.rows[i]
+                            for j in range(min(len(row_data), len(row.cells))):
+                                row.cells[j].text = row_data[j].strip() if row_data[j] else ""
             elif tag == 'tr':
                 if self.current_row:
                     self.table_data.append(self.current_row)
