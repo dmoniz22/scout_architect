@@ -989,7 +989,9 @@ Format the output as a detailed meeting plan with:
     else:
         result = call_ollama(prompt, model)
 
-    if result:
+    if not result:
+        print(f"[WARN] LLM call returned no result for week {week_number}. Falling back to template generation.")
+    elif result:
         # Extract title from the generated content - look for "Title:" or "##" heading
         lines = result.split("\n")
         title = None
@@ -1273,6 +1275,8 @@ def generate_meeting_task(
 
     db = SessionLocal()
     try:
+        print(f"[DEBUG] generate_meeting_task: meeting_id={meeting_id}, use_llm={use_llm}, model_provider={model_provider}, model={model}")
+
         meeting = db.query(MeetingPlan).filter(MeetingPlan.id == meeting_id).first()
         if not meeting:
             print(f"[ERROR] Meeting {meeting_id} not found")
