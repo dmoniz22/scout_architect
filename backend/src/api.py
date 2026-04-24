@@ -11,6 +11,7 @@ import random
 import os
 import re
 import markdown
+from io import BytesIO
 
 from src.database import get_db, init_db, load_oas_skills
 from src.models import (
@@ -841,7 +842,6 @@ def md_to_docx(md_text: str, title: str = "Meeting Plan") -> bytes:
         html_to_docx_paragraph(html, doc, None)
 
         # Save to bytes
-        from io import BytesIO
         buffer = BytesIO()
         doc.save(buffer)
         buffer.seek(0)
@@ -2178,8 +2178,6 @@ def download_term_plan_pdf(plan_id: int, db: Session = Depends(get_db)):
 @app.get("/term-plans/{plan_id}/docx")
 def download_term_plan_docx(plan_id: int, db: Session = Depends(get_db)):
     """Generate and download entire term plan as Word document with rendered markdown"""
-    from io import BytesIO
-
     term_plan = db.query(TermPlan).filter(TermPlan.id == plan_id).first()
     if not term_plan:
         raise HTTPException(status_code=404, detail="Term plan not found")
