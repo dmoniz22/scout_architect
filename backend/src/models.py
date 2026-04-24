@@ -170,6 +170,7 @@ class MeetingPlan(Base):
     weather_contingency = Column(Text)
     badges_covered = Column(ARRAY(Integer))
     skills_covered = Column(ARRAY(Integer))
+    target_levels = Column(ARRAY(Integer))  # Override term plan levels for this meeting
     is_fun_night = Column(Boolean, default=False)  # Fun nights skip OAS skills
     generated_plan = Column(Text)
     pdf_path = Column(String(500))
@@ -270,6 +271,7 @@ class MeetingPlanUpdate(BaseModel):
     duration_minutes: Optional[int] = None
     badges_covered: Optional[List[int]] = None
     skills_covered: Optional[List[int]] = None
+    target_levels: Optional[List[int]] = None  # Override term plan levels
     is_fun_night: Optional[bool] = None
 
 

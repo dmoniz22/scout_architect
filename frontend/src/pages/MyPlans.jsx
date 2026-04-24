@@ -172,6 +172,7 @@ export default function MyPlans() {
         title: editingMeeting.title,
         duration_minutes: editingMeeting.duration_minutes,
         skills_covered: editingMeeting.skills_covered,
+        target_levels: editingMeeting.target_levels,
         is_fun_night: editingMeeting.is_fun_night,
       });
       const res = await getMeetings(expandedPlan);
@@ -509,6 +510,41 @@ export default function MyPlans() {
                   Fun nights generate themed activities without OAS skill requirements
                 </p>
               </div>
+
+              {!editingMeeting.is_fun_night && (
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Target OAS Levels</label>
+                  <p className="text-xs text-slate-500 mb-2">Select which badge levels to focus on (leave empty to use term plan levels)</p>
+                  <div className="flex flex-wrap gap-2">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((level) => (
+                      <label
+                        key={level}
+                        className={`flex items-center gap-1 px-2 py-1 rounded cursor-pointer text-sm ${
+                          editingMeeting.target_levels?.includes(level)
+                            ? 'bg-scout-blue text-white'
+                            : 'bg-slate-100 hover:bg-slate-200'
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={editingMeeting.target_levels?.includes(level) || false}
+                          onChange={(e) => {
+                            const checked = e.target.checked;
+                            setEditingMeeting({
+                              ...editingMeeting,
+                              target_levels: checked
+                                ? [...(editingMeeting.target_levels || []), level]
+                                : (editingMeeting.target_levels || []).filter(l => l !== level)
+                            });
+                          }}
+                          className="sr-only"
+                        />
+                        {level}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {!editingMeeting.is_fun_night && (
                 <div>

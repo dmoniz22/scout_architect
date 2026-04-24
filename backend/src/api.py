@@ -495,6 +495,8 @@ def update_meeting(meeting_id: int, update: MeetingPlanUpdate, db: Session = Dep
         meeting.badges_covered = update.badges_covered
     if update.skills_covered is not None:
         meeting.skills_covered = update.skills_covered
+    if update.target_levels is not None:
+        meeting.target_levels = update.target_levels
     if update.is_fun_night is not None:
         meeting.is_fun_night = update.is_fun_night
 
@@ -1303,7 +1305,8 @@ def generate_meeting_task(
             skill_names = [s.skill_name for s in term_skills]
             skill_levels_data = term_skills
 
-        target_levels = term_plan.target_levels or []
+        # Use meeting-specific target_levels if set, otherwise fall back to term plan
+        target_levels = meeting.target_levels if meeting.target_levels else (term_plan.target_levels or [])
 
         if use_llm:
             meeting_is_fun_night = meeting.is_fun_night if hasattr(meeting, 'is_fun_night') else False
@@ -1503,6 +1506,7 @@ def generate_all_meetings_task(
 
             skill_names = [s.skill_name for s in term_skill_objects]
             meeting_is_fun_night = meeting.is_fun_night if hasattr(meeting, 'is_fun_night') else False
+            meeting_target_levels = meeting.target_levels if meeting.target_levels else target_levels
 
             if use_llm:
                 content = generate_with_llm(
@@ -1517,7 +1521,7 @@ def generate_all_meetings_task(
                     openrouter_api_key,
                     ollama_api_key,
                     term_skill_objects,
-                    target_levels,
+                    meeting_target_levels,
                     is_fun_night=meeting_is_fun_night,
                     previous_week_title=previous_week_title,
                 )
