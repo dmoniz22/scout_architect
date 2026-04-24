@@ -360,14 +360,6 @@ export default function MyPlans() {
                                     Week {meeting.week_number}: {meeting.title}
                                     {meeting.is_fun_night && <span className="ml-2 text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded">🎉 Fun Night</span>}
                                   </p>
-                                  {!meeting.generated_plan && (
-                                    <button
-                                      onClick={() => openEditMeetingModal(meeting)}
-                                      className="text-xs text-scout-blue hover:underline flex items-center gap-1"
-                                    >
-                                      <Settings size={10} /> Edit meeting details
-                                    </button>
-                                  )}
                                 </>
                               )}
                               <p className="text-sm text-slate-600">
@@ -376,8 +368,26 @@ export default function MyPlans() {
                               <p className="text-sm text-slate-500 mt-1">
                                 {meeting.generated_plan ? '✅ Generated' : '❌ Not generated'}
                               </p>
+                              <button
+                                onClick={() => openEditMeetingModal(meeting)}
+                                className="text-xs text-scout-blue hover:underline flex items-center gap-1"
+                              >
+                                <Settings size={10} /> Edit meeting details
+                              </button>
                             </div>
                             <div className="flex flex-col gap-1">
+                              <button
+                                onClick={() => handleGenerate(meeting.id)}
+                                disabled={generating[meeting.id]}
+                                className="btn-primary text-xs py-1 px-2 flex items-center gap-1"
+                              >
+                                {generating[meeting.id] ? (
+                                  <Loader2 className="animate-spin" size={12} />
+                                ) : (
+                                  <Zap size={12} />
+                                )}
+                                {meeting.generated_plan ? 'Regenerate' : 'Generate'}
+                              </button>
                               {meeting.generated_plan && (
                                 <button
                                   onClick={() => setExpandedMeeting(expandedMeeting === meeting.id ? null : meeting.id)}
@@ -385,20 +395,6 @@ export default function MyPlans() {
                                 >
                                   {expandedMeeting === meeting.id ? <EyeOff size={12} /> : <Eye size={12} />}
                                   {expandedMeeting === meeting.id ? 'Hide' : 'View'}
-                                </button>
-                              )}
-                              {!meeting.generated_plan && (
-                                <button
-                                  onClick={() => handleGenerate(meeting.id)}
-                                  disabled={generating[meeting.id]}
-                                  className="btn-primary text-xs py-1 px-2 flex items-center gap-1"
-                                >
-                                  {generating[meeting.id] ? (
-                                    <Loader2 className="animate-spin" size={12} />
-                                  ) : (
-                                    <Zap size={12} />
-                                  )}
-                                  Generate
                                 </button>
                               )}
                               {meeting.generated_plan && (
