@@ -718,8 +718,12 @@ def md_to_html(md_text: str) -> str:
     """Convert markdown to HTML for rich rendering in documents"""
     if not md_text:
         return ""
-    md = markdown.Markdown(extensions=['tables', 'fenced_code', 'nl2br'])
-    return md.convert(md_text)
+    try:
+        md = markdown.Markdown(extensions=['tables', 'nl2br'], output_format='html')
+        return md.convert(md_text)
+    except Exception as e:
+        print(f"[ERROR] markdown conversion failed: {e}")
+        return f"<pre>{md_text}</pre>"
 
 
 def html_to_docx_paragraph(html_content: str, doc, styles) -> None:
@@ -734,82 +738,69 @@ def html_to_docx_paragraph(html_content: str, doc, styles) -> None:
             self.doc = doc
             self.styles = styles
             self.current_paragraph = None
-            self.paragraph_stack = []
-            self.in_table = False
-            self.table_rows = []
-            self.current_row = []
+            self.in_heading = None  # 'h1', 'h2', 'h3', etc.
             self.in_list = False
             self.current_list_item = None
+            self.in_table = False
+            self.table_data = []
+            self.current_row = []
 
         def handle_starttag(self, tag, attrs):
-            attrs_dict = dict(attrs)
-            if tag == 'h1':
-                p = doc.add_paragraph()
-                run = p.add_run(self.get_starttag_text())
+            if tag in ('h1', 'h2', 'h3', 'h4', 'h5', 'h6'):
+                self.in_heading = tag
+                self.current_paragraph = doc.add_paragraph()
+                level = int(tag[1])
+                run = self.current_paragraph.add_run()
                 run.bold = True
-                run.font.size = Pt(24)
-                run.font.color.rgb = RGBColor(0x1f, 0x4e, 0x79)
-                self.current_paragraph = p
-            elif tag == 'h2':
-                p = doc.add_paragraph()
-                run = p.add_run(self.get_starttag_text())
-                run.bold = True
-                run.font.size = Pt(16)
-                run.font.color.rgb = RGBColor(0x2e, 0x75, 0xb5)
-                self.current_paragraph = p
-            elif tag == 'h3':
-                p = doc.add_paragraph()
-                run = p.add_run(self.get_starttag_text())
-                run.bold = True
-                run.font.size = Pt(14)
-                self.current_paragraph = p
+                run.font.size = Pt(24 - (level - 1) * 2)
+                if level == 1:
+                    run.font.color.rgb = RGBColor(0x1f, 0x4e, 0x79)
+                elif level == 2:
+                    run.font.color.rgb = RGBColor(0x2e, 0x75, 0xb5)
             elif tag == 'p':
                 self.current_paragraph = doc.add_paragraph()
-            elif tag in ('strong', 'b'):
-                if self.current_paragraph is None:
-                    self.current_paragraph = doc.add_paragraph()
-                self.paragraph_stack.append(('bold', True))
-            elif tag in ('em', 'i'):
-                if self.current_paragraph is None:
-                    self.current_paragraph = doc.add_paragraph()
-                self.paragraph_stack.append(('italic', True))
+            elif tag == 'br':
+                if self.current_paragraph:
+                    run = self.current_paragraph.add_run()
+                    run.add_break()
             elif tag == 'ul':
                 self.in_list = True
             elif tag == 'ol':
                 self.in_list = True
             elif tag == 'li':
-                self.current_list_item = doc.add_paragraph(style='List Bullet')
-            elif tag == 'br':
-                if self.current_paragraph:
-                    run = self.current_paragraph.add_run()
-                    run.add_break()
+                style = 'List Bullet' if self.in_list else None
+                self.current_list_item = doc.add_paragraph(style=style)
             elif tag == 'table':
                 self.in_table = True
-                self.table_rows = []
+                self.table_data = []
+                self.current_row = []
             elif tag == 'tr':
                 self.current_row = []
+            elif tag in ('strong', 'b', 'em', 'i', 'code'):
+                pass  # handled in handle_data
 
         def handle_endtag(self, tag):
-            if tag == 'h1' and self.current_paragraph:
-                self.current_paragraph = None
-            elif tag == 'h2' and self.current_paragraph:
-                self.current_paragraph = None
-            elif tag == 'h3' and self.current_paragraph:
+            if tag in ('h1', 'h2', 'h3', 'h4', 'h5', 'h6'):
+                self.in_heading = None
                 self.current_paragraph = None
             elif tag == 'p':
                 self.current_paragraph = None
-            elif tag in ('strong', 'b', 'em', 'i'):
-                if self.paragraph_stack:
-                    self.paragraph_stack.pop()
-            elif tag == 'ul' or tag == 'ol':
+            elif tag in ('ul', 'ol'):
                 self.in_list = False
             elif tag == 'li':
                 self.current_list_item = None
             elif tag == 'table':
                 self.in_table = False
-                self._build_table()
-            elif tag == 'tr' and self.in_table:
-                self.table_rows.append(self.current_row)
+                if self.table_data:
+                    table = doc.add_table(rows=len(self.table_data), cols=len(self.table_data[0]))
+                    table.style = 'Light Grid Accent 1'
+                    for i, row_data in enumerate(self.table_data):
+                        row = table.rows[i]
+                        for j, cell_text in enumerate(row_data):
+                            row.cells[j].text = cell_text.strip() if cell_text else ""
+            elif tag == 'tr':
+                if self.current_row:
+                    self.table_data.append(self.current_row)
                 self.current_row = []
 
         def handle_data(self, data):
@@ -817,28 +808,12 @@ def html_to_docx_paragraph(html_content: str, doc, styles) -> None:
             if not data:
                 return
 
-            if self.in_list and self.current_list_item is not None:
+            if self.in_table:
+                self.current_row.append(data)
+            elif self.current_list_item is not None:
                 self.current_list_item.add_run(data)
             elif self.current_paragraph is not None:
-                run = self.current_paragraph.add_run(data)
-                for style_type, enabled in self.paragraph_stack:
-                    if style_type == 'bold':
-                        run.bold = True
-                    elif style_type == 'italic':
-                        run.italic = True
-            elif not self.in_table:
-                p = doc.add_paragraph(data)
-                self.current_paragraph = p
-
-        def _build_table(self):
-            if not self.table_rows:
-                return
-            table = self.doc.add_table(rows=len(self.table_rows), cols=len(self.table_rows[0]) if self.table_rows else 1)
-            table.style = 'Light Grid Accent 1'
-            for i, row_data in enumerate(self.table_rows):
-                row = table.rows[i]
-                for j, cell_data in enumerate(row_data):
-                    row.cells[j].text = cell_data.strip() if cell_data else ""
+                self.current_paragraph.add_run(data)
 
     parser = HTMLToDocxParser()
     parser.feed(html_content)
@@ -847,27 +822,33 @@ def html_to_docx_paragraph(html_content: str, doc, styles) -> None:
 
 def md_to_docx(md_text: str, title: str = "Meeting Plan") -> bytes:
     """Convert markdown text to a Word document"""
-    from docx import Document
-    from docx.shared import Pt, RGBColor, Inches
-    from docx.enum.text import WD_ALIGN_PARAGRAPH
-    from docx.enum.style import WD_STYLE_TYPE
+    try:
+        from docx import Document
+        from docx.shared import Pt, RGBColor, Inches
+        from docx.enum.text import WD_ALIGN_PARAGRAPH
+        from docx.enum.style import WD_STYLE_TYPE
 
-    doc = Document()
+        doc = Document()
 
-    # Set document title
-    title_para = doc.add_heading(title, 0)
-    title_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        # Set document title
+        title_para = doc.add_heading(title, 0)
+        title_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
-    # Convert markdown to HTML and parse
-    html = md_to_html(md_text)
-    html_to_docx_paragraph(html, doc, None)
+        # Convert markdown to HTML and parse
+        html = md_to_html(md_text)
+        html_to_docx_paragraph(html, doc, None)
 
-    # Save to bytes
-    from io import BytesIO
-    buffer = BytesIO()
-    doc.save(buffer)
-    buffer.seek(0)
-    return buffer.getvalue()
+        # Save to bytes
+        from io import BytesIO
+        buffer = BytesIO()
+        doc.save(buffer)
+        buffer.seek(0)
+        return buffer.getvalue()
+    except Exception as e:
+        print(f"[ERROR] md_to_docx failed: {e}")
+        import traceback
+        traceback.print_exc()
+        raise
 
 
 # ============== LLM Integration ==============
@@ -2015,8 +1996,9 @@ def download_meeting_docx(meeting_id: int, db: Session = Depends(get_db)):
     term_plan = db.query(TermPlan).filter(TermPlan.id == meeting.term_plan_id).first()
     section = db.query(Section).filter(Section.id == term_plan.section_id).first()
 
-    # Build the markdown content
-    md_content = f"""# {meeting.title}
+    try:
+        # Build the markdown content
+        md_content = f"""# {meeting.title}
 
 ## Meeting Details
 - **Section:** {section.name} Scouts
@@ -2026,32 +2008,37 @@ def download_meeting_docx(meeting_id: int, db: Session = Depends(get_db)):
 
 """
 
-    if meeting.objectives:
-        md_content += "## Objectives\n"
-        for obj in meeting.objectives:
-            md_content += f"- {obj}\n"
-        md_content += "\n"
+        if meeting.objectives:
+            md_content += "## Objectives\n"
+            for obj in meeting.objectives:
+                md_content += f"- {obj}\n"
+            md_content += "\n"
 
-    if meeting.materials_needed:
-        md_content += "## Materials Needed\n"
-        for item in meeting.materials_needed:
-            md_content += f"- {item}\n"
-        md_content += "\n"
+        if meeting.materials_needed:
+            md_content += "## Materials Needed\n"
+            for item in meeting.materials_needed:
+                md_content += f"- {item}\n"
+            md_content += "\n"
 
-    if meeting.generated_plan:
-        md_content += f"---\n\n{meeting.generated_plan}\n"
+        if meeting.generated_plan:
+            md_content += f"---\n\n{meeting.generated_plan}\n"
 
-    # Convert to docx
-    docx_bytes = md_to_docx(md_content, meeting.title)
+        # Convert to docx
+        docx_bytes = md_to_docx(md_content, meeting.title)
 
-    from starlette.responses import StreamingResponse
-    return StreamingResponse(
-        BytesIO(docx_bytes),
-        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        headers={
-            "Content-Disposition": f"attachment; filename=meeting_{meeting_id}.docx"
-        },
-    )
+        from starlette.responses import StreamingResponse
+        return StreamingResponse(
+            BytesIO(docx_bytes),
+            media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            headers={
+                "Content-Disposition": f"attachment; filename=meeting_{meeting_id}.docx"
+            },
+        )
+    except Exception as e:
+        print(f"[ERROR] docx generation failed: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Document generation failed: {str(e)}")
 
 
 @app.get("/term-plans/{plan_id}/pdf")
