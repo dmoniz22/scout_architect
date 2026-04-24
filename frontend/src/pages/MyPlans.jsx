@@ -294,6 +294,14 @@ export default function MyPlans() {
                       PDF
                     </a>
                     <a
+                      href={`/api/term-plans/${plan.id}/docx`}
+                      target="_blank"
+                      className="btn-secondary flex items-center gap-2 text-sm"
+                    >
+                      <FileText size={16} />
+                      DOCX
+                    </a>
+                    <a
                       href={`/api/term-plans/${plan.id}/md`}
                       target="_blank"
                       className="btn-secondary flex items-center gap-2 text-sm"
@@ -405,6 +413,13 @@ export default function MyPlans() {
                                     className="text-xs bg-white border px-2 py-1 rounded hover:bg-gray-50"
                                   >
                                     PDF
+                                  </a>
+                                  <a
+                                    href={`/api/meetings/${meeting.id}/docx`}
+                                    target="_blank"
+                                    className="text-xs bg-white border px-2 py-1 rounded hover:bg-gray-50"
+                                  >
+                                    DOCX
                                   </a>
                                   <a
                                     href={`/api/meetings/${meeting.id}/md`}

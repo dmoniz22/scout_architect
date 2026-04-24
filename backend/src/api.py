@@ -9,6 +9,8 @@ from typing import List, Optional
 import json
 import random
 import os
+import re
+import markdown
 
 from src.database import get_db, init_db, load_oas_skills
 from src.models import (
@@ -709,6 +711,163 @@ ACTIVITY_DETAILS = {
         "safety": "Stay on trails. Report back if lost.",
     },
 }
+
+
+# ============== Markdown/HTML Helpers ==============
+def md_to_html(md_text: str) -> str:
+    """Convert markdown to HTML for rich rendering in documents"""
+    if not md_text:
+        return ""
+    md = markdown.Markdown(extensions=['tables', 'fenced_code', 'nl2br'])
+    return md.convert(md_text)
+
+
+def html_to_docx_paragraph(html_content: str, doc, styles) -> None:
+    """Parse HTML content and add paragraphs to a python-docx document"""
+    import html.parser
+    from docx.shared import Pt, RGBColor
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+    class HTMLToDocxParser(html.parser.HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.doc = doc
+            self.styles = styles
+            self.current_paragraph = None
+            self.paragraph_stack = []
+            self.in_table = False
+            self.table_rows = []
+            self.current_row = []
+            self.in_list = False
+            self.current_list_item = None
+
+        def handle_starttag(self, tag, attrs):
+            attrs_dict = dict(attrs)
+            if tag == 'h1':
+                p = doc.add_paragraph()
+                run = p.add_run(self.get_starttag_text())
+                run.bold = True
+                run.font.size = Pt(24)
+                run.font.color.rgb = RGBColor(0x1f, 0x4e, 0x79)
+                self.current_paragraph = p
+            elif tag == 'h2':
+                p = doc.add_paragraph()
+                run = p.add_run(self.get_starttag_text())
+                run.bold = True
+                run.font.size = Pt(16)
+                run.font.color.rgb = RGBColor(0x2e, 0x75, 0xb5)
+                self.current_paragraph = p
+            elif tag == 'h3':
+                p = doc.add_paragraph()
+                run = p.add_run(self.get_starttag_text())
+                run.bold = True
+                run.font.size = Pt(14)
+                self.current_paragraph = p
+            elif tag == 'p':
+                self.current_paragraph = doc.add_paragraph()
+            elif tag in ('strong', 'b'):
+                if self.current_paragraph is None:
+                    self.current_paragraph = doc.add_paragraph()
+                self.paragraph_stack.append(('bold', True))
+            elif tag in ('em', 'i'):
+                if self.current_paragraph is None:
+                    self.current_paragraph = doc.add_paragraph()
+                self.paragraph_stack.append(('italic', True))
+            elif tag == 'ul':
+                self.in_list = True
+            elif tag == 'ol':
+                self.in_list = True
+            elif tag == 'li':
+                self.current_list_item = doc.add_paragraph(style='List Bullet')
+            elif tag == 'br':
+                if self.current_paragraph:
+                    run = self.current_paragraph.add_run()
+                    run.add_break()
+            elif tag == 'table':
+                self.in_table = True
+                self.table_rows = []
+            elif tag == 'tr':
+                self.current_row = []
+
+        def handle_endtag(self, tag):
+            if tag == 'h1' and self.current_paragraph:
+                self.current_paragraph = None
+            elif tag == 'h2' and self.current_paragraph:
+                self.current_paragraph = None
+            elif tag == 'h3' and self.current_paragraph:
+                self.current_paragraph = None
+            elif tag == 'p':
+                self.current_paragraph = None
+            elif tag in ('strong', 'b', 'em', 'i'):
+                if self.paragraph_stack:
+                    self.paragraph_stack.pop()
+            elif tag == 'ul' or tag == 'ol':
+                self.in_list = False
+            elif tag == 'li':
+                self.current_list_item = None
+            elif tag == 'table':
+                self.in_table = False
+                self._build_table()
+            elif tag == 'tr' and self.in_table:
+                self.table_rows.append(self.current_row)
+                self.current_row = []
+
+        def handle_data(self, data):
+            data = data.strip()
+            if not data:
+                return
+
+            if self.in_list and self.current_list_item is not None:
+                self.current_list_item.add_run(data)
+            elif self.current_paragraph is not None:
+                run = self.current_paragraph.add_run(data)
+                for style_type, enabled in self.paragraph_stack:
+                    if style_type == 'bold':
+                        run.bold = True
+                    elif style_type == 'italic':
+                        run.italic = True
+            elif not self.in_table:
+                p = doc.add_paragraph(data)
+                self.current_paragraph = p
+
+        def _build_table(self):
+            if not self.table_rows:
+                return
+            table = self.doc.add_table(rows=len(self.table_rows), cols=len(self.table_rows[0]) if self.table_rows else 1)
+            table.style = 'Light Grid Accent 1'
+            for i, row_data in enumerate(self.table_rows):
+                row = table.rows[i]
+                for j, cell_data in enumerate(row_data):
+                    row.cells[j].text = cell_data.strip() if cell_data else ""
+
+    parser = HTMLToDocxParser()
+    parser.feed(html_content)
+    return parser
+
+
+def md_to_docx(md_text: str, title: str = "Meeting Plan") -> bytes:
+    """Convert markdown text to a Word document"""
+    from docx import Document
+    from docx.shared import Pt, RGBColor, Inches
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    from docx.enum.style import WD_STYLE_TYPE
+
+    doc = Document()
+
+    # Set document title
+    title_para = doc.add_heading(title, 0)
+    title_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+    # Convert markdown to HTML and parse
+    html = md_to_html(md_text)
+    html_to_docx_paragraph(html, doc, None)
+
+    # Save to bytes
+    from io import BytesIO
+    buffer = BytesIO()
+    doc.save(buffer)
+    buffer.seek(0)
+    return buffer.getvalue()
 
 
 # ============== LLM Integration ==============
@@ -1846,6 +2005,55 @@ def download_meeting_pdf(meeting_id: int, db: Session = Depends(get_db)):
     )
 
 
+@app.get("/meetings/{meeting_id}/docx")
+def download_meeting_docx(meeting_id: int, db: Session = Depends(get_db)):
+    """Generate and download meeting plan as Word document with rendered markdown"""
+    meeting = db.query(MeetingPlan).filter(MeetingPlan.id == meeting_id).first()
+    if not meeting:
+        raise HTTPException(status_code=404, detail="Meeting not found")
+
+    term_plan = db.query(TermPlan).filter(TermPlan.id == meeting.term_plan_id).first()
+    section = db.query(Section).filter(Section.id == term_plan.section_id).first()
+
+    # Build the markdown content
+    md_content = f"""# {meeting.title}
+
+## Meeting Details
+- **Section:** {section.name} Scouts
+- **Date:** {meeting.meeting_date}
+- **Duration:** {meeting.duration_minutes} minutes
+- **Week:** {meeting.week_number}
+
+"""
+
+    if meeting.objectives:
+        md_content += "## Objectives\n"
+        for obj in meeting.objectives:
+            md_content += f"- {obj}\n"
+        md_content += "\n"
+
+    if meeting.materials_needed:
+        md_content += "## Materials Needed\n"
+        for item in meeting.materials_needed:
+            md_content += f"- {item}\n"
+        md_content += "\n"
+
+    if meeting.generated_plan:
+        md_content += f"---\n\n{meeting.generated_plan}\n"
+
+    # Convert to docx
+    docx_bytes = md_to_docx(md_content, meeting.title)
+
+    from starlette.responses import StreamingResponse
+    return StreamingResponse(
+        BytesIO(docx_bytes),
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        headers={
+            "Content-Disposition": f"attachment; filename=meeting_{meeting_id}.docx"
+        },
+    )
+
+
 @app.get("/term-plans/{plan_id}/pdf")
 def download_term_plan_pdf(plan_id: int, db: Session = Depends(get_db)):
     """Generate and download entire term plan as PDF"""
@@ -1974,6 +2182,77 @@ def download_term_plan_pdf(plan_id: int, db: Session = Depends(get_db)):
         media_type="application/pdf",
         headers={
             "Content-Disposition": f"attachment; filename=term_plan_{plan_id}.pdf"
+        },
+    )
+
+
+@app.get("/term-plans/{plan_id}/docx")
+def download_term_plan_docx(plan_id: int, db: Session = Depends(get_db)):
+    """Generate and download entire term plan as Word document with rendered markdown"""
+    from io import BytesIO
+
+    term_plan = db.query(TermPlan).filter(TermPlan.id == plan_id).first()
+    if not term_plan:
+        raise HTTPException(status_code=404, detail="Term plan not found")
+
+    section = db.query(Section).filter(Section.id == term_plan.section_id).first()
+    location = db.query(Location).filter(Location.id == term_plan.location_id).first()
+    meetings = (
+        db.query(MeetingPlan)
+        .filter(MeetingPlan.term_plan_id == plan_id)
+        .order_by(MeetingPlan.week_number)
+        .all()
+    )
+
+    md = f"""# {term_plan.name}
+
+## Term Plan Details
+- **Section:** {section.name} Scouts
+- **Location:** {location.name if location else "TBD"}
+- **Start Date:** {term_plan.start_date}
+- **End Date:** {term_plan.end_date}
+- **Total Weeks:** {term_plan.total_weeks}
+
+"""
+
+    if term_plan.theme:
+        md += f"## Theme\n{term_plan.theme}\n\n"
+
+    if term_plan.notes:
+        md += f"## Notes\n{term_plan.notes}\n\n"
+
+    md += "---\n\n# Meeting Schedule\n\n"
+
+    for meeting in meetings:
+        md += f"## Week {meeting.week_number}: {meeting.title}\n\n"
+        md += f"**Date:** {meeting.meeting_date} | **Duration:** {meeting.duration_minutes} minutes\n\n"
+
+        if meeting.objectives:
+            md += "### Objectives\n"
+            for obj in meeting.objectives:
+                md += f"- {obj}\n"
+            md += "\n"
+
+        if meeting.materials_needed:
+            md += "### Materials Needed\n"
+            for item in meeting.materials_needed:
+                md += f"- {item}\n"
+            md += "\n"
+
+        if meeting.generated_plan:
+            md += "### Meeting Plan\n"
+            md += meeting.generated_plan
+            md += "\n\n"
+
+        md += "---\n\n"
+
+    docx_bytes = md_to_docx(md, term_plan.name)
+
+    return StreamingResponse(
+        BytesIO(docx_bytes),
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        headers={
+            "Content-Disposition": f"attachment; filename=term_plan_{plan_id}.docx"
         },
     )
 
