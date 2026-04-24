@@ -838,6 +838,7 @@ def generate_with_llm(
     target_levels=None,
     is_fun_night: bool = False,
     previous_week_title: str = None,
+    previous_week_content_topics: list = None,
 ) -> dict:
     """Generate meeting content using LLM"""
     age_ranges = {
@@ -851,9 +852,11 @@ def generate_with_llm(
     # Build detailed skills context with level-specific requirements
     skills_context = ""
     variety_note = ""
-    
+
     if previous_week_title:
-        variety_note = f"\nIMPORTANT: This is week {week_number}. The previous week covered '{previous_week_title}'. Make this week's content DIFFERENT and COMPLEMENTARY - do not repeat the same activities."
+        variety_note = f"\n**VARIETY REQUIREMENT:** This is week {week_number}. The previous week ('{previous_week_title}') focused on: {', '.join(previous_week_content_topics or [])}. You MUST create a DIFFERENT focus this week - do not repeat the same activities or topic. Consider complementary skills, different aspects of the theme, or entirely different activities."
+    elif previous_week_content_topics:
+        variety_note = f"\n**VARIETY REQUIREMENT:** Previous weeks covered: {', '.join(previous_week_content_topics)}. Make this week's content COMPLETELY DIFFERENT from those topics."
 
     if is_fun_night:
         # Fun night - no skills, just fun themed activities
@@ -1313,7 +1316,7 @@ def generate_meeting_task(
             previous_meeting = (
                 db.query(MeetingPlan)
                 .filter(
-                    MeetingPlan.term_plan_id == plan_id,
+                    MeetingPlan.term_plan_id == meeting.term_plan_id,
                     MeetingPlan.week_number < meeting.week_number,
                     MeetingPlan.generated_plan.isnot(None),
                 )
@@ -1322,11 +1325,14 @@ def generate_meeting_task(
             )
             previous_week_title = previous_meeting.title if previous_meeting else None
 
+            # Use meeting's custom title if set, otherwise fall back to term plan theme
+            theme_hint = meeting.title if meeting.title and not meeting.title.startswith(f"Week {meeting.week_number}: Planning") else term_plan.theme
+
             content = generate_with_llm(
                 section.name,
                 meeting.week_number,
                 meeting.duration_minutes or 90,
-                term_plan.theme,
+                theme_hint,
                 location_name,
                 skill_names,
                 model_provider,
@@ -1343,7 +1349,7 @@ def generate_meeting_task(
                     section.name,
                     meeting.week_number,
                     meeting.duration_minutes or 90,
-                    term_plan.theme,
+                    theme_hint,
                     badge_names,
                     skill_names,
                     location_name,
@@ -1359,7 +1365,9 @@ def generate_meeting_task(
                 location_name,
             )
 
-        meeting.title = content["title"]
+        # Preserve custom title if user set one (not default "Week X: Planning")
+        if meeting.title and not meeting.title.startswith(f"Week {meeting.week_number}: Planning"):
+            content["title"] = meeting.title
         meeting.generated_plan = content["plan"]
         meeting.objectives = content["objectives"]
         meeting.activities = content["activities"]
@@ -1477,7 +1485,9 @@ def generate_all_meetings_task(
                 db.query(OASSkill).filter(OASSkill.id.in_(term_plan.focus_skills)).all()
             )
 
-        target_levels = term_plan.target_levels or []
+        # Sort skills for consistent round-robin distribution
+        skill_count = len(term_skill_objects)
+        term_target_levels = term_plan.target_levels or []
 
         if isinstance(term_plan.start_date, str):
             start = datetime.fromisoformat(term_plan.start_date).date()
@@ -1486,6 +1496,7 @@ def generate_all_meetings_task(
 
         generated_count = 0
         previous_week_title = None
+        previous_week_content_topics = []  # Track topics to ensure variety
         for week in range(1, term_plan.total_weeks + 1):
             meeting_date = start + timedelta(weeks=week - 1)
 
@@ -1504,26 +1515,51 @@ def generate_all_meetings_task(
             meeting.status = "generating"
             db.commit()
 
-            skill_names = [s.skill_name for s in term_skill_objects]
-            meeting_is_fun_night = meeting.is_fun_night if hasattr(meeting, 'is_fun_night') else False
-            meeting_target_levels = meeting.target_levels if meeting.target_levels else target_levels
+            # Round-robin skill distribution: pick skills for this week
+            week_skill_indices = []
+            for i in range(skill_count):
+                if (week - 1 + i) % skill_count == (week - 1):
+                    week_skill_indices.append(i)
+
+            # If more meetings than skills, cycle through skills
+            if skill_count > 0:
+                week_skill_index = (week - 1) % skill_count
+                selected_skill = term_skill_objects[week_skill_index]
+                week_skill_names = [selected_skill.skill_name]
+                week_skill_objects = [selected_skill]
+            else:
+                week_skill_names = []
+                week_skill_objects = []
+
+            # Meeting-specific settings override term plan
+            meeting_is_fun_night = meeting.is_fun_night if hasattr(meeting, 'is_fun_night') and meeting.is_fun_night else False
+            meeting_target_levels = meeting.target_levels if meeting.target_levels else term_target_levels
+
+            # Use custom title if set, otherwise build variety hint
+            if meeting.title and not meeting.title.startswith(f"Week {meeting.week_number}: Planning"):
+                theme_hint = meeting.title
+            elif previous_week_title:
+                theme_hint = None  # Let LLM decide based on skill + variety
+            else:
+                theme_hint = term_plan.theme
 
             if use_llm:
                 content = generate_with_llm(
                     section.name,
                     week,
                     90,
-                    term_plan.theme,
+                    theme_hint,
                     location_name,
-                    skill_names,
+                    week_skill_names,
                     model_provider,
                     model,
                     openrouter_api_key,
                     ollama_api_key,
-                    term_skill_objects,
+                    week_skill_objects,
                     meeting_target_levels,
                     is_fun_night=meeting_is_fun_night,
                     previous_week_title=previous_week_title,
+                    previous_week_content_topics=previous_week_content_topics,
                 )
                 if not content:
                     content = generate_meeting_content(
@@ -1532,7 +1568,7 @@ def generate_all_meetings_task(
                         90,
                         term_plan.theme,
                         badge_names[:2],
-                        skill_names[:2],
+                        week_skill_names[:2],
                         location_name,
                     )
             else:
@@ -1542,9 +1578,13 @@ def generate_all_meetings_task(
                     90,
                     term_plan.theme,
                     badge_names[:2],
-                    skill_names[:2],
+                    week_skill_names[:2],
                     location_name,
                 )
+
+            # Preserve custom title if set
+            if meeting.title and not meeting.title.startswith(f"Week {meeting.week_number}: Planning"):
+                content["title"] = meeting.title
 
             meeting.title = content["title"]
             meeting.generated_plan = content["plan"]
@@ -1553,6 +1593,8 @@ def generate_all_meetings_task(
             meeting.materials_needed = content["materials"]
             meeting.status = "generated"
             previous_week_title = meeting.title
+            # Track skill used for variety tracking
+            previous_week_content_topics = week_skill_names
             db.commit()
             generated_count += 1
             print(f"[OK] Generated meeting {week} for term plan {plan_id}")
