@@ -169,17 +169,19 @@ export default function MyPlans() {
     if (!editingMeeting) return;
     try {
       await updateMeeting(editingMeeting.id, {
-        title: editingMeeting.title,
-        duration_minutes: editingMeeting.duration_minutes,
-        skills_covered: editingMeeting.skills_covered,
-        target_levels: editingMeeting.target_levels,
-        is_fun_night: editingMeeting.is_fun_night,
+        title: editingMeeting.title || null,
+        duration_minutes: editingMeeting.duration_minutes || 90,
+        skills_covered: editingMeeting.skills_covered || null,
+        target_levels: editingMeeting.target_levels || null,
+        is_fun_night: editingMeeting.is_fun_night === true,
       });
       const res = await getMeetings(expandedPlan);
       setMeetings(res.data);
       setEditingMeeting(null);
+      alert('Meeting updated successfully!');
     } catch (err) {
       console.error('Error updating meeting:', err);
+      alert('Failed to update meeting. Please try again.');
     }
   }
 
