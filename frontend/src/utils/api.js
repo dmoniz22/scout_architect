@@ -46,8 +46,8 @@ export const getDeletedTermPlans = () => api.get('/deleted-term-plans');
 // Meetings
 export const getMeetings = (planId, includeDeleted = false) => api.get(`/term-plans/${planId}/meetings`, { params: { include_deleted: includeDeleted } });
 export const getMeeting = (id) => api.get(`/meetings/${id}`);
-// Update meeting title
-export const updateMeeting = (id, title) => api.put(`/meetings/${id}`, null, { params: { title } });
+// Update meeting (title, skills, is_fun_night, etc.)
+export const updateMeeting = (id, data) => api.put(`/meetings/${id}`, data);
 // Delete/restore meetings
 export const deleteMeeting = (id, permanent = false) => api.delete(`/meetings/${id}`, { params: { permanent } });
 export const restoreMeeting = (id) => api.post(`/meetings/${id}/restore`);

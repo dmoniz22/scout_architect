@@ -170,6 +170,7 @@ class MeetingPlan(Base):
     weather_contingency = Column(Text)
     badges_covered = Column(ARRAY(Integer))
     skills_covered = Column(ARRAY(Integer))
+    is_fun_night = Column(Boolean, default=False)  # Fun nights skip OAS skills
     generated_plan = Column(Text)
     pdf_path = Column(String(500))
     status = Column(String(20), default="planned")
@@ -261,6 +262,15 @@ class MeetingPlanCreate(BaseModel):
     objectives: Optional[dict] = None
     badges_covered: Optional[List[int]] = None
     skills_covered: Optional[List[int]] = None
+    is_fun_night: Optional[bool] = False
+
+
+class MeetingPlanUpdate(BaseModel):
+    title: Optional[str] = None
+    duration_minutes: Optional[int] = None
+    badges_covered: Optional[List[int]] = None
+    skills_covered: Optional[List[int]] = None
+    is_fun_night: Optional[bool] = None
 
 
 class MeetingPlanGenerate(BaseModel):

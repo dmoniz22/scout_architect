@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { ChevronDown, ChevronUp, FileText, Download, Loader2, Zap, Eye, EyeOff, Trash2, RotateCcw, AlertTriangle } from 'lucide-react';
-import { getTermPlans, getMeetings, generateMeeting, generateAllMeetings, pollForMeetingComplete, pollForAllMeetingsComplete, updateMeeting, deleteTermPlan, restoreTermPlan, deleteMeeting, restoreMeeting } from '../utils/api';
+import { ChevronDown, ChevronUp, FileText, Download, Loader2, Zap, Eye, EyeOff, Trash2, RotateCcw, AlertTriangle, Settings, X } from 'lucide-react';
+import { getTermPlans, getMeetings, getOASSkills, generateMeeting, generateAllMeetings, pollForMeetingComplete, pollForAllMeetingsComplete, updateMeeting, deleteTermPlan, restoreTermPlan, deleteMeeting, restoreMeeting } from '../utils/api';
 
 // Confirmation Dialog Component
 function ConfirmDialog({ isOpen, title, message, onConfirm, onCancel, confirmText = "Delete", confirmVariant = "danger" }) {
@@ -44,7 +44,10 @@ export default function MyPlans() {
   const [generatingAll, setGeneratingAll] = useState(false);
   const [editingTitle, setEditingTitle] = useState(null);
   const [titleValue, setTitleValue] = useState('');
-  
+  const [editingMeeting, setEditingMeeting] = useState(null); // For the edit modal
+  const [availableSkills, setAvailableSkills] = useState([]); // For skills selection in modal
+  const [skillsLoading, setSkillsLoading] = useState(false);
+
   // Delete dialog state
   const [deleteDialog, setDeleteDialog] = useState({ open: false, type: null, item: null });
   const [deleting, setDeleting] = useState(false);
@@ -135,12 +138,47 @@ export default function MyPlans() {
 
   async function saveTitle(meetingId) {
     try {
-      await updateMeeting(meetingId, titleValue);
+      await updateMeeting(meetingId, { title: titleValue });
       const res = await getMeetings(expandedPlan);
       setMeetings(res.data);
       setEditingTitle(null);
     } catch (err) {
       console.error('Error updating title:', err);
+    }
+  }
+
+  // Edit meeting modal handlers
+  function openEditMeetingModal(meeting) {
+    setEditingMeeting({
+      ...meeting,
+      skills_covered: meeting.skills_covered || [],
+    });
+    // Load available skills for selection
+    setSkillsLoading(true);
+    getOASSkills()
+      .then((res) => setAvailableSkills(res.data))
+      .catch((err) => console.error('Error loading skills:', err))
+      .finally(() => setSkillsLoading(false));
+  }
+
+  function closeEditMeetingModal() {
+    setEditingMeeting(null);
+  }
+
+  async function saveMeetingEdits() {
+    if (!editingMeeting) return;
+    try {
+      await updateMeeting(editingMeeting.id, {
+        title: editingMeeting.title,
+        duration_minutes: editingMeeting.duration_minutes,
+        skills_covered: editingMeeting.skills_covered,
+        is_fun_night: editingMeeting.is_fun_night,
+      });
+      const res = await getMeetings(expandedPlan);
+      setMeetings(res.data);
+      setEditingMeeting(null);
+    } catch (err) {
+      console.error('Error updating meeting:', err);
     }
   }
 
@@ -317,13 +355,14 @@ export default function MyPlans() {
                                 <>
                                   <p className="font-medium text-slate-800">
                                     Week {meeting.week_number}: {meeting.title}
+                                    {meeting.is_fun_night && <span className="ml-2 text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded">🎉 Fun Night</span>}
                                   </p>
                                   {!meeting.generated_plan && (
                                     <button
-                                      onClick={() => startEditTitle(meeting)}
-                                      className="text-xs text-scout-blue hover:underline"
+                                      onClick={() => openEditMeetingModal(meeting)}
+                                      className="text-xs text-scout-blue hover:underline flex items-center gap-1"
                                     >
-                                      Edit title before generating
+                                      <Settings size={10} /> Edit meeting details
                                     </button>
                                   )}
                                 </>
@@ -410,7 +449,7 @@ export default function MyPlans() {
         isOpen={deleteDialog.open}
         title={deleteDialog.type === 'term' ? "Delete Term Plan?" : "Delete Meeting?"}
         message={
-          deleteDialog.type === 'term' 
+          deleteDialog.type === 'term'
             ? `Are you sure you want to delete "${deleteDialog.item?.name}"? This term plan and all its meetings will be soft-deleted and can be restored within 30 days.`
             : `Are you sure you want to delete the meeting "${deleteDialog.item?.title}"? This will be soft-deleted and can be restored within 30 days.`
         }
@@ -419,6 +458,112 @@ export default function MyPlans() {
         confirmText={deleting ? "Deleting..." : "Delete"}
         confirmVariant="danger"
       />
+
+      {/* Edit Meeting Modal */}
+      {editingMeeting && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold">Edit Meeting: Week {editingMeeting.week_number}</h3>
+              <button onClick={closeEditMeetingModal} className="text-slate-400 hover:text-slate-600">
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Meeting Title</label>
+                <input
+                  type="text"
+                  className="input-field"
+                  value={editingMeeting.title || ''}
+                  onChange={(e) => setEditingMeeting({ ...editingMeeting, title: e.target.value })}
+                  placeholder="e.g., Navigation Basics"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Duration (minutes)</label>
+                <select
+                  className="input-field"
+                  value={editingMeeting.duration_minutes || 90}
+                  onChange={(e) => setEditingMeeting({ ...editingMeeting, duration_minutes: parseInt(e.target.value) })}
+                >
+                  <option value="60">60 minutes</option>
+                  <option value="90">90 minutes</option>
+                  <option value="120">2 hours</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={editingMeeting.is_fun_night || false}
+                    onChange={(e) => setEditingMeeting({ ...editingMeeting, is_fun_night: e.target.checked })}
+                    className="rounded"
+                  />
+                  <span className="text-sm font-medium text-slate-700">🎉 Fun Night (skip OAS skills)</span>
+                </label>
+                <p className="text-xs text-slate-500 mt-1">
+                  Fun nights generate themed activities without OAS skill requirements
+                </p>
+              </div>
+
+              {!editingMeeting.is_fun_night && (
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">OAS Skills</label>
+                  <p className="text-xs text-slate-500 mb-2">Select skills to focus on for this meeting (optional)</p>
+                  {skillsLoading ? (
+                    <div className="flex items-center justify-center py-4">
+                      <Loader2 className="animate-spin text-scout-blue" size={16} />
+                      <span className="ml-2 text-sm text-slate-500">Loading skills...</span>
+                    </div>
+                  ) : (
+                    <div className="max-h-40 overflow-y-auto border rounded-lg p-2 space-y-1">
+                      {availableSkills.length === 0 ? (
+                        <p className="text-xs text-slate-500 text-center py-2">No skills available</p>
+                      ) : (
+                        availableSkills.map((skill) => (
+                          <label key={skill.id} className="flex items-start gap-2 p-1 hover:bg-slate-50 rounded cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={editingMeeting.skills_covered?.includes(skill.id) || false}
+                              onChange={(e) => {
+                                const checked = e.target.checked;
+                                setEditingMeeting({
+                                  ...editingMeeting,
+                                  skills_covered: checked
+                                    ? [...(editingMeeting.skills_covered || []), skill.id]
+                                    : (editingMeeting.skills_covered || []).filter(id => id !== skill.id)
+                                });
+                              }}
+                              className="mt-1 rounded"
+                            />
+                            <span className="text-sm">
+                              <span className="font-medium">{skill.skill_name}</span>
+                              <span className="text-slate-500 text-xs ml-1">({skill.category})</span>
+                            </span>
+                          </label>
+                        ))
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div className="flex justify-end gap-2 mt-6">
+              <button onClick={closeEditMeetingModal} className="btn-secondary">
+                Cancel
+              </button>
+              <button onClick={saveMeetingEdits} className="btn-primary">
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

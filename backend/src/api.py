@@ -26,6 +26,7 @@ from src.models import (
     LocationCreate,
     TermPlanCreate,
     MeetingPlanCreate,
+    MeetingPlanUpdate,
     MeetingPlanGenerate,
 )
 
@@ -480,14 +481,22 @@ def get_deleted_meetings(db: Session = Depends(get_db)):
 
 
 @app.put("/meetings/{meeting_id}")
-def update_meeting(meeting_id: int, title: str = None, db: Session = Depends(get_db)):
-    """Update meeting details - primarily the title before generation"""
+def update_meeting(meeting_id: int, update: MeetingPlanUpdate, db: Session = Depends(get_db)):
+    """Update meeting details - title, skills, is_fun_night, etc."""
     meeting = db.query(MeetingPlan).filter(MeetingPlan.id == meeting_id).first()
     if not meeting:
         raise HTTPException(status_code=404, detail="Meeting not found")
 
-    if title is not None:
-        meeting.title = title
+    if update.title is not None:
+        meeting.title = update.title
+    if update.duration_minutes is not None:
+        meeting.duration_minutes = update.duration_minutes
+    if update.badges_covered is not None:
+        meeting.badges_covered = update.badges_covered
+    if update.skills_covered is not None:
+        meeting.skills_covered = update.skills_covered
+    if update.is_fun_night is not None:
+        meeting.is_fun_night = update.is_fun_night
 
     db.commit()
     db.refresh(meeting)
@@ -825,6 +834,8 @@ def generate_with_llm(
     ollama_api_key: str = None,
     skill_objects=None,
     target_levels=None,
+    is_fun_night: bool = False,
+    previous_week_title: str = None,
 ) -> dict:
     """Generate meeting content using LLM"""
     age_ranges = {
@@ -837,7 +848,20 @@ def generate_with_llm(
 
     # Build detailed skills context with level-specific requirements
     skills_context = ""
-    if skill_objects and len(skill_objects) > 0:
+    variety_note = ""
+    
+    if previous_week_title:
+        variety_note = f"\nIMPORTANT: This is week {week_number}. The previous week covered '{previous_week_title}'. Make this week's content DIFFERENT and COMPLEMENTARY - do not repeat the same activities."
+
+    if is_fun_night:
+        # Fun night - no skills, just fun themed activities
+        skills_context = f"""
+**FUN NIGHT 🎉** - This is a special fun night meeting with NO OAS skill requirements.
+Generate exciting, fun, and engaging activities that scouts will enjoy!
+{variety_note}
+"""
+        skills_prompt_addition = "Focus on fun games, team-building activities, or themed fun that the scouts will love!"
+    elif skill_objects and len(skill_objects) > 0:
         target_levels = target_levels or []
 
         # Build detailed requirements for each skill at each target level
@@ -887,6 +911,7 @@ def generate_with_llm(
 {chr(10).join(skill_details)}
 
 The meeting activities must directly teach and allow scouts to practice these exact requirements.
+{variety_note}
 """
         else:
             print(
@@ -898,8 +923,33 @@ The meeting activities must directly teach and allow scouts to practice these ex
                 )
     else:
         print(f"[DEBUG] No skill_objects provided to generate_with_llm")
+        skills_prompt_addition = ""
 
-    prompt = f"""Create a detailed {section_name} Scouts meeting plan for week {week_number}.{skills_context}
+    if is_fun_night:
+        prompt = f"""Create a fun and engaging {section_name} Scouts meeting plan for week {week_number}.{skills_context}
+
+Requirements:
+- Duration: {duration} minutes
+- This is a FUN NIGHT 🎉 - no skills or badges to work on
+- Theme: {theme if theme else "fun themed activity night"}
+- Location context: {location_name}
+- Age group: {age_context}
+- Create exciting, memorable activities that scouts will love
+- Include: opening ceremony, main fun activities, closing
+- Include timing for each activity
+- Include materials needed
+- Include safety notes
+- Make it age-appropriate and super fun!{variety_note}
+
+Format the output as a detailed meeting plan with:
+1. Title (fun and descriptive, like "Week X: 🎉 Fun Night - [Theme]")
+2. Timeline (with times)
+3. Fun Activities - make them exciting and different from typical meetings
+4. Materials Needed
+5. Safety Notes
+6. Location-specific considerations for {location_name}"""
+    else:
+        prompt = f"""Create a detailed {section_name} Scouts meeting plan for week {week_number}.{skills_context}
 
 Requirements:
 - Duration: {duration} minutes
@@ -912,6 +962,7 @@ Requirements:
 - Include materials needed
 - Include safety notes
 - Make it age-appropriate and engaging for {age_context}
+{variety_note}
 
 Format the output as a detailed meeting plan with:
 1. Title (descriptive, like "Week X: [Activity Focus]") - Include the skills being taught
@@ -922,7 +973,7 @@ Format the output as a detailed meeting plan with:
 6. Location-specific considerations for {location_name}"""
 
     print(
-        f"[DEBUG] generate_with_llm: model_provider={model_provider}, model={model}, skills_context_length={len(skills_context)}"
+        f"[DEBUG] generate_with_llm: model_provider={model_provider}, model={model}, skills_context_length={len(skills_context)}, is_fun_night={is_fun_night}"
     )
 
     # Call the appropriate LLM provider
@@ -1255,6 +1306,19 @@ def generate_meeting_task(
         target_levels = term_plan.target_levels or []
 
         if use_llm:
+            meeting_is_fun_night = meeting.is_fun_night if hasattr(meeting, 'is_fun_night') else False
+            previous_meeting = (
+                db.query(MeetingPlan)
+                .filter(
+                    MeetingPlan.term_plan_id == plan_id,
+                    MeetingPlan.week_number < meeting.week_number,
+                    MeetingPlan.generated_plan.isnot(None),
+                )
+                .order_by(MeetingPlan.week_number.desc())
+                .first()
+            )
+            previous_week_title = previous_meeting.title if previous_meeting else None
+
             content = generate_with_llm(
                 section.name,
                 meeting.week_number,
@@ -1268,6 +1332,8 @@ def generate_meeting_task(
                 ollama_api_key,
                 skill_levels_data,
                 target_levels,
+                is_fun_night=meeting_is_fun_night,
+                previous_week_title=previous_week_title,
             )
             if not content:
                 content = generate_meeting_content(
@@ -1416,6 +1482,7 @@ def generate_all_meetings_task(
             start = term_plan.start_date
 
         generated_count = 0
+        previous_week_title = None
         for week in range(1, term_plan.total_weeks + 1):
             meeting_date = start + timedelta(weeks=week - 1)
 
@@ -1435,6 +1502,7 @@ def generate_all_meetings_task(
             db.commit()
 
             skill_names = [s.skill_name for s in term_skill_objects]
+            meeting_is_fun_night = meeting.is_fun_night if hasattr(meeting, 'is_fun_night') else False
 
             if use_llm:
                 content = generate_with_llm(
@@ -1450,6 +1518,8 @@ def generate_all_meetings_task(
                     ollama_api_key,
                     term_skill_objects,
                     target_levels,
+                    is_fun_night=meeting_is_fun_night,
+                    previous_week_title=previous_week_title,
                 )
                 if not content:
                     content = generate_meeting_content(
@@ -1478,6 +1548,7 @@ def generate_all_meetings_task(
             meeting.activities = content["activities"]
             meeting.materials_needed = content["materials"]
             meeting.status = "generated"
+            previous_week_title = meeting.title
             db.commit()
             generated_count += 1
             print(f"[OK] Generated meeting {week} for term plan {plan_id}")
