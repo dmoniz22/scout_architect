@@ -141,7 +141,7 @@ def create_location(location: LocationCreate, db: Session = Depends(get_db)):
     db.add(db_location)
     db.commit()
     db.refresh(db_location)
-    return db_location
+    return row_dict(db_location)
 
 
 # ============== User Settings (Server-side) ==============
@@ -262,6 +262,49 @@ def get_ollama_status():
         return {"status": "error", "error": str(e)}
 
 
+def row_dict(obj):
+    """Serialise a SQLAlchemy row to a plain dict.
+
+    Endpoints that returned an ORM instance after db.commit() responded with {}
+    because the commit expires every attribute before FastAPI serialises the
+    response — so the frontend's res.data.id came back undefined.
+    """
+    if obj is None:
+        return None
+    return {c.key: getattr(obj, c.key) for c in obj.__table__.columns}
+
+
+@app.get("/ollama/models")
+def get_ollama_models(db: Session = Depends(get_db)):
+    """List the models the configured Ollama Cloud key can actually use.
+
+    Prevents the 'retired model' failure class — e.g. qwen3.5:397b was retired
+    2026-09-25 and every generation silently fell back to templates.
+    """
+    import requests
+
+    stored = get_user_settings(db)
+    key = stored.get("ollama_api_key")
+    if not key:
+        return {"status": "error", "error": "No Ollama Cloud API key saved"}
+    base = (stored.get("ollama_url") or "https://ollama.com/v1").rstrip("/")
+    for suffix in ("/chat/completions", "/api/generate", "/api/chat", "/v1"):
+        if base.endswith(suffix):
+            base = base[: -len(suffix)]
+    try:
+        r = requests.get(
+            f"{base}/api/tags", headers={"Authorization": f"Bearer {key}"}, timeout=20
+        )
+        if r.ok:
+            models = sorted(
+                m.get("name") for m in r.json().get("models", []) if m.get("name")
+            )
+            return {"status": "ok", "url": base, "models": models}
+        return {"status": "error", "error": f"HTTP {r.status_code}: {r.text[:200]}"}
+    except Exception as e:
+        return {"status": "error", "error": str(e)}
+
+
 @app.get("/term-plans")
 def get_term_plans(
     status: Optional[str] = None,
@@ -310,14 +353,14 @@ def create_term_plan(plan: TermPlanCreate, db: Session = Depends(get_db)):
             week_number=week,
             meeting_date=meeting_date,
             title=f"Week {week}: Planning",
-            duration_minutes=90,
+            duration_minutes=plan.default_duration or 90,
             status="planned",
         )
         db.add(meeting)
 
     db.commit()
 
-    return db_plan
+    return row_dict(db_plan)
 
 
 @app.put("/term-plans/{plan_id}")
@@ -329,7 +372,7 @@ def update_term_plan(plan_id: int, plan: TermPlanCreate, db: Session = Depends(g
         setattr(db_plan, key, value)
     db.commit()
     db.refresh(db_plan)
-    return db_plan
+    return row_dict(db_plan)
 
 
 @app.delete("/term-plans/{plan_id}")
@@ -505,7 +548,7 @@ def update_meeting(meeting_id: int, update: MeetingPlanUpdate, db: Session = Dep
 
     db.commit()
     db.refresh(meeting)
-    return meeting
+    return row_dict(meeting)
 
 
 @app.post("/meetings")
@@ -514,7 +557,7 @@ def create_meeting(meeting: MeetingPlanCreate, db: Session = Depends(get_db)):
     db.add(db_meeting)
     db.commit()
     db.refresh(db_meeting)
-    return db_meeting
+    return row_dict(db_meeting)
 
 
 # ============== MEETING GENERATION WITH DETAILED ACTIVITIES ==============
@@ -878,48 +921,77 @@ def call_ollama(prompt: str, model: str = "gemma3:12b", base_url: str = None) ->
         return None
 
 
-def call_ollama_cloud(prompt: str, model: str, api_key: str = None) -> str:
-    """Call Ollama Cloud API to generate content"""
+def call_ollama_cloud(
+    prompt: str, model: str, api_key: Optional[str] = None, base_url: Optional[str] = None
+) -> Optional[str]:
+    """Call Ollama Cloud through its OpenAI-compatible endpoint.
+
+    Verified 2026-10-14: POST https://ollama.com/v1/chat/completions with
+    `Authorization: Bearer <key>`. The app previously posted to the native
+    ollama.com/api/chat and ignored the configured ollama_url; retired models
+    answer 410 there, and a stale key answers 401 — both produced a *silent*
+    fall back to template generation. reasoning_effort must be "none" or
+    reasoning models spend the whole token budget on reasoning and return
+    empty content.
+    """
     import requests
 
     if not api_key:
-        print("Ollama Cloud API key not provided")
+        print(
+            "[ERROR] Ollama Cloud: no API key configured. "
+            "Settings -> Model Provider -> Ollama Cloud API key."
+        )
         return None
 
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json",
-    }
-
-    # Ollama Cloud uses the model name directly (no prefix needed)
-    cloud_model = model
+    base = (base_url or os.getenv("OLLAMA_CLOUD_URL") or "https://ollama.com/v1").rstrip("/")
+    for suffix in ("/chat/completions", "/api/generate", "/api/chat"):
+        if base.endswith(suffix):
+            base = base[: -len(suffix)]
+    url = f"{base}/chat/completions"
 
     payload = {
-        "model": cloud_model,
+        "model": model,
         "messages": [{"role": "user", "content": prompt}],
         "stream": False,
+        "reasoning_effort": "none",
     }
 
-    print(
-        f"[DEBUG] Calling Ollama Cloud: model={cloud_model}, prompt_length={len(prompt)}"
-    )
-
+    print(f"[DEBUG] Ollama Cloud POST {url} model={model} prompt_length={len(prompt)}")
     try:
         response = requests.post(
-            "https://ollama.com/api/chat",
-            headers=headers,
+            url,
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+            },
             json=payload,
             timeout=180,
         )
-        print(f"[DEBUG] Ollama Cloud response: status={response.status_code}")
-        if response.ok:
-            data = response.json()
-            return data.get("message", {}).get("content", "")
-        else:
-            print(f"Ollama Cloud error: {response.status_code} - {response.text}")
+        if not response.ok:
+            body = (response.text or "")[:400].replace("\n", " ")
+            print(f"[ERROR] Ollama Cloud HTTP {response.status_code}: {body}")
+            if response.status_code in (401, 403):
+                print(
+                    "[ERROR] Ollama Cloud rejected the API key — generate a new key at "
+                    "https://ollama.com/settings/keys and save it in Settings."
+                )
+            elif response.status_code == 410:
+                print(
+                    "[ERROR] That model has been retired — GET /ollama/models for the "
+                    "current list and update Settings."
+                )
             return None
+        data = response.json()
+        content = (data.get("choices") or [{}])[0].get("message", {}).get("content") or ""
+        if not content.strip():
+            print(
+                "[ERROR] Ollama Cloud returned empty content — check the model name and "
+                "reasoning_effort."
+            )
+            return None
+        return content
     except Exception as e:
-        print(f"Ollama Cloud connection error: {e}")
+        print(f"[ERROR] Ollama Cloud connection error: {e}")
         return None
 
 
@@ -981,6 +1053,8 @@ def generate_with_llm(
     is_fun_night: bool = False,
     previous_week_title: str = None,
     previous_week_content_topics: list = None,
+    ollama_url: Optional[str] = None,
+    meeting_title: Optional[str] = None,
 ) -> dict:
     """Generate meeting content using LLM"""
     age_ranges = {
@@ -1072,8 +1146,23 @@ The meeting activities must directly teach and allow scouts to practice these ex
         print(f"[DEBUG] No skill_objects provided to generate_with_llm")
         skills_prompt_addition = ""
 
+    # The leader's own title for this meeting outranks every generic hint.
+    output_rules = (
+        "\n**OUTPUT RULES:** Return ONLY the finished meeting plan — no preamble, no "
+        "explanation of your reasoning, no commentary about the request. If the title and "
+        "the OAS skills do not obviously fit together, blend them creatively; never write "
+        "about the conflict.\n"
+    )
+    title_block = output_rules
+    if meeting_title:
+        title_block = (
+            f"\n**THIS MEETING IS TITLED: \"{meeting_title}\"** — the leader chose this "
+            f"title deliberately, so the activities, objectives and timeline MUST match it. "
+            f"Do not substitute a generic topic.\n"
+        ) + output_rules
+
     if is_fun_night:
-        prompt = f"""Create a fun and engaging {section_name} Scouts meeting plan for week {week_number}.{skills_context}
+        prompt = f"""Create a fun and engaging {section_name} Scouts meeting plan for week {week_number}.{skills_context}{title_block}
 
 Requirements:
 - Duration: {duration} minutes
@@ -1096,7 +1185,7 @@ Format the output as a detailed meeting plan with:
 5. Safety Notes
 6. Location-specific considerations for {location_name}"""
     else:
-        prompt = f"""Create a detailed {section_name} Scouts meeting plan for week {week_number}.{skills_context}
+        prompt = f"""Create a detailed {section_name} Scouts meeting plan for week {week_number}.{skills_context}{title_block}
 
 Requirements:
 - Duration: {duration} minutes
@@ -1127,7 +1216,7 @@ Format the output as a detailed meeting plan with:
     if model_provider == "openrouter":
         result = call_openrouter(prompt, model, openrouter_api_key)
     elif model_provider == "ollama_cloud":
-        result = call_ollama_cloud(prompt, model, ollama_api_key)
+        result = call_ollama_cloud(prompt, model, ollama_api_key, ollama_url)
     else:
         result = call_ollama(prompt, model)
 
@@ -1140,12 +1229,19 @@ Format the output as a detailed meeting plan with:
         for line in lines:
             line = line.strip()
             if line.lower().startswith("title:") or line.lower().startswith("**title:"):
-                title = line.split(":", 1)[1].strip().replace("**", "")
+                title = line.split(":", 1)[1].strip().strip("\"'").replace("**", "").strip()
                 break
-            elif line.startswith("## ") or line.startswith("**"):
-                # Use the first heading as title
-                title = line.replace("##", "").replace("**", "").strip()
-                break
+            elif line.startswith("#") or line.startswith("**"):
+                # Use the first real heading as the title — but skip metadata
+                # labels that models like to bold ("**Location:**" etc.).
+                cand = line.replace("#", "").replace("**", "").strip().strip("\"'").strip()
+                low = cand.lower()
+                if cand and not low.startswith(
+                    ("location", "duration", "age group", "date", "time", "meeting details",
+                     "materials", "safety", "objective")
+                ):
+                    title = cand
+                    break
 
         # If no title found, generate one from skills
         if not title:
@@ -1411,6 +1507,7 @@ def generate_meeting_task(
     model: str,
     openrouter_api_key: str,
     ollama_api_key: str,
+    ollama_url: Optional[str] = None,
 ):
     """Background task to generate a meeting plan"""
     from src.database import SessionLocal
@@ -1457,6 +1554,14 @@ def generate_meeting_task(
         # Use meeting-specific target_levels if set, otherwise fall back to term plan
         target_levels = meeting.target_levels if meeting.target_levels else (term_plan.target_levels or [])
 
+        # Resolve theme/title BEFORE branching so the template path honours it too.
+        custom_title = (
+            meeting.title
+            if meeting.title and not meeting.title.startswith(f"Week {meeting.week_number}: Planning")
+            else None
+        )
+        theme_hint = custom_title or term_plan.theme
+
         if use_llm:
             meeting_is_fun_night = meeting.is_fun_night if hasattr(meeting, 'is_fun_night') else False
             previous_meeting = (
@@ -1470,9 +1575,6 @@ def generate_meeting_task(
                 .first()
             )
             previous_week_title = previous_meeting.title if previous_meeting else None
-
-            # Use meeting's custom title if set, otherwise fall back to term plan theme
-            theme_hint = meeting.title if meeting.title and not meeting.title.startswith(f"Week {meeting.week_number}: Planning") else term_plan.theme
 
             content = generate_with_llm(
                 section.name,
@@ -1489,7 +1591,10 @@ def generate_meeting_task(
                 target_levels,
                 is_fun_night=meeting_is_fun_night,
                 previous_week_title=previous_week_title,
+                ollama_url=ollama_url,
+                meeting_title=custom_title,
             )
+            source = f"llm:{model}" if content else None
             if not content:
                 content = generate_meeting_content(
                     section.name,
@@ -1500,16 +1605,18 @@ def generate_meeting_task(
                     skill_names,
                     location_name,
                 )
+                source = "template"
         else:
             content = generate_meeting_content(
                 section.name,
                 meeting.week_number,
                 meeting.duration_minutes or 90,
-                term_plan.theme,
+                theme_hint,
                 badge_names,
                 skill_names,
                 location_name,
             )
+            source = "template"
 
         # Preserve custom title if user set one (not default "Week X: Planning")
         if meeting.title and not meeting.title.startswith(f"Week {meeting.week_number}: Planning"):
@@ -1518,9 +1625,10 @@ def generate_meeting_task(
         meeting.objectives = content["objectives"]
         meeting.activities = content["activities"]
         meeting.materials_needed = content["materials"]
+        meeting.generation_source = source
         meeting.status = "generated"
         db.commit()
-        print(f"[OK] Meeting {meeting_id} generated successfully")
+        print(f"[OK] Meeting {meeting_id} generated successfully via {source}")
     except Exception as e:
         db.rollback()
         print(f"[ERROR] Failed to generate meeting {meeting_id}: {e}")
@@ -1581,6 +1689,7 @@ async def generate_single_meeting(
         model,
         openrouter_api_key,
         ollama_api_key,
+        stored.get("ollama_url"),
     )
 
     return {
@@ -1597,6 +1706,7 @@ def generate_all_meetings_task(
     model: str,
     openrouter_api_key: str,
     ollama_api_key: str,
+    ollama_url: Optional[str] = None,
 ):
     """Background task to generate all meetings for a term plan"""
     from src.database import SessionLocal
@@ -1653,7 +1763,7 @@ def generate_all_meetings_task(
                     term_plan_id=plan_id,
                     week_number=week,
                     meeting_date=meeting_date,
-                    duration_minutes=90,
+                    duration_minutes=term_plan.default_duration or 90,
                     status="planned",
                 )
                 db.add(meeting)
@@ -1661,39 +1771,47 @@ def generate_all_meetings_task(
             meeting.status = "generating"
             db.commit()
 
-            # Round-robin skill distribution: pick skills for this week
-            week_skill_indices = []
-            for i in range(skill_count):
-                if (week - 1 + i) % skill_count == (week - 1):
-                    week_skill_indices.append(i)
-
-            # If more meetings than skills, cycle through skills
-            if skill_count > 0:
-                week_skill_index = (week - 1) % skill_count
-                selected_skill = term_skill_objects[week_skill_index]
-                week_skill_names = [selected_skill.skill_name]
-                week_skill_objects = [selected_skill]
+            # --- OAS skills for THIS meeting ---------------------------------
+            # 1) honour the skills the leader explicitly chose for this meeting
+            # 2) otherwise round-robin the term's focus skills
+            if meeting.skills_covered:
+                selected_skills = (
+                    db.query(OASSkill)
+                    .filter(OASSkill.id.in_(meeting.skills_covered))
+                    .all()
+                )
+            elif skill_count:
+                selected_skills = [term_skill_objects[(week - 1) % skill_count]]
             else:
-                week_skill_names = []
-                week_skill_objects = []
+                selected_skills = []
+
+            week_skill_objects = selected_skills
+            week_skill_names = [s.skill_name for s in selected_skills]
+            # Persist so the UI shows what was actually used, and so a later
+            # single-meeting regeneration reuses the same skills.
+            if selected_skills:
+                meeting.skills_covered = [s.id for s in selected_skills]
 
             # Meeting-specific settings override term plan
             meeting_is_fun_night = meeting.is_fun_night if hasattr(meeting, 'is_fun_night') and meeting.is_fun_night else False
             meeting_target_levels = meeting.target_levels if meeting.target_levels else term_target_levels
 
-            # Use custom title if set, otherwise build variety hint
+            # The leader's own title is the strongest signal available — use it as
+            # the theme AND as an explicit prompt requirement.
+            custom_title = None
             if meeting.title and not meeting.title.startswith(f"Week {meeting.week_number}: Planning"):
-                theme_hint = meeting.title
-            elif previous_week_title:
-                theme_hint = None  # Let LLM decide based on skill + variety
-            else:
-                theme_hint = term_plan.theme
+                custom_title = meeting.title
+            theme_hint = custom_title or term_plan.theme
 
+            meeting_duration = meeting.duration_minutes or term_plan.default_duration or 90
+
+            content = None
+            source = None
             if use_llm:
                 content = generate_with_llm(
                     section.name,
                     week,
-                    90,
+                    meeting_duration,
                     theme_hint,
                     location_name,
                     week_skill_names,
@@ -1706,44 +1824,41 @@ def generate_all_meetings_task(
                     is_fun_night=meeting_is_fun_night,
                     previous_week_title=previous_week_title,
                     previous_week_content_topics=previous_week_content_topics,
+                    ollama_url=ollama_url,
+                    meeting_title=custom_title,
                 )
-                if not content:
-                    content = generate_meeting_content(
-                        section.name,
-                        week,
-                        90,
-                        term_plan.theme,
-                        badge_names[:2],
-                        week_skill_names[:2],
-                        location_name,
-                    )
-            else:
+                if content:
+                    source = f"llm:{model}"
+
+            if not content:
+                # Template fallback — still honours the leader's title and skills.
                 content = generate_meeting_content(
                     section.name,
                     week,
-                    90,
-                    term_plan.theme,
+                    meeting_duration,
+                    theme_hint,
                     badge_names[:2],
                     week_skill_names[:2],
                     location_name,
                 )
+                source = "template"
 
-            # Preserve custom title if set
-            if meeting.title and not meeting.title.startswith(f"Week {meeting.week_number}: Planning"):
-                content["title"] = meeting.title
+            if custom_title:
+                content["title"] = custom_title
 
             meeting.title = content["title"]
             meeting.generated_plan = content["plan"]
             meeting.objectives = content["objectives"]
             meeting.activities = content["activities"]
             meeting.materials_needed = content["materials"]
+            meeting.generation_source = source
             meeting.status = "generated"
             previous_week_title = meeting.title
             # Track skill used for variety tracking
             previous_week_content_topics = week_skill_names
             db.commit()
             generated_count += 1
-            print(f"[OK] Generated meeting {week} for term plan {plan_id}")
+            print(f"[OK] Generated meeting {week} for term plan {plan_id} via {source}")
 
         print(
             f"[OK] Completed generating {generated_count} meetings for term plan {plan_id}"
@@ -1804,6 +1919,7 @@ async def generate_all_meetings(
         model,
         openrouter_api_key,
         ollama_api_key,
+        stored.get("ollama_url"),
     )
 
     return {

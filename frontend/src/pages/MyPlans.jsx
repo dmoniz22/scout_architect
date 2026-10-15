@@ -375,6 +375,11 @@ export default function MyPlans() {
                               </p>
                               <p className="text-sm text-slate-500 mt-1">
                                 {meeting.generated_plan ? '✅ Generated' : '❌ Not generated'}
+                                {meeting.generated_plan && (
+                                  meeting.generation_source && meeting.generation_source.startsWith('llm')
+                                    ? <span className="ml-2 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded" title={meeting.generation_source}>🤖 AI</span>
+                                    : <span className="ml-2 text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded" title="Templated — the AI call failed or AI generation is switched off">⚠️ Template</span>
+                                )}
                               </p>
                               <button
                                 onClick={() => openEditMeetingModal(meeting)}

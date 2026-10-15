@@ -140,6 +140,7 @@ class TermPlan(Base):
     focus_badges = Column(ARRAY(Integer))
     focus_skills = Column(ARRAY(Integer))
     target_levels = Column(ARRAY(Integer))  # e.g., [3, 4, 5]
+    default_duration = Column(Integer, default=90)  # meeting length applied to generated meetings
     theme = Column(String(100))
     notes = Column(Text)
     status = Column(String(20), default="draft")
@@ -163,6 +164,7 @@ class MeetingPlan(Base):
     meeting_date = Column(Date, nullable=False)
     title = Column(String(200))
     duration_minutes = Column(Integer, default=90)
+    generation_source = Column(String(80))  # 'llm:<model>' or 'template' — visible provenance
     objectives = Column(JSONB)
     activities = Column(JSONB)
     materials_needed = Column(ARRAY(String))
@@ -250,6 +252,7 @@ class TermPlanCreate(BaseModel):
     focus_badges: Optional[List[int]] = None
     focus_skills: Optional[List[int]] = None
     target_levels: Optional[List[int]] = None  # e.g., [3, 4, 5]
+    default_duration: Optional[int] = 90  # meeting length for the generated meetings
     theme: Optional[str] = None
     notes: Optional[str] = None
 

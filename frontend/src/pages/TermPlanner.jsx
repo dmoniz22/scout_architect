@@ -66,6 +66,7 @@ export default function TermPlanner() {
         focus_badges: [],
         focus_skills: form.focus_skills || [],
         target_levels: selectedLevels.length > 0 ? selectedLevels : null,
+        default_duration: parseInt(form.duration, 10) || 90,
       };
       const res = await createTermPlan(data);
       navigate(`/my-plans?view=${res.data.id}`);
